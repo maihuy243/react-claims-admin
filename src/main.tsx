@@ -4,12 +4,20 @@ import { BrowserRouter } from "react-router-dom"
 import App from "./App"
 import "./index.css"
 import { AuthProvider } from "./context/auth"
+import { QueryClientProvider } from "@tanstack/react-query"
+import { queryClient } from "./context/react-query"
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+import { Toaster } from "./components/ui/sonner"
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+          <Toaster />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </AuthProvider>
     </BrowserRouter>
   </React.StrictMode>,

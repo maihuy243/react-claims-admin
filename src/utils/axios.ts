@@ -1,20 +1,21 @@
-import axios from "axios"
+import axios, { AxiosInstance } from "axios"
 
-// ===============================
-// 🔧 CREATE INSTANCE
-// ===============================
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "https://api.example.com",
+const api: AxiosInstance = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || "https://aut.bshc.com.vn",
   timeout: 15000,
+  headers: {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json", //this line solved cors
+  },
 })
 
 // ===============================
-// 🔧 TOKEN HELPERS
+// 🔐 Token Helper
 // ===============================
 const getToken = () => localStorage.getItem("token")
 
 // ===============================
-// 🔥 REQUEST INTERCEPTOR
+// 🚀 REQUEST INTERCEPTOR
 // ===============================
 api.interceptors.request.use(
   (config) => {
@@ -28,35 +29,63 @@ api.interceptors.request.use(
 )
 
 // ===============================
-// 🔥 RESPONSE INTERCEPTOR
+// 🚨 RESPONSE INTERCEPTOR
 // ===============================
+//
+// Chuẩn hoá lỗi theo API design:
+// error_code:
+//  - 000: OK
+//  - 001: Request không hợp lệ
+//  - 002: DB error
+//  - 003: System error
+//
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
-    if (error.response?.status === 401) {
+    const status = error.response?.status
+
+    // Auto logout nếu token hết hạn
+    console.log("----")
+
+    if (status === 401) {
       localStorage.removeItem("token")
       window.location.href = "/login"
     }
-    return Promise.reject(error)
+
+    // Normalize error theo format của API design
+    const errorData = error.response?.data || {}
+
+    const normalizedError = {
+      success: false,
+      message: errorData.message || "Lỗi hệ thống, vui lòng thử lại",
+      error_code: errorData.error_code || "003",
+      status,
+      data: errorData.data ?? null,
+      raw: errorData,
+    }
+
+    return Promise.reject(normalizedError)
   },
 )
 
 // ===============================
-// 🚀 PUBLIC METHODS
+// 🌟 BASE GET + POST FUNCTION
 // ===============================
 export async function getAsync<T = any>(url: string, params?: any): Promise<T> {
   try {
-    return await api.get(url, { params })
-  } catch (err: any) {
-    throw err
+    const res = await api.get(url, { params })
+    return res as T
+  } catch (error) {
+    throw error
   }
 }
 
-export async function postAsync<T = any>(url: string, data?: any): Promise<T> {
+export async function postAsync<T = any>(url: string, body?: any): Promise<T> {
   try {
-    return await api.post(url, data)
-  } catch (err: any) {
-    throw err
+    const res = await api.post(url, body)
+    return res as T
+  } catch (error) {
+    throw error
   }
 }
 

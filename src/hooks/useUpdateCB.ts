@@ -1,0 +1,65 @@
+import { CMSApi } from "@/api"
+import { SearchHDResponse, UpdateCBRequest } from "@/model"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { toast } from "sonner"
+
+export function useUpdateCB() {
+  const queryClient = useQueryClient()
+
+  return useMutation({
+    mutationFn: (payload: UpdateCBRequest) => CMSApi.updateCB(payload),
+
+    // ============================
+    // 🔥 OPTIMISTIC UPDATE
+    // ============================
+    onMutate: async (payload: UpdateCBRequest) => {
+      await queryClient.cancelQueries({ queryKey: ["searchHD"] })
+
+      // Lấy cache hiện tại
+      const previous = queryClient.getQueryData<SearchHDResponse>(["searchHD"])
+
+      if (previous) {
+        const updated: SearchHDResponse = {
+          ...previous,
+          data: previous.data.map((item) =>
+            item.id === payload.so_hop_dong
+              ? {
+                  ...item,
+                  can_bo_xu_ly: payload.ma_can_bo,
+                  ten_can_bo: payload.ten_can_bo,
+                }
+              : item,
+          ),
+        }
+
+        // Update cache optimistic
+        queryClient.setQueryData(["searchHD"], updated)
+      }
+
+      return { previous }
+    },
+
+    // ============================
+    // ❌ ROLLBACK KHI FAIL
+    // ============================
+    onError: (_err, _payload, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(["searchHD"], context.previous)
+      }
+
+      toast.error(_err?.message || "Cập nhật thất bại. Vui lòng thử lại.")
+    },
+    onSuccess: () => {
+      toast.success("Cập nhật cán bộ xử lý thành công!")
+    },
+    // ============================
+    // ✔ REFRESH NHẸ
+    // ============================
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["searchHD"],
+        refetchType: "inactive",
+      })
+    },
+  })
+}

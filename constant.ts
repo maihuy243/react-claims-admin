@@ -1,5 +1,7 @@
+import { Officer } from "@/model"
+
 // Danh sách cán bộ xử lý
-export const PROCESSING_OFFICER = [
+export const PROCESSING_OFFICER: Officer[] = [
   {
     label: "Nguyễn Trà My",
     value: "NTM05",
