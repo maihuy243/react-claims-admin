@@ -36,6 +36,7 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
       <td className="px-3 py-2">
         <Select
           defaultValue={item.can_bo_xu_ly}
+          value={item.can_bo_xu_ly}
           onValueChange={(val) => onUpdateOfficer?.(item.id, val)}
         >
           <SelectTrigger className="h-8 text-sm w-[150px]">
