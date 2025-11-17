@@ -1,11 +1,12 @@
 import { CMSApi } from "@/api"
 import { SearchHDResponse, UpdateCBRequest } from "@/model"
+import { useUIStore } from "@/store/state"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
-import { toast } from "sonner"
 
 export function useUpdateCB() {
   const queryClient = useQueryClient()
-
+  const showSuccess = useUIStore((s) => s.showSuccess)
+  const showError = useUIStore((s) => s.showError)
   return useMutation({
     mutationFn: (payload: UpdateCBRequest) => CMSApi.updateCB(payload),
 
@@ -17,6 +18,7 @@ export function useUpdateCB() {
 
       // Lấy cache hiện tại
       const previous = queryClient.getQueryData<SearchHDResponse>(["searchHD"])
+      console.log("previous __", previous)
 
       if (previous) {
         const updated: SearchHDResponse = {
@@ -47,10 +49,10 @@ export function useUpdateCB() {
         queryClient.setQueryData(["searchHD"], context.previous)
       }
 
-      toast.error(_err?.message || "Cập nhật thất bại. Vui lòng thử lại.")
+      showError(_err?.message || "Cập nhật thất bại. Vui lòng thử lại.")
     },
-    onSuccess: () => {
-      toast.success("Cập nhật cán bộ xử lý thành công!")
+    onSuccess: (res) => {
+      showSuccess(res.message || "Cập nhật cán bộ xử lý thành công!")
     },
     // ============================
     // ✔ REFRESH NHẸ

@@ -2,12 +2,12 @@ import { useState, useCallback, useMemo } from "react"
 import Wrapper from "@/components/wrapper"
 import ContractsTable from "./components/contracts-table"
 import FilterContracts from "./components/filter"
-import { useSearchHD } from "@/hooks/useSearchHD"
-import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { PROCESSING_OFFICER } from "constant"
+import { useSearchDSBT } from "@/hooks/useSearchDSBT"
+import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
 
-const ContractListScreen = () => {
+const CompensationList = () => {
   const [filters, setFilters] = useState({})
   const [page, setPage] = useState(1)
   const pageSize = 20
@@ -30,25 +30,21 @@ const ContractListScreen = () => {
   }, [filters, page])
 
   // API call
-  const { data, isLoading, isFetching, refetch } = useSearchHD(queryParams)
+  const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)
 
   const rows = data?.data || []
   const total = data?.total_records || 0
 
-  const handlePageChange = useCallback(
-    (nextPage: number) => {
-      if (data?.page_size && nextPage > data?.page_size) return
-      setPage(nextPage)
-    },
-    [data?.page_size],
-  )
+  const handlePageChange = useCallback((nextPage: number) => {
+    setPage(nextPage)
+  }, [])
 
   const onUpdateOfficer = useCallback(async (id: string, officer: string) => {
     const officerResult = PROCESSING_OFFICER.find((o) => o.value === officer)
     if (!officerResult) return
-    setLoading(true)
     try {
-      await updateCBMutation.mutateAsync({
+      setLoading(true)
+      updateCBMutation.mutateAsync({
         so_hop_dong: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
@@ -64,7 +60,7 @@ const ContractListScreen = () => {
       <div className="flex flex-1 flex-col overflow-hidden">
         <main className="flex-1 overflow-auto">
           <h1 className="mb-3 text-xl font-bold text-gray-900 md:mb-3 md:text-2xl">
-            Danh sách hợp đồng
+            Danh sách bồi thường
           </h1>
 
           <FilterContracts
@@ -89,4 +85,4 @@ const ContractListScreen = () => {
   )
 }
 
-export default ContractListScreen
+export default CompensationList

@@ -31,7 +31,7 @@ export default function MainLayout({
         </aside>
 
         {/* Content */}
-        <main className="flex-1 py-3 h-[calc(100vh-5rem)] ps-4 w-full">
+        <main className="flex-1 w-[70%] py-3 h-[calc(100vh-5rem)] ps-4">
           <Breadcrumb />
           <Outlet /> {/* ⭐ Route con render ở đây */}
         </main>

@@ -15,15 +15,15 @@ const tabs = [
 
 export function TabsHeader({ active, onChange }: TabsHeaderProps) {
   return (
-    <div className="flex gap-6 text-sm overflow-x-auto py-2">
+    <div className="flex gap-6 overflow-x-auto py-2 text-sm">
       {tabs.map((t) => (
         <button
           key={t.key}
           onClick={() => onChange(t.key)}
           className={cn(
-            "pb-1 whitespace-nowrap",
+            "whitespace-nowrap pb-1",
             active === t.key
-              ? "font-semibold text-gray-900 border-b-2 border-orange-500"
+              ? "border-b-2 border-orange-500 font-semibold text-gray-900"
               : "text-gray-500 hover:text-gray-700",
           )}
         >

@@ -10,6 +10,8 @@ import ClaimDetail from "./pages/contract-detail"
 import ContractListScreen from "./pages/contract-management"
 import UsersScreen from "./pages/users"
 import MainLayout from "./components/layout/main"
+import CompensationList from "./pages/compensation-list"
+import LoadingOverlay from "./components/overlay"
 
 export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -27,6 +29,8 @@ export default function App() {
 
   return (
     <div className="bg-[#eeeeee] h-screen flex flex-col overflow-hidden">
+      <LoadingOverlay />
+
       <Routes>
         {/* LOGIN */}
         <Route path="/login" element={<LoginPage />} />
@@ -45,7 +49,8 @@ export default function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="contract-detail" element={<ClaimDetail />} />
+          <Route path="contract-detail/:id" element={<ClaimDetail />} />
+          <Route path="compensation-list" element={<CompensationList />} />
           <Route path="contracts" element={<ContractListScreen />} />
           <Route path="users" element={<UsersScreen />} />
         </Route>

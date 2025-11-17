@@ -1,13 +1,13 @@
 import React, { memo } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { HDItem } from "@/model"
+import { HDItem, HoSoBoiThuong } from "@/model"
 import ContractRow from "../components/row"
 import { EmptyState } from "@/components/empty"
 import SkeletonRowContract from "./skeleton-row"
 
 interface Props {
-  data: HDItem[]
+  data: HoSoBoiThuong[]
   total: number
   page: number
   totalPage: number
@@ -34,20 +34,13 @@ const ContractsTable = memo(function ContractsTable({
           <thead className="sticky top-0 z-10 text-nowrap border-b bg-gray-50 text-gray-700">
             <tr>
               <th className="px-3 py-3 text-left font-semibold">ID</th>
-              <th className="px-3 py-3 text-left font-semibold">Mã đơn vị</th>
+              <th className="px-3 py-3 text-left font-semibold">Mã KH</th>
+              <th className="px-3 py-3 text-left font-semibold">Họ và tên</th>
+              <th className="px-3 py-3 text-left font-semibold">Số giấy tờ</th>
               <th className="px-3 py-3 text-left font-semibold">Số hợp đồng</th>
-              <th className="px-3 py-3 text-left font-semibold">
-                Chủ hợp đồng
-              </th>
-              <th className="px-3 py-3 text-left font-semibold">
-                Ngày hiệu lực
-              </th>
-              <th className="px-3 py-3 text-left font-semibold">
-                Ngày hết hạn
-              </th>
-              <th className="px-3 py-3 text-left font-semibold">
-                Cán bộ xử lý
-              </th>
+              <th className="px-3 py-3 text-left font-semibold">Sự kiện</th>
+              <th className="px-3 py-3 text-left font-semibold">Hình thức</th>
+              <th className="px-3 py-3 text-left font-semibold">CB xử lý</th>
               <th className="px-3 py-3 text-left font-semibold">Trạng thái</th>
             </tr>
           </thead>
@@ -55,7 +48,7 @@ const ContractsTable = memo(function ContractsTable({
           {/* BODY */}
           <tbody>
             {/* 1) Đang fetch lần đầu → skeleton */}
-            {loading && <SkeletonRowContract />}
+            {loading && data.length === 0 && <SkeletonRowContract />}
 
             {/* 2) Không có data → Empty UI */}
             {!loading && data.length === 0 && (

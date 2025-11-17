@@ -24,11 +24,11 @@ export const MENU = [
     to: "/staff",
     disabled: true,
   },
-  {
-    label: "Chi tiết",
-    icon: QLCBIcon,
-    to: "/contract-detail",
-  },
+  // {
+  //   label: "Chi tiết",
+  //   icon: QLCBIcon,
+  //   to: "/contract-detail",
+  // },
   {
     label: "Quản lý hợp đồng",
     icon: QLHDIcon,
@@ -44,7 +44,13 @@ export const MENU = [
     label: "Quản lý bồi thường",
     icon: QLBTIcon,
     to: "/claims",
-    disabled: true,
+    children: [
+      {
+        label: "Danh sách bồi thường",
+        to: "/compensation-list",
+        disabled: false,
+      },
+    ],
   },
   {
     label: "Thiết lập",
