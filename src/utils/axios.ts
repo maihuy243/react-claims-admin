@@ -4,7 +4,6 @@ const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "https://aut.bshc.com.vn",
   timeout: 15000,
   headers: {
-    "Access-Control-Allow-Origin": "*",
     "Content-Type": "application/json", //this line solved cors
   },
 })
