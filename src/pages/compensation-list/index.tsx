@@ -7,6 +7,8 @@ import { useSearchDSBT } from "@/hooks/useSearchDSBT"
 import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
 
+const delay = (ms:number) => new Promise((r) => setTimeout(r,ms))
+
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
   const [page, setPage] = useState(1)
@@ -44,11 +46,12 @@ const CompensationList = () => {
     if (!officerResult) return
     try {
       setLoading(true)
-      updateCBMutation.mutateAsync({
+      await updateCBMutation.mutateAsync({
         so_hop_dong: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
       })
+      await delay(1000)
       await refetch()
     } finally {
       setLoading(false)
