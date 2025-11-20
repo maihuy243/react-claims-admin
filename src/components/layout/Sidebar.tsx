@@ -16,13 +16,19 @@ export default function Sidebar({
 }) {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const [openKey, setOpenKey] = useState<string | null>(null)
+  const [openKeys, setOpenKeys] = useState<string[]>([])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
-  const toggle = (key: string, disabled?: boolean) => {
-    if (disabled) return // ⛔ Block khi disable
-    setOpenKey((prev) => (prev === key ? null : key))
-  }
+ const toggle = (key: string, disabled?: boolean) => {
+  if (disabled) return
+
+  setOpenKeys((prev) =>
+    prev.includes(key)
+      ? prev.filter((k) => k !== key) // đóng
+      : [...prev, key] // mở thêm
+  )
+}
+
 
   return (
     <>
@@ -72,7 +78,7 @@ export default function Sidebar({
             const isParentActive =
               m.to === pathname || m.children?.some((c) => c.to === pathname)
 
-            const isOpen = openKey === m.label && !isDisabled
+            const isOpen = openKeys.includes(m.label) && !isDisabled
 
             return (
               <div key={index}>
