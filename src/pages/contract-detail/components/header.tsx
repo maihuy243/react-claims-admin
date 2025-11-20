@@ -7,17 +7,28 @@ type Props = {
 }
 
 const HeaderDetail = ({ badge }: Props) => {
-  console.log(badge)
-
   return (
-    <div className="">
-      {/* PAGE TITLE */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="text-2xl font-semibold">Thông tin bồi thường</div>
-          {badge && <StatusBadge status={badge} className="ml-3 py-2" />}
+    <div className="w-full">
+      <div className="
+        flex flex-col gap-3 
+        md:flex-row md:items-center md:justify-between
+      ">
+        {/* LEFT */}
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <div className="text-xl font-semibold md:text-2xl">
+            Thông tin bồi thường
+          </div>
+
+          {badge && (
+            <StatusBadge 
+              status={badge} 
+              className="w-fit md:ml-3 py-2"
+            />
+          )}
         </div>
-        <Button className="mt-2 bg-[#F79009] text-white">
+
+        {/* RIGHT */}
+        <Button className="bg-[#F79009] text-white w-full md:w-auto">
           <TopIcon height={20} className="mr-2" />
           Giải quyết hồ sơ
         </Button>

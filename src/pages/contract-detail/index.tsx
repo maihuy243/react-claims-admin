@@ -48,7 +48,7 @@ export default function ClaimDetail() {
   if (!id) return <ContractNotFound />
 
   return (
-    <div className="relative flex h-auto flex-col border md:h-[calc(100vh-125px)]">
+      <div className="relative flex h-[100vh] flex-col border md:h-[calc(100vh-125px)]">
       <HeaderDetail badge={data?.trang_thai} />
 
       <TabsHeader active={activeTab} onChange={setActiveTab} />
