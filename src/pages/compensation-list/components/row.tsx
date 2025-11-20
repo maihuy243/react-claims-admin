@@ -35,7 +35,7 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
         <Select
           defaultValue={item.ten_can_bo}
           value={item.ten_can_bo}
-          onValueChange={(val) => onUpdateOfficer?.(item.so_hop_dong, val)}
+          onValueChange={(val) => onUpdateOfficer?.(item.id, val)}
         >
           <SelectTrigger className="h-8 w-[150px] text-sm">
             <SelectValue placeholder="Chọn cán bộ" />

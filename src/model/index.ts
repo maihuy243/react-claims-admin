@@ -17,7 +17,7 @@ export interface SearchHDRequest {
 export interface UpdateCBRequest {
   ten_can_bo: string
   ma_can_bo: string
-  so_hop_dong?: string // tồn tại khi cập nhật hồ sơ
+  so_hop_dong?: string // tồn tại khi cập nhật hđ
   so_id?:string // tồn tại khi cập nhật hồ sơ bồi thường
   is_contract: boolean // true = cập nhật hđ, false = cập nhật hồ sơ bồi thường
 }

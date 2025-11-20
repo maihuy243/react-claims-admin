@@ -47,9 +47,10 @@ const CompensationList = () => {
     try {
       setLoading(true)
       await updateCBMutation.mutateAsync({
-        so_hop_dong: id,
+        so_id: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
+        is_contract: false
       })
       await delay(1000)
       await refetch()
