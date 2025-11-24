@@ -32,29 +32,29 @@ const Info = ({ data }: { data?: DetailBTResponse }) => {
             <Wrapper>
               <Section title="Thông tin chung">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                  <Field label="Người được bảo hiểm" required>
+                  <Field label="Người được bảo hiểm" >
                     <Input disabled value={data?.nguoi_duoc_bao_hiem ?? ""} />
                   </Field>
 
-                  <Field label="Chủ hợp đồng" required>
+                  <Field label="Chủ hợp đồng" >
                     <Input disabled value={data?.chu_hop_dong ?? ""} />
                   </Field>
 
-                  <Field label="CCCD/CMND/HC" required>
+                  <Field label="CCCD/CMND/HC" >
                     <Input disabled value={data?.cccd ?? ""} />
                   </Field>
 
-                  <Field label="Ngày sinh" required>
+                  <Field label="Ngày sinh" >
                     <Input disabled value={data?.ngay_sinh ?? ""} />
                   </Field>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <Field label="Số điện thoại" required>
+                  <Field label="Số điện thoại" >
                     <Input disabled value={data?.so_dien_thoai ?? ""} />
                   </Field>
 
-                  <Field label="Email" required>
+                  <Field label="Email" >
                     <Input disabled value={data?.email ?? ""} />
                   </Field>
                 </div>
@@ -65,11 +65,11 @@ const Info = ({ data }: { data?: DetailBTResponse }) => {
             <Wrapper>
               <Section title="Thông tin điều trị">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <Field label="Sự kiện bảo hiểm" required option>
+                  <Field label="Sự kiện bảo hiểm"  option>
                     <Input disabled value={data?.su_kien_bao_hiem ?? ""} />
                   </Field>
 
-                  <Field label="Hình thức điều trị" required option>
+                  <Field label="Hình thức điều trị"  option>
                     <Input disabled value={data?.hinh_thuc_dieu_tri ?? ""} />
                   </Field>
                 </div>
@@ -80,40 +80,40 @@ const Info = ({ data }: { data?: DetailBTResponse }) => {
             <Wrapper>
               <Section title="Thông tin khám, chữa bệnh">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                  <Field label="Ngày khám" required>
+                  <Field label="Ngày khám" >
                     <Input disabled value={dateFormat(data?.ngay_kham)} />
                   </Field>
 
-                  <Field label="Ngày xảy ra tai nạn" required>
+                  <Field label="Ngày xảy ra tai nạn" >
                     <Input
                       disabled
                       value={dateFormat(data?.ngay_xay_ra_tai_nan)}
                     />
                   </Field>
 
-                  <Field label="Ngày vào viện" required>
+                  <Field label="Ngày vào viện" >
                     <Input disabled value={dateFormat(data?.ngay_vao_vien)} />
                   </Field>
 
-                  <Field label="Ngày ra viện" required>
+                  <Field label="Ngày ra viện" >
                     <Input disabled value={dateFormat(data?.ngay_ra_vien)} />
                   </Field>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-                  <Field label="Cơ sở y tế" required>
+                  <Field label="Cơ sở y tế" >
                     <Input disabled value={data?.co_so_y_te} />
                   </Field>
 
-                  <Field label="Chẩn đoán" required>
+                  <Field label="Chẩn đoán" >
                     <Input disabled value={data?.chan_doan} />
                   </Field>
 
-                  <Field label="Số tiền yêu cầu bồi thường" required>
+                  <Field label="Số tiền yêu cầu bồi thường" >
                     <Input disabled value={data?.so_tien_yeu_cau_boi_thuong} />
                   </Field>
 
-                  <Field label="Số tiền bồi thường" required>
+                  <Field label="Số tiền bồi thường" >
                     <Input disabled value={data?.so_tien_boi_thuong} />
                   </Field>
                 </div>
@@ -124,19 +124,19 @@ const Info = ({ data }: { data?: DetailBTResponse }) => {
             <Wrapper>
               <Section title="Thông tin thụ hưởng">
                 <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                  <Field label="Phương thức" required>
+                  <Field label="Phương thức" >
                     <Input disabled value={data?.phuong_thuc} />
                   </Field>
 
-                  <Field label="Ngân hàng" required>
+                  <Field label="Ngân hàng" >
                     <Input disabled value={data?.ngan_hang} />
                   </Field>
 
-                  <Field label="Số tài khoản" required>
+                  <Field label="Số tài khoản" >
                     <Input disabled value={data?.so_tai_khoan} />
                   </Field>
 
-                  <Field label="Tên tài khoản" required>
+                  <Field label="Tên tài khoản" >
                     <Input disabled value={data?.ten_tai_khoan} />
                   </Field>
                 </div>

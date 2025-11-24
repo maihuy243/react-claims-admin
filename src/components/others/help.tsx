@@ -1,8 +1,9 @@
+import { CustomFloatingPanel } from "../custom-floating-modal"
 import { DialogRight } from "../dialog-right"
 
-export function HelpDialog({ open, onOpenChange }: any) {
+export function HelpDialog({ open, onClose }: any) {
   return (
-    <DialogRight open={open} onOpenChange={onOpenChange}>
+    <CustomFloatingPanel open={open} onClose={onClose}>
       <div className="p-5 space-y-4">
         <h2 className="text-lg font-semibold">Trợ giúp</h2>
 
@@ -15,6 +16,6 @@ export function HelpDialog({ open, onOpenChange }: any) {
           <li>✉️ Email: support@bsh.com</li>
         </ul>
       </div>
-    </DialogRight>
+    </CustomFloatingPanel>
   )
 }

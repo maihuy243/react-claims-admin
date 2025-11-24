@@ -10,7 +10,7 @@ export function DialogRight({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContentNoBlur
-        className={`absolute !left-auto !right-6 !top-16 w-[360px] !translate-x-0 !translate-y-0 rounded-2xl border bg-white p-0 shadow-xl ${className} `}
+        className={`absolute !left-auto !right-6 !top-16 w-[360px] !translate-x-0 !translate-y-0 rounded-2xl border bg-white p-0 shadow-xl pointer-events-none ${className} `}
       >
         {children}
       </DialogContentNoBlur>
