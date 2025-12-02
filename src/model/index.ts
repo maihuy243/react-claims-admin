@@ -1,3 +1,31 @@
+export interface AuthContextType {
+  user: any
+  token: string | null
+  login: (
+    user_name: string,
+    password: string,
+    remember: boolean,
+  ) => Promise<any>
+  logout: () => void
+}
+
+export interface ILoginRequest {
+  user_name: string
+  password: string
+}
+
+export interface ILoginResponse {
+  success: boolean
+  message: string
+  error_code: string
+
+  id: string | null
+  user_name: string | null
+  ten_cb: string | null
+  ma_cb: string | null
+  token: string | null
+}
+
 // ===============================
 // REQUEST MODELS
 // ===============================
@@ -81,6 +109,7 @@ export interface HoSoBoiThuong {
   hinh_thuc: string
   ten_can_bo: string
   trang_thai: string
+  ngay_tao: string
 }
 
 export interface SearchDSBTResponse {
@@ -184,4 +213,24 @@ export interface DetailBTResponse {
 
   so_dien_thoai?: string
   email?: string
+}
+
+export interface NhapHSBTRequest {
+  ma_cb: string
+  so_id_claim: string
+  ten_ndbh: string
+  ngay_xr: string // dd-MMM-yyyy
+  so_hd: string
+  su_kien_bao_hiem: string
+  hinh_thuc_dieu_tri: string
+  chan_doan: string
+  tien_ycbt: number
+}
+
+export interface NhapHSBTResponse {
+  success: boolean
+  message: string
+  error_code: string
+  so_id: string | null
+  so_hs: string | null
 }

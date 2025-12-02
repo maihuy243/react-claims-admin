@@ -3,46 +3,102 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import Logo from "@assets/logo-login.svg?react"
+import { useAuth } from "@/context/auth"
+import { useUIStore } from "@/store/state"
+import { LoginSchema } from "@/schema/login" // ← thêm dòng này
+import { delay } from "@/utils"
 
 export default function LoginPage() {
+  const { login } = useAuth()
   const [remember, setRemember] = useState(true)
+  const [username, setUsername] = useState("")
+  const [password, setPassword] = useState("")
+  const [errors, setErrors] = useState<any>({})
+  const setLoading = useUIStore((s) => s.setLoading)
+  const showError = useUIStore((s) => s.showError)
+
+  const handleLogin = async () => {
+    const result = LoginSchema.safeParse({
+      user_name: username,
+      password,
+    })
+
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {}
+      result.error.errors.forEach((e) => {
+        if (e.path[0]) fieldErrors[e.path[0]] = e.message
+      })
+      setErrors(fieldErrors)
+      return
+    }
+
+    setErrors({})
+    setLoading(true)
+    await delay(500)
+
+    try {
+      await login(username, password, remember)
+      // redirect dashboard
+    } catch (err: any) {
+      showError(err.message)
+    }
+
+    setLoading(false)
+  }
 
   return (
-    <div className="min-h-screen w-full flex flex-col md:flex-row bg-white">
-      {/* LEFT SIDE – FORM */}
-      <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-10 lg:px-20 py-10">
-        <div className="w-full max-w-md mx-auto">
-          {/* Logo */}
-          {/* <div className="flex justify-center mb-6">
-            <Logo className="w-40 h-auto" />
-          </div> */}
-
-          {/* Title */}
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+    <div className="flex min-h-screen w-full flex-col bg-white md:flex-row">
+      <div className="flex w-full flex-col justify-center px-6 py-10 sm:px-10 md:w-1/2 lg:px-20">
+        <div className="mx-auto w-full max-w-md">
+          <h1 className="text-center text-2xl font-bold text-gray-800 md:text-3xl">
             Đăng nhập
           </h1>
-          <p className="text-sm text-gray-500 text-center mt-1 mb-8">
+          <p className="mb-8 mt-1 text-center text-sm text-gray-500">
             Hệ thống quản lý tập trung của hệ sinh thái BSH
           </p>
 
           {/* Username */}
           <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 block mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Tên đăng nhập
             </label>
-            <Input placeholder="Nhập tên đăng nhập" />
+            <Input
+              placeholder="Nhập tên đăng nhập"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value)
+                setErrors((prev: any) => ({ ...prev, user_name: "" })) // ← CLEAR lỗi realtime
+              }}
+              className={errors.user_name ? "border-red-500" : ""}
+            />
+
+            {errors.user_name && (
+              <p className="mt-1 text-xs text-red-500">{errors.user_name}</p>
+            )}
           </div>
 
           {/* Password */}
           <div className="mb-4">
-            <label className="text-sm font-medium text-gray-700 block mb-1">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
               Mật khẩu
             </label>
-            <Input type="password" placeholder="Nhập mật khẩu" />
+            <Input
+              type="password"
+              placeholder="Nhập mật khẩu"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setErrors((prev: any) => ({ ...prev, password: "" })) // ← CLEAR lỗi realtime
+              }}
+              className={errors.password ? "border-red-500" : ""}
+            />
+            {errors.password && (
+              <p className="mt-1 text-xs text-red-500">{errors.password}</p>
+            )}
           </div>
 
-          {/* Remember Me */}
-          <div className="flex items-center gap-2 mb-6">
+          {/* Remember */}
+          <div className="mb-6 flex items-center gap-2">
             <Checkbox
               id="remember"
               checked={remember}
@@ -55,20 +111,21 @@ export default function LoginPage() {
           </div>
 
           {/* Login Button */}
-          <Button className="w-full h-11 bg-orange-500 hover:bg-orange-600 text-white text-base rounded-lg">
+          <Button
+            className="h-11 w-full rounded-lg bg-orange-500 text-base text-white hover:bg-orange-600"
+            onClick={handleLogin}
+          >
             Đăng nhập
           </Button>
 
-          {/* Hotline */}
-          <p className="text-center text-xs text-gray-500 mt-12">
+          <p className="mt-12 text-center text-xs text-gray-500">
             Liên hệ hỗ trợ Hotline: 18006085
           </p>
         </div>
       </div>
 
-      {/* RIGHT SIDE – IMAGE / BANNER */}
-      <div className="hidden md:flex w-1/2 items-center justify-center ">
-        <div className="w-full rounded-xl overflow-hidden shadow-sm  ">
+      <div className="hidden w-1/2 items-center justify-center md:flex">
+        <div className="w-full overflow-hidden rounded-xl shadow-sm">
           <Logo className="w-full" />
         </div>
       </div>

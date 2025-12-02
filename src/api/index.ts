@@ -1,6 +1,10 @@
 import {
   DetailBTRequest,
   DetailBTResponse,
+  ILoginRequest,
+  ILoginResponse,
+  NhapHSBTRequest,
+  NhapHSBTResponse,
   SearchDSBTRequest,
   SearchDSBTResponse,
   SearchHDRequest,
@@ -25,5 +29,14 @@ export const CMSApi = {
 
   detailBT(payload: DetailBTRequest) {
     return getAsync<DetailBTResponse>("/api/cms/detail-bt", payload)
+  },
+
+  nhapHSBT(payload: NhapHSBTRequest) {
+    return postAsync<NhapHSBTResponse>("/api/cms/nhap-hsbt", payload)
+  },
+
+  //  ====================== AUTH ========================
+  login(payload: ILoginRequest) {
+    return postAsync<ILoginResponse>("/api/cms-auth/login", payload)
   },
 }

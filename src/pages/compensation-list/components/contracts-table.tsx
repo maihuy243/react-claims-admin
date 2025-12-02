@@ -34,6 +34,7 @@ const ContractsTable = memo(function ContractsTable({
           <thead className="sticky top-0 z-10 text-nowrap border-b bg-gray-50 text-gray-700">
             <tr>
               <th className="px-3 py-3 text-left font-semibold">ID</th>
+              <th className="px-3 py-3 text-left font-semibold">Ngày tạo</th>
               <th className="px-3 py-3 text-left font-semibold">Mã KH</th>
               <th className="px-3 py-3 text-left font-semibold">Họ và tên</th>
               <th className="px-3 py-3 text-left font-semibold">Số giấy tờ</th>

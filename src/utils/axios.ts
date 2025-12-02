@@ -1,24 +1,18 @@
+import { TokenStore } from "@/context/token"
 import axios, { AxiosInstance } from "axios"
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "https://aut.bshc.com.vn",
   timeout: 15000,
   headers: {
-    "Content-Type": "application/json", //this line solved cors
+    "Content-Type": "application/json",
   },
 })
 
-// ===============================
-// 🔐 Token Helper
-// ===============================
-const getToken = () => localStorage.getItem("token")
-
-// ===============================
-// 🚀 REQUEST INTERCEPTOR
-// ===============================
+// REQUEST INTERCEPTOR
 api.interceptors.request.use(
   (config) => {
-    const token = getToken()
+    const token = TokenStore.get()
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
@@ -27,43 +21,27 @@ api.interceptors.request.use(
   (error) => Promise.reject(error),
 )
 
-// ===============================
-// 🚨 RESPONSE INTERCEPTOR
-// ===============================
-//
-// Chuẩn hoá lỗi theo API design:
-// error_code:
-//  - 000: OK
-//  - 001: Request không hợp lệ
-//  - 002: DB error
-//  - 003: System error
-//
+// RESPONSE INTERCEPTOR
 api.interceptors.response.use(
   (response) => response.data,
   (error) => {
     const status = error.response?.status
 
-    // Auto logout nếu token hết hạn
-    console.log("----")
-
     if (status === 401) {
-      localStorage.removeItem("token")
-      window.location.href = "/login"
+      // TokenStore.clear()
+      // window.location.href = "/login"
     }
 
-    // Normalize error theo format của API design
     const errorData = error.response?.data || {}
 
-    const normalizedError = {
+    return Promise.reject({
       success: false,
       message: errorData.message || "Lỗi hệ thống, vui lòng thử lại",
       error_code: errorData.error_code || "003",
       status,
       data: errorData.data ?? null,
       raw: errorData,
-    }
-
-    return Promise.reject(normalizedError)
+    })
   },
 )
 

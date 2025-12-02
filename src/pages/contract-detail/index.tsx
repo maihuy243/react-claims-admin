@@ -49,7 +49,7 @@ export default function ClaimDetail() {
 
   return (
     <div className="relative flex h-auto flex-col border md:h-[calc(100vh-125px)]">
-      <HeaderDetail badge={data?.trang_thai} />
+      <HeaderDetail badge={data?.trang_thai} data={data} />
 
       <TabsHeader active={activeTab} onChange={setActiveTab} />
 

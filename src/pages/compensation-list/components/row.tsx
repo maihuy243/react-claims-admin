@@ -24,6 +24,7 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
           {item.id}
         </Link>
       </td>
+      <td className="px-3 py-2">{item.ngay_tao}</td>
       <td className="px-3 py-2">{item.ma_khach_hang}</td>
       <td className="px-3 py-2 font-medium text-blue-700">{item.ho_va_ten}</td>
       <td className="px-3 py-2">{item.so_giay_to}</td>
