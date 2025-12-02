@@ -1,8 +1,9 @@
+import { CustomFloatingPanel } from "../custom-floating-modal"
 import { DialogRight } from "../dialog-right"
 
-export function NotificationDialog({ open, onOpenChange }: any) {
+export function NotificationDialog({ open, onClose }: any) {
   return (
-    <DialogRight open={open} onOpenChange={onOpenChange}>
+    <CustomFloatingPanel open={open} onClose={onClose}>
       <div className="p-5 space-y-3">
         <h2 className="text-lg font-semibold">Thông báo</h2>
 
@@ -15,6 +16,6 @@ export function NotificationDialog({ open, onOpenChange }: any) {
           </div>
         </div>
       </div>
-    </DialogRight>
+    </CustomFloatingPanel>
   )
 }

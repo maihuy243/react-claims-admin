@@ -9,11 +9,11 @@ import TopIcon from "@assets/top.svg?react"
 import { useParams } from "react-router-dom"
 
 type Props = {
-  badge?: string
+  status?: string
   data?: DetailBTResponse
 }
 
-const HeaderDetail = ({ badge, data }: Props) => {
+const HeaderDetail = ({ status, data }: Props) => {
   const setLoading = useUIStore((s) => s.setLoading)
   const show = useUIStore((s) => s.showSuccess)
   const showError = useUIStore((s) => s.showError)
@@ -54,14 +54,19 @@ const HeaderDetail = ({ badge, data }: Props) => {
   }
 
   return (
-    <div className="">
-      {/* PAGE TITLE */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center">
-          <div className="text-2xl font-semibold">Thông tin bồi thường</div>
-          {badge && <StatusBadge status={badge} className="ml-3 py-2" />}
+    <div className="w-full">
+      <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        {/* LEFT */}
+        <div className="flex flex-col gap-2 md:flex-row md:items-center">
+          <div className="text-xl font-semibold md:text-2xl">
+            Thông tin bồi thường
+          </div>
+
+          {status && (
+            <StatusBadge status={status} className="w-fit py-2 md:ml-3" />
+          )}
         </div>
-        {!!data && (
+        {!!status && status?.toLowerCase().trim() == "đã tiếp nhận" && (
           <Button
             className="mt-2 bg-[#F79009] text-white"
             onClick={handleNhapHSBT}

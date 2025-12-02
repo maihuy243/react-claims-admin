@@ -15,7 +15,7 @@ const tabs = [
 
 export function TabsHeader({ active, onChange }: TabsHeaderProps) {
   return (
-    <div className="flex gap-6 overflow-x-auto py-2 text-sm">
+    <div className="flex gap-6 overflow-x-auto py-4 md:py-2 text-sm">
       {tabs.map((t) => (
         <button
           key={t.key}

@@ -1,5 +1,5 @@
 // components/dialog/DialogRight.tsx
-import { Dialog, DialogContent } from "@/components/ui/dialog"
+import { Dialog, DialogContentNoBlur } from "@/components/ui/dialog"
 
 export function DialogRight({
   open,
@@ -9,25 +9,11 @@ export function DialogRight({
 }: any) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className={`
-          absolute
-          !top-16 
-          !right-6 
-          !left-auto
-          !translate-x-0
-          !translate-y-0
-          w-[360px]
-          rounded-2xl
-          p-0
-          shadow-xl
-          border
-          bg-white
-          ${className}
-        `}
+      <DialogContentNoBlur
+        className={`absolute !left-auto !right-6 !top-16 w-[360px] !translate-x-0 !translate-y-0 rounded-2xl border bg-white p-0 shadow-xl pointer-events-none ${className} `}
       >
         {children}
-      </DialogContent>
+      </DialogContentNoBlur>
     </Dialog>
   )
 }

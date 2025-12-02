@@ -28,8 +28,8 @@ api.interceptors.response.use(
     const status = error.response?.status
 
     if (status === 401) {
-      // TokenStore.clear()
-      // window.location.href = "/login"
+      TokenStore.clear()
+      window.location.href = "/login"
     }
 
     const errorData = error.response?.data || {}

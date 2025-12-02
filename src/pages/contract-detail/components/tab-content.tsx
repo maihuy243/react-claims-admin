@@ -9,7 +9,7 @@ export default function TabContent({ active, children }: any) {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: 10 }}
         transition={{ duration: 0.2 }}
-        className="hide-scrollbar flex-1 overflow-y-auto"
+        className="hide-scrollbar flex-1"
       >
         {children}
       </motion.div>

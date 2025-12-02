@@ -52,6 +52,7 @@ const ContractListScreen = () => {
         so_hop_dong: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
+        is_contract: true
       })
       await refetch()
     } finally {

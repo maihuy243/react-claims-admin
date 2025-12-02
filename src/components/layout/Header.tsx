@@ -10,18 +10,18 @@ import { HelpDialog } from "../others/help"
 import AlertCommon from "../alert"
 import { ChangePasswordDialog } from "../others/change-password"
 
+type ModalOpen = "user" | "help" | "noti" | undefined
+
 const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
-  const [openUser, setOpenUser] = useState(false)
-  const [openNoti, setOpenNoti] = useState(false)
-  const [openHelp, setOpenHelp] = useState(false)
+  const [openModal, setOpenModal] = useState<ModalOpen>()
   const [openChangePass, setOpenChangePass] = useState(false)
   const [alertLogout, setAlertLogout] = useState(false)
 
   return (
     <>
-      <header className="h-14 bg-white border-b flex items-center justify-between px-4 md:px-6">
+      <header className="flex h-14 items-center justify-between border-b bg-white px-4 md:px-6">
         {/* Left side - Logo + Breadcrumbs */}
-        <div className="flex items-center gap-4 flex-1">
+        <div className="flex flex-1 items-center gap-4">
           {/* Logo */}
           <div className="flex items-center">
             <img
@@ -32,12 +32,12 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
           </div>
 
           {/* Breadcrumbs */}
-          <div className="hidden md:flex items-center text-sm text-gray-500 gap-2">
+          <div className="hidden items-center gap-2 text-sm text-gray-500 md:flex">
             {breadcrumbs.map((crumb: any, idx: number) => (
               <React.Fragment key={idx}>
                 {idx > 0 && <span>›</span>}
                 <span
-                  className={crumb.active ? "text-orange-500 font-medium" : ""}
+                  className={crumb.active ? "font-medium text-orange-500" : ""}
                 >
                   {crumb.label}
                 </span>
@@ -55,17 +55,17 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
             className="md:hidden"
             onClick={onMenuClick}
           >
-            <Menu className="w-6 h-6" />
+            <Menu className="h-6 w-6" />
           </Button>
 
           {/* Apps Grid */}
           <Button variant="ghost" size="icon" className="hidden md:flex">
-            <div className="w-8 h-8  rounded flex items-center justify-center">
+            <div className="flex h-8 w-8 items-center justify-center rounded">
               <div className="grid grid-cols-2 gap-0.5">
-                <div className="w-3 h-3 bg-orange-500"></div>
-                <div className="w-3 h-3 bg-orange-500"></div>
-                <div className="w-3 h-3 bg-orange-500"></div>
-                <div className="w-3 h-3 bg-orange-500"></div>
+                <div className="h-3 w-3 bg-orange-500"></div>
+                <div className="h-3 w-3 bg-orange-500"></div>
+                <div className="h-3 w-3 bg-orange-500"></div>
+                <div className="h-3 w-3 bg-orange-500"></div>
               </div>
             </div>
           </Button>
@@ -77,9 +77,9 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
             variant="ghost"
             size="icon"
             className="relative"
-            onClick={() => setOpenHelp(true)}
+            onClick={() => setOpenModal('help')}
           >
-            <CircleQuestionMark className="w-6 h-6 text-gray-600" />
+            <CircleQuestionMark className="h-6 w-6 text-gray-600" />
           </Button>
 
           {/* Notifications */}
@@ -87,9 +87,9 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
             variant="ghost"
             size="icon"
             className="relative"
-            onClick={() => setOpenNoti(true)}
+            onClick={() => setOpenModal('noti')}
           >
-            <Bell className="w-6 h-6 text-gray-600" />
+            <Bell className="h-6 w-6 text-gray-600" />
           </Button>
 
           {/* User Avatar */}
@@ -98,7 +98,7 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
               <AvatarImage
                 src="https://github.com/shadcn.png"
                 alt="avatar"
-                onClick={() => setOpenUser(true)}
+                onClick={() => setOpenModal('user')}
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
@@ -106,14 +106,27 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
         </div>
       </header>
 
-      <UserInfoDialog
-        open={openUser}
-        onOpenChange={setOpenUser}
-        onChangePassword={() => setOpenChangePass(true)}
-        onLogout={() => setAlertLogout(true)}
-      />
-      <NotificationDialog open={openNoti} onOpenChange={setOpenNoti} />
-      <HelpDialog open={openHelp} onOpenChange={setOpenHelp} />
+      {openModal === "user" && (
+        <UserInfoDialog
+          open={openModal}
+          onClose={() => setOpenModal(undefined)}
+          onChangePassword={() => setOpenChangePass(true)}
+          onLogout={() => setAlertLogout(true)}
+        />
+      )}
+      {openModal === "noti" && (
+        <NotificationDialog
+          open={openModal}
+          onClose={() => setOpenModal(undefined)}
+        />
+      )}
+      {openModal === "help" && (
+        <HelpDialog
+          open={!!openModal}
+          onClose={() => setOpenModal(undefined)}
+        />
+      )}
+
       <ChangePasswordDialog
         open={openChangePass}
         onClose={() => setOpenChangePass(false)}

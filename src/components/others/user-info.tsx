@@ -1,14 +1,15 @@
 import { Button } from "@/components/ui/button"
 import { DialogRight } from "../dialog-right"
+import { CustomFloatingPanel } from "../custom-floating-modal"
 
 export function UserInfoDialog({
   open,
-  onOpenChange,
+  onClose,
   onChangePassword,
   onLogout,
 }: any) {
   return (
-    <DialogRight open={open} onOpenChange={onOpenChange}>
+    <CustomFloatingPanel open={open} onClose={onClose}>
       <div className="p-6 text-center space-y-4">
         <h2 className="text-lg font-semibold text-blue-900">
           Thông tin cá nhân
@@ -34,6 +35,6 @@ export function UserInfoDialog({
           </Button>
         </div>
       </div>
-    </DialogRight>
+    </CustomFloatingPanel>
   )
 }

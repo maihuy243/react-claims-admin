@@ -15,7 +15,7 @@ export default function MainLayout({
         <Header />
       </div>
 
-      <div className="flex flex-1 pt-16 overflow-hidden px-4">
+      <div className="flex flex-1 pt-16 overflow-hidden md:px-4 px-2">
         {/* Sidebar */}
         <aside
           className={`transition-all duration-300 mt-2 
@@ -31,7 +31,7 @@ export default function MainLayout({
         </aside>
 
         {/* Content */}
-        <main className="flex-1 w-[70%] py-3 h-[calc(100vh-5rem)] ps-4">
+        <main className="flex-1 w-[70%] py-3 h-[calc(100vh-5rem)] md:ps-4 ps-0">
           <Breadcrumb />
           <Outlet /> {/* ⭐ Route con render ở đây */}
         </main>
