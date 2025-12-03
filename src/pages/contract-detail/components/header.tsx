@@ -36,6 +36,7 @@ const HeaderDetail = ({ status, data }: Props) => {
         hinh_thuc_dieu_tri: data.hinh_thuc_dieu_tri,
         chan_doan: data.chan_doan,
         tien_ycbt: Number(data.so_tien_yeu_cau_boi_thuong.replace(/\D/g, "")),
+        ma_dvi: user?.ma_dvi
       }
 
       const res = await CMSApi.nhapHSBT(payload)

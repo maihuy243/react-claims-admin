@@ -7,8 +7,10 @@ import { useAuth } from "@/context/auth"
 import { useUIStore } from "@/store/state"
 import { LoginSchema } from "@/schema/login" // ← thêm dòng này
 import { delay } from "@/utils"
+import { useNavigate } from "react-router-dom"
 
 export default function LoginPage() {
+  const navigate = useNavigate()
   const { login } = useAuth()
   const [remember, setRemember] = useState(true)
   const [username, setUsername] = useState("")
@@ -39,6 +41,8 @@ export default function LoginPage() {
     try {
       await login(username, password, remember)
       // redirect dashboard
+      navigate("/")
+      await delay(500)
     } catch (err: any) {
       showError(err.message)
     }
@@ -102,7 +106,7 @@ export default function LoginPage() {
             <Checkbox
               id="remember"
               checked={remember}
-              onCheckedChange={(c) => setRemember(!!c)}
+              onCheckedChange={(c:boolean) => setRemember(!!c)}
               className="border-orange-500 data-[state=checked]:bg-orange-500"
             />
             <label htmlFor="remember" className="text-sm text-gray-700">

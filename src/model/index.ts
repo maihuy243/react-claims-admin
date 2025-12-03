@@ -24,6 +24,7 @@ export interface ILoginResponse {
   ten_cb: string | null
   ma_cb: string | null
   token: string | null
+  ma_dvi:string | null
 }
 
 // ===============================
