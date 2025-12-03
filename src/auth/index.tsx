@@ -50,6 +50,12 @@ export default function LoginPage() {
     setLoading(false)
   }
 
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") {
+    handleLogin()
+  }
+}
+
   return (
     <div className="flex min-h-screen w-full flex-col bg-white md:flex-row">
       <div className="flex w-full flex-col justify-center px-6 py-10 sm:px-10 md:w-1/2 lg:px-20">
@@ -74,6 +80,7 @@ export default function LoginPage() {
                 setErrors((prev: any) => ({ ...prev, user_name: "" })) // ← CLEAR lỗi realtime
               }}
               className={errors.user_name ? "border-red-500" : ""}
+              onKeyDown={handleKeyDown}
             />
 
             {errors.user_name && (
@@ -95,6 +102,7 @@ export default function LoginPage() {
                 setErrors((prev: any) => ({ ...prev, password: "" })) // ← CLEAR lỗi realtime
               }}
               className={errors.password ? "border-red-500" : ""}
+              onKeyDown={handleKeyDown}
             />
             {errors.password && (
               <p className="mt-1 text-xs text-red-500">{errors.password}</p>
