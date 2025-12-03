@@ -9,6 +9,10 @@ import { NotificationDialog } from "../others/notification"
 import { HelpDialog } from "../others/help"
 import AlertCommon from "../alert"
 import { ChangePasswordDialog } from "../others/change-password"
+import { useAuth } from "@/context/auth"
+import { useUIStore } from "@/store/state"
+import { delay } from "@/utils"
+import { useNavigate } from "react-router-dom"
 
 type ModalOpen = "user" | "help" | "noti" | undefined
 
@@ -16,6 +20,17 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
   const [openModal, setOpenModal] = useState<ModalOpen>()
   const [openChangePass, setOpenChangePass] = useState(false)
   const [alertLogout, setAlertLogout] = useState(false)
+  const setLoading = useUIStore((s) => s.setLoading)
+  const { logout } = useAuth()
+  const navigate = useNavigate()
+
+  const onLogout = async() => {
+    setLoading(true)
+    logout()
+    await delay(1000)
+    navigate('/login')
+    setLoading(false)
+  }
 
   return (
     <>
@@ -136,7 +151,7 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
         onClose={() => setAlertLogout(false)}
         status="warning"
         message="Bạn chắc chắn muốn đăng xuất tài khoản?"
-        onConfirm={() => console.log("Logout")}
+        onConfirm={onLogout}
       />
     </>
   )
