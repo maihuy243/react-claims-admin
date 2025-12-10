@@ -14,6 +14,7 @@ export default function LoginPage() {
   const { login } = useAuth()
   const [remember, setRemember] = useState(true)
   const [username, setUsername] = useState("")
+  const [madvi, setMadvi] = useState("")
   const [password, setPassword] = useState("")
   const [errors, setErrors] = useState<any>({})
   const setLoading = useUIStore((s) => s.setLoading)
@@ -23,6 +24,7 @@ export default function LoginPage() {
     const result = LoginSchema.safeParse({
       user_name: username,
       password,
+      madvi,
     })
 
     if (!result.success) {
@@ -39,7 +41,7 @@ export default function LoginPage() {
     await delay(500)
 
     try {
-      await login(username, password, remember)
+      await login(username, password, madvi, remember)
       // redirect dashboard
       navigate("/")
       await delay(500)
@@ -51,10 +53,10 @@ export default function LoginPage() {
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  if (e.key === "Enter") {
-    handleLogin()
+    if (e.key === "Enter") {
+      handleLogin()
+    }
   }
-}
 
   return (
     <div className="flex min-h-screen w-full flex-col bg-white md:flex-row">
@@ -66,6 +68,27 @@ export default function LoginPage() {
           <p className="mb-8 mt-1 text-center text-sm text-gray-500">
             Hệ thống quản lý tập trung của hệ sinh thái BSH
           </p>
+
+          {/* Username */}
+          <div className="mb-4">
+            <label className="mb-1 block text-sm font-medium text-gray-700">
+              Mã đơn vị
+            </label>
+            <Input
+              placeholder="Nhập mã đơn vị"
+              value={madvi}
+              onChange={(e) => {
+                setMadvi(e.target.value)
+                setErrors((prev: any) => ({ ...prev, madvi: "" })) // ← CLEAR lỗi realtime
+              }}
+              className={errors.madvi ? "border-red-500" : ""}
+              onKeyDown={handleKeyDown}
+            />
+
+            {errors.madvi && (
+              <p className="mt-1 text-xs text-red-500">{errors.madvi}</p>
+            )}
+          </div>
 
           {/* Username */}
           <div className="mb-4">
@@ -114,7 +137,7 @@ export default function LoginPage() {
             <Checkbox
               id="remember"
               checked={remember}
-              onCheckedChange={(c:boolean) => setRemember(!!c)}
+              onCheckedChange={(c: boolean) => setRemember(!!c)}
               className="border-orange-500 data-[state=checked]:bg-orange-500"
             />
             <label htmlFor="remember" className="text-sm text-gray-700">

@@ -17,7 +17,7 @@ function FilterContracts({
   setFilters,
   loading,
 }: {
-  setFilters: Dispatch<SetStateAction<TSearchFilter>>
+  setFilters: Dispatch<SetStateAction<TSearchFilter | undefined>>
   loading: boolean
 }) {
   const [searchQuery, setSearchQuery] = useState("")

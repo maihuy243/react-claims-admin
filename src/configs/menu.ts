@@ -16,13 +16,24 @@ export const MENU = [
   {
     label: "Tài khoản",
     icon: TaiKhoanIcon,
-    to: "/users",
+    children: [
+      {
+        label: "Danh sách người dùng",
+        to: "/users",
+        disabled: false,
+      },
+    ],
   },
   {
     label: "Quản lý cán bộ",
     icon: QLCBIcon,
-    to: "/staff",
-    disabled: true,
+    children: [
+      {
+        label: "Danh sách cán bộ",
+        to: "/staff",
+        disabled: false,
+      },
+    ],
   },
   // {
   //   label: "Chi tiết",

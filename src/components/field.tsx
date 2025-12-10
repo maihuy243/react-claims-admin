@@ -18,8 +18,8 @@ export function Field({
   option,
 }: FieldProps) {
   return (
-    <div className={cn("flex flex-col gap-1", className)}>
-      <Label className="text-gray-700 font-medium flex items-center gap-1">
+    <div className={cn("flex flex-col gap-2", className)}>
+      <Label className="flex items-center gap-1 font-medium text-gray-700">
         <span>{label}</span>
         {required && <span className="text-red-500">*</span>}
       </Label>
@@ -28,7 +28,7 @@ export function Field({
         {children}
 
         {option && (
-          <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 pointer-events-none" />
+          <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-500" />
         )}
       </div>
     </div>

@@ -19,3 +19,14 @@ export const PROCESSING_OFFICER: Officer[] = [
     value: "TPT01",
   },
 ]
+
+export const USER_STATUS: Officer[] = [
+  {
+    label: "Đang hoạt động",
+    value: "Đang hoạt động",
+  },
+  {
+    label: "Không hoạt động",
+    value: "Không hoạt động",
+  },
+]

@@ -12,6 +12,7 @@ import UsersScreen from "./pages/users"
 import MainLayout from "./components/layout/main"
 import CompensationList from "./pages/compensation-list"
 import LoadingOverlay from "./components/overlay"
+import DSCanBoScreen from "./pages/staff-list"
 
 export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -28,7 +29,7 @@ export default function App() {
   }, [isMobile])
 
   return (
-    <div className="bg-[#eeeeee] h-screen flex flex-col overflow-hidden">
+    <div className="flex h-screen flex-col overflow-hidden bg-[#eeeeee]">
       <LoadingOverlay />
 
       <Routes>
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="compensation-list" element={<CompensationList />} />
           <Route path="contracts" element={<ContractListScreen />} />
           <Route path="users" element={<UsersScreen />} />
+          <Route path="staff" element={<DSCanBoScreen />} />
         </Route>
 
         {/* NOT FOUND */}

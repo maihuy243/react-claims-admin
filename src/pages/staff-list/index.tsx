@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import { useMemo, useState } from "react"
 import AddNewAccountModal from "./components/add-user"
-import { useSearchUsers } from "@/hooks/useUser"
+import { useDsCanBo } from "@/hooks/useDSCanBo"
 
 export type TSearchFilter = {
   status: string
@@ -13,17 +13,13 @@ export type TSearchFilter = {
   querySearch: string
 }
 
-const UsersScreen = () => {
+const DSCanBoScreen = () => {
   const [open, setOpen] = useState(false)
-  const [filters, setFilters] = useState<TSearchFilter>({
-    status: "all",
-    querySearch: "",
-    type: "",
-  })
+  const [filters, setFilters] = useState<TSearchFilter>()
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageSize] = useState<number>(20)
 
-  const { data, isLoading, isFetching, refetch } = useSearchUsers({
+  const { data, isLoading, isFetching, refetch } = useDsCanBo({
     ...(filters?.type && { [filters.type]: filters.querySearch }),
     page: currentPage,
     page_size: pageSize,
@@ -34,10 +30,11 @@ const UsersScreen = () => {
   const total_pages = data?.total_pages || 0
 
   const usersFilter = useMemo(() => {
-    return users.filter((s) => {
-      if (filters?.status == "all") return s
-      return s.tthai == filters?.status
-    })
+    return users
+    // return users.filter((s) => {
+    //   if (filters?.status == "all") return s
+    //   return s.tthai == filters?.status
+    // })
   }, [filters?.status, users])
 
   return (
@@ -47,7 +44,7 @@ const UsersScreen = () => {
           <main className="flex-1 overflow-auto">
             <div className="mb-3 flex items-center justify-between md:mb-3">
               <h1 className="text-xl font-bold text-gray-900 md:text-2xl">
-                Danh sách người dùng
+                Danh sách cán bộ
               </h1>
               <Button
                 className="bg-[#f58d05] text-white"
@@ -83,4 +80,4 @@ const UsersScreen = () => {
   )
 }
 
-export default UsersScreen
+export default DSCanBoScreen

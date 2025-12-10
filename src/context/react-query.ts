@@ -3,8 +3,11 @@ import { QueryClient } from "@tanstack/react-query"
 const GC_TIME_ROOT = 1000 * 60 * 10
 const STALE_TIME_ROOT = 1000 * 30
 
-// Hooks
+// Auto refetch sau 10p
 export const GC_TIME_HOOKS = 1000 * 60 * 10
+// export const GC_TIME_HOOKS = 1000 * 5 // Off cache
+
+// Remove sau 10p nếu không có request get cache
 export const STALE_TIME_HOOKS = 1000 * 60 * 10
 
 export const queryClient = new QueryClient({

@@ -7,7 +7,7 @@ import { useSearchDSBT } from "@/hooks/useSearchDSBT"
 import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
 
-const delay = (ms:number) => new Promise((r) => setTimeout(r,ms))
+const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
@@ -22,6 +22,8 @@ const CompensationList = () => {
     setPage(1)
   }, [])
 
+  console.log(filters)
+
   // Query params stable
   const queryParams = useMemo(() => {
     return {
@@ -30,6 +32,8 @@ const CompensationList = () => {
       ...filters,
     }
   }, [filters, page])
+
+  console.log(queryParams)
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)
@@ -50,7 +54,7 @@ const CompensationList = () => {
         so_id: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
-        is_contract: false
+        is_contract: false,
       })
       await delay(1000)
       await refetch()

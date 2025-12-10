@@ -4,6 +4,7 @@ export interface AuthContextType {
   login: (
     user_name: string,
     password: string,
+    madvi: string,
     remember: boolean,
   ) => Promise<any>
   logout: () => void
@@ -12,6 +13,7 @@ export interface AuthContextType {
 export interface ILoginRequest {
   user_name: string
   password: string
+  ma_dvi: string
 }
 
 export interface ILoginResponse {
@@ -24,7 +26,22 @@ export interface ILoginResponse {
   ten_cb: string | null
   ma_cb: string | null
   token: string | null
-  ma_dvi:string | null
+  ma_dvi: string | null
+}
+
+export interface ChangePasswordRequest {
+  user_name: string
+  new_password: string
+  confirm_password: string
+  ma_dvi: string
+}
+
+export interface ChangePasswordResponse {
+  success: boolean
+  message: string
+  error_code: string
+  id: string | null
+  user_name: string | null
 }
 
 // ===============================
@@ -47,7 +64,7 @@ export interface UpdateCBRequest {
   ten_can_bo: string
   ma_can_bo: string
   so_hop_dong?: string // tồn tại khi cập nhật hđ
-  so_id?:string // tồn tại khi cập nhật hồ sơ bồi thường
+  so_id?: string // tồn tại khi cập nhật hồ sơ bồi thường
   is_contract: boolean // true = cập nhật hđ, false = cập nhật hồ sơ bồi thường
 }
 
@@ -159,25 +176,20 @@ export interface DetailBT {
   ngay_sinh: string
   sdt: string
   email: string
-
   su_kien: string
   hinh_thuc: string
-
   ngay_kham: string
   ngay_tai_nan: string
   ngay_vao_vien: string
   ngay_ra_vien: string
   co_so_y_te: string
   chan_doan: string
-
   so_tien_yeu_cau_boi_thuong: string
   so_tien_boi_thuong: string
-
   phuong_thuc: string
   ngan_hang: string
   so_tai_khoan: string
   ten_tai_khoan: string
-
   danh_sach_anh: AnhBoiThuong[]
   trang_thai: string
 }
@@ -186,7 +198,6 @@ export interface DetailBTResponse {
   success: boolean
   message: string
   error_code: string
-
   nguoi_duoc_bao_hiem: string
   so_hop_dong: string
   chu_hop_dong: string
@@ -194,26 +205,20 @@ export interface DetailBTResponse {
   ngay_sinh: string
   su_kien_bao_hiem: string
   hinh_thuc_dieu_tri: string
-
   ngay_kham: string
   ngay_xay_ra_tai_nan: string
   ngay_vao_vien: string
   ngay_ra_vien: string
   co_so_y_te: string
   chan_doan: string
-
   so_tien_yeu_cau_boi_thuong: string
   so_tien_boi_thuong: string
-
   phuong_thuc: string
   ngan_hang: string
   so_tai_khoan: string
   ten_tai_khoan: string
-
   trang_thai: string
-
   danh_sach_anh: AnhBoiThuong[]
-
   so_dien_thoai?: string
   email?: string
 }
@@ -236,4 +241,97 @@ export interface NhapHSBTResponse {
   error_code: string
   so_id: string | null
   so_hs: string | null
+}
+
+export interface DSUserRequest {
+  id?: string // ID người dùng
+  so_hop_dong?: string // Số hợp đồng
+  chu_hop_dong?: string // Tên chủ hợp đồng
+  page?: number // default: 1
+  page_size?: number // default: 20
+}
+
+export interface UserItem {
+  id: string // ID người dùng
+  ma_kh: string // Mã khách hàng
+  ten_nguoi_duoc_bao_hiem: string // Tên người được bảo hiểm
+  email: string // Email
+  so_dien_thoai: string // Số điện thoại
+  cccd: string // Số căn cước công dân
+  tthai: string // Trạng thái
+}
+
+export interface DSUserResponse {
+  success: boolean
+  message: string
+  error_code: string // 000, 001, 002, 003
+  data: UserItem[]
+  total_records: number
+  page: number
+  page_size: number
+  total_pages: number
+}
+
+export interface UpdateUserStatusRequest {
+  id: string // ID người dùng
+  trang_thai: string // ACTIVE, INACTIVE, LOCK, ...
+}
+
+export interface UpdateUserStatusResponse {
+  success: boolean
+  message: string
+  error_code: string
+  id: string // ID người dùng đã cập nhật
+  trang_thai: string // Trạng thái mới
+}
+
+export interface CreateUserRequest {
+  so_hop_dong: string // Số hợp đồng
+  ten_kh: string // Tên khách hàng
+  cccd: string // Số căn cước công dân
+  sdt: string // Số điện thoại
+  email: string // Email
+  ten_dang_nhap: string // Tên đăng nhập
+  b_mat_khau: string // Mật khẩu
+}
+
+export interface CreateUserResponse {
+  success: boolean
+  message: string
+  error_code: string
+  id: string
+  so_hop_dong: string
+  ten_khach_hang: string
+  ten_dang_nhap: string
+  email: string
+}
+
+export interface DSCanBoRequest {
+  ma_cb?: string
+  ten_cb?: string
+  trang_thai?: string // COMPLETED, INSERT, ...
+  page?: number // default: 1
+  page_size?: number // default: 20
+}
+
+export interface CanBoItem {
+  ma_cb: string // Mã cán bộ
+  ten_cb: string // Tên cán bộ
+  tong_hs: number // Tổng số hồ sơ
+  da_ht: number // Đã hoàn thành
+  dang_xl: number // Đang xử lý
+  chua_xl: number // Chưa xử lý
+  id?: string
+  sdt?: string
+}
+
+export interface DSCanBoResponse {
+  success: boolean
+  message: string
+  error_code: string
+  data: CanBoItem[]
+  total_records: number
+  page: number
+  page_size: number
+  total_pages: number
 }

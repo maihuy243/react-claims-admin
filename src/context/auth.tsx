@@ -24,9 +24,10 @@ export const AuthProvider = ({ children }: any) => {
   const login = async (
     user_name: string,
     password: string,
+    madvi: string,
     remember: boolean,
   ) => {
-    const data = await CMSApi.login({ user_name, password })
+    const data = await CMSApi.login({ user_name, password, ma_dvi: madvi })
 
     if (!data.success || !data.token) {
       throw new Error(data.message || "Đăng nhập thất bại")
