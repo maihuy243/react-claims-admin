@@ -1,3 +1,5 @@
+import { CMSApi } from "@/api"
+import { EmptyState } from "@/components/empty"
 import {
   Table,
   TableBody,
@@ -6,35 +8,36 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { LSBTItem } from "@/model"
+import { useUIStore } from "@/store/state"
+import { useEffect, useRef, useState } from "react"
+import { useParams } from "react-router-dom"
 
 export default function HistoryTable() {
-  const data = [
-    { action: "Cập nhật TT", value: "Đang trình", time: "09:00 11/02/2025" },
-    {
-      action: "Cập nhật cán bộ",
-      value: "Nguyễn văn B",
-      time: "09:00 11/02/2025",
-    },
-    { action: "Cập nhật TT", value: "Đang trình", time: "09:00 11/02/2025" },
-    {
-      action: "Cập nhật cán bộ",
-      value: "Nguyễn văn B",
-      time: "09:00 11/02/2025",
-    },
-    { action: "Cập nhật TT", value: "Đang trình", time: "09:00 11/02/2025" },
-    {
-      action: "Cập nhật cán bộ",
-      value: "Nguyễn văn B",
-      time: "09:00 11/02/2025",
-    },
-    { action: "Cập nhật TT", value: "Đang trình", time: "09:00 11/02/2025" },
-    {
-      action: "Cập nhật cán bộ",
-      value: "Nguyễn văn B",
-      time: "09:00 11/02/2025",
-    },
-    { action: "Cập nhật TT", value: "Đang trình", time: "09:00 11/02/2025" },
-  ]
+  const [data, setData] = useState<LSBTItem[]>([])
+  const { id } = useParams()
+  const loading = useRef<boolean>(false)
+  const setLoading = useUIStore((s) => s.setLoading)
+  const err = useUIStore((s) => s.showError)
+
+  const handleFetchData = async () => {
+    try {
+      if (!id || loading.current) return
+      loading.current = true
+      setLoading(true)
+      const res = await CMSApi.getLsbt({ idClaim: id })
+      setData(res.data ?? [])
+    } catch (error) {
+      err(String(error))
+    } finally {
+      loading.current = false
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    handleFetchData()
+  }, [id])
 
   return (
     <div className="rounded-xl border bg-white p-6 shadow-sm">
@@ -52,17 +55,25 @@ export default function HistoryTable() {
           </TableHeader>
 
           <TableBody>
-            {data.map((item, idx) => (
-              <TableRow
-                key={idx}
-                className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}
-              >
-                <TableCell className="font-medium">{idx + 1}</TableCell>
-                <TableCell>{item.action}</TableCell>
-                <TableCell>{item.value}</TableCell>
-                <TableCell>{item.time}</TableCell>
+            {!data.length && (
+              <TableRow>
+                <TableCell colSpan={4}>
+                  <EmptyState label="Chưa có lịch sử bồi thường" />
+                </TableCell>
               </TableRow>
-            ))}
+            )}
+            {!!data.length &&
+              data.map((item, idx) => (
+                <TableRow
+                  key={idx}
+                  className={idx % 2 === 0 ? "bg-white" : "bg-gray-50"}
+                >
+                  <TableCell className="font-medium">{idx + 1}</TableCell>
+                  <TableCell>{item.hanh_dong}</TableCell>
+                  <TableCell>{item.du_lieu}</TableCell>
+                  <TableCell>{item.thoi_gian}</TableCell>
+                </TableRow>
+              ))}
           </TableBody>
         </Table>
       </div>

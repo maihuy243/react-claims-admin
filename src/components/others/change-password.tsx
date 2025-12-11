@@ -19,6 +19,8 @@ import { useShallow } from "zustand/shallow"
 export function ChangePasswordDialog({ open, onClose }: any) {
   const { user, logout } = useAuth()
   const navigate = useNavigate()
+  const [oldPass, setOldPass] = useState("")
+  const [showOld, setShowOld] = useState(false)
   const [newPass, setNewPass] = useState("")
   const [confirmPass, setConfirmPass] = useState("")
   const [showNew, setShowNew] = useState(false)
@@ -37,6 +39,7 @@ export function ChangePasswordDialog({ open, onClose }: any) {
 
   const handleSubmit = async () => {
     const result = changePasswordSchema.safeParse({
+      oldPass,
       newPass,
       confirmPass,
     })
@@ -57,10 +60,11 @@ export function ChangePasswordDialog({ open, onClose }: any) {
       setServerError(null)
 
       const result = await CMSApi.changePassword({
-        user_name: user?.user_name,
+        user_name: user?.user_name || "",
+        old_password: oldPass,
         new_password: newPass,
         confirm_password: confirmPass,
-        ma_dvi: "000",
+        ma_dvi: user?.ma_dvi || "",
       })
 
       if (!result.success) {
@@ -102,7 +106,33 @@ export function ChangePasswordDialog({ open, onClose }: any) {
         </DialogHeader>
 
         {/* BODY */}
+
         <div className="space-y-5 px-6 py-6">
+          {/* OLD PASSWORD */}
+          <div>
+            <label className="text-[14px] font-medium text-gray-700">
+              Mật khẩu cũ <span className="text-red-500">*</span>
+            </label>
+            <div className="relative mt-1">
+              <Input
+                type={showOld ? "text" : "password"}
+                value={oldPass}
+                onChange={(e) => setOldPass(e.target.value)}
+                className="pr-10"
+              />
+              <button
+                type="button"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"
+                onClick={() => setShowOld(!showOld)}
+              >
+                {showOld ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
+            {errors.oldPass && (
+              <p className="text-sm text-red-500">{errors.oldPass}</p>
+            )}
+          </div>
+
           {/* NEW PASSWORD */}
           <div>
             <label className="text-[14px] font-medium text-gray-700">

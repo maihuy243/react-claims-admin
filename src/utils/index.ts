@@ -6,3 +6,13 @@ export const dateFormat = (date?: string) => {
 }
 
 export const delay = (ms: number) => new Promise((re) => setTimeout(re, ms))
+
+export function generateRandomPassword(length = 10) {
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+"
+  let pass = ""
+  for (let i = 0; i < length; i++) {
+    pass += chars.charAt(Math.floor(Math.random() * chars.length))
+  }
+  return pass
+}

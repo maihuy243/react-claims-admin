@@ -21,6 +21,8 @@ import {
   CreateUserResponse,
   DSCanBoRequest,
   DSCanBoResponse,
+  LSBTRequest,
+  LSBTResponse,
 } from "@/model"
 
 import { getAsync, postAsync } from "@/utils/axios"
@@ -52,7 +54,6 @@ export const CMSApi = {
     return postAsync<ILoginResponse>("/api/cms-auth/login", payload)
   },
 
-  // ✅ API 2: ĐỔI MẬT KHẨU
   changePassword(payload: ChangePasswordRequest) {
     return postAsync<ChangePasswordResponse>(
       "/api/cms-auth/change-password",
@@ -62,23 +63,23 @@ export const CMSApi = {
 
   // ====================== USER ======================
 
-  // ✅ API 10: LẤY DANH SÁCH NGƯỜI DÙNG
   getDSUser(payload: DSUserRequest) {
     return postAsync<DSUserResponse>("/api/cms/ds-user", payload)
   },
 
-  // ✅ API 11: CẬP NHẬT TRẠNG THÁI NGƯỜI DÙNG
   updateUserStatus(payload: UpdateUserStatusRequest) {
     return postAsync<UpdateUserStatusResponse>("/api/cms/tthai-user", payload)
   },
 
-  // ✅ API 12: TẠO NGƯỜI DÙNG
   createUser(payload: CreateUserRequest) {
     return postAsync<CreateUserResponse>("/api/cms/tao-user", payload)
   },
 
-  // ✅ API 13: LẤY DANH SÁCH CÁN BỘ
   getDSCanBo(payload: DSCanBoRequest) {
     return postAsync<DSCanBoResponse>("/api/cms/ds-canbo", payload)
+  },
+
+  getLsbt(payload: LSBTRequest) {
+    return getAsync<LSBTResponse>("/api/cms/ls-bt", payload)
   },
 }

@@ -1,5 +1,5 @@
 import { CMSApi } from "@/api"
-import { AuthContextType } from "@/model"
+import { AuthContextType, ILoginResponse } from "@/model"
 import { createContext, useContext, useState, useEffect } from "react"
 import { TokenStore } from "./token"
 
@@ -10,7 +10,7 @@ export const AuthProvider = ({ children }: any) => {
     localStorage.getItem("token"),
   )
 
-  const [user, setUser] = useState<any>(() => {
+  const [user, setUser] = useState<ILoginResponse | null>(() => {
     const saved = localStorage.getItem("user")
     return saved ? JSON.parse(saved) : null
   })

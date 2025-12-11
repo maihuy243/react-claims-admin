@@ -43,26 +43,6 @@ const UsersListScreen = ({
     })),
   )
 
-  const onUpdateStatus = async (id: string, newStatus: string) => {
-    try {
-      setLoading(true)
-      const status = newStatus == "Đang hoạt động" ? "ACTIVE" : "INACTIVE"
-      const result = await CMSApi.updateUserStatus({
-        id: id,
-        trang_thai: status,
-      })
-      if (!result.success) {
-        err(result.message)
-        return
-      }
-      refetch()
-      success(result.message)
-      console.log(id, status)
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
     <div className="flex h-[calc(100vh-19rem)] w-full flex-col border">
       {/* Scroll body */}

@@ -1,5 +1,5 @@
 export interface AuthContextType {
-  user: any
+  user: ILoginResponse | null
   token: string | null
   login: (
     user_name: string,
@@ -34,6 +34,7 @@ export interface ChangePasswordRequest {
   new_password: string
   confirm_password: string
   ma_dvi: string
+  old_password: string
 }
 
 export interface ChangePasswordResponse {
@@ -334,4 +335,18 @@ export interface DSCanBoResponse {
   page: number
   page_size: number
   total_pages: number
+}
+
+export interface LSBTRequest {
+  idClaim: string
+}
+
+export interface LSBTItem {
+  hanh_dong: string
+  du_lieu: string
+  thoi_gian: string
+}
+
+export interface LSBTResponse {
+  data: LSBTItem[]
 }

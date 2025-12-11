@@ -9,12 +9,13 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Field } from "@/components/field"
-import { useEffect, useState } from "react"
+import { FormEventHandler, useEffect, useState } from "react"
 import { CMSApi } from "@/api"
 import { useUIStore } from "@/store/state"
 import { useShallow } from "zustand/shallow"
 import { createUserSchema } from "@/schema/create-user"
 import { queryClient } from "@/context/react-query"
+import { generateRandomPassword } from "@/utils"
 
 export default function AddNewAccountModal({
   open,
@@ -27,6 +28,8 @@ export default function AddNewAccountModal({
   const [tenKH, setTenKH] = useState("")
   const [cccd, setCccd] = useState("")
   const [sdt, setSdt] = useState("")
+  const [requireChange, setRequireChange] = useState<boolean>(false)
+  const [autoPass, setAutoPass] = useState<boolean>(false)
   const [email, setEmail] = useState("")
   const [tenDangNhap, setTenDangNhap] = useState("")
   const [matKhau, setMatKhau] = useState("")
@@ -50,14 +53,8 @@ export default function AddNewAccountModal({
     setTenDangNhap("")
     setMatKhau("")
     setErrors({})
-  }
-
-  const clearError = (field: string) => {
-    setErrors((prev) => {
-      const clone = { ...prev }
-      delete clone[field]
-      return clone
-    })
+    setRequireChange(false)
+    setAutoPass(false)
   }
 
   const handleSubmit = async () => {
@@ -69,6 +66,7 @@ export default function AddNewAccountModal({
       email,
       ten_dang_nhap: tenDangNhap,
       b_mat_khau: matKhau,
+      require_change: Number(requireChange),
     }
 
     // VALIDATE
@@ -106,6 +104,20 @@ export default function AddNewAccountModal({
     } finally {
       setLoading(false)
     }
+  }
+
+  const handleRandomPassword = () => {
+    const newPass = generateRandomPassword()
+    setMatKhau(newPass)
+  }
+
+  const onToggleRandomPass = (e: boolean) => {
+    setAutoPass(e)
+    if (e) {
+      handleRandomPassword()
+      return
+    }
+    setMatKhau("")
   }
 
   useEffect(() => {
@@ -245,6 +257,18 @@ export default function AddNewAccountModal({
               </Field>
             </div>
           </div>
+          <div className="space-y-6">
+            <ToggleRow
+              label="Tạo mật khẩu tự động"
+              value={autoPass}
+              onChange={onToggleRandomPass}
+            />
+            <ToggleRow
+              label="Yêu cầu khách hàng đổi mật khẩu ngay khi đăng nhập"
+              value={requireChange}
+              onChange={setRequireChange}
+            />
+          </div>
         </div>
 
         {/* FOOTER — cố định */}
@@ -271,11 +295,23 @@ export default function AddNewAccountModal({
   )
 }
 
-function ToggleRow({ label }: { label: string }) {
+function ToggleRow({
+  label,
+  onChange,
+  value,
+}: {
+  label: string
+  onChange?: (e: boolean) => void | undefined
+  value?: boolean
+}) {
   return (
     <div className="flex items-center justify-between">
       <span className="text-[15px] font-medium text-gray-800">{label}</span>
-      <Switch className="data-[state=checked]:bg-orange-500" />
+      <Switch
+        checked={value}
+        className="data-[state=checked]:bg-orange-500"
+        onCheckedChange={onChange}
+      />
     </div>
   )
 }

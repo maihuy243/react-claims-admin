@@ -29,4 +29,8 @@ export const USER_STATUS: Officer[] = [
     label: "Không hoạt động",
     value: "Không hoạt động",
   },
+  {
+    label: "Đang khóa",
+    value: "Đang khóa",
+  },
 ]

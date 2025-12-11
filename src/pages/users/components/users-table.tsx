@@ -47,7 +47,7 @@ const UsersListScreen = ({
   const onUpdateStatus = async (id: string, newStatus: string) => {
     try {
       setLoading(true)
-      const status = newStatus == "Đang hoạt động" ? "ACTIVE" : "INACTIVE"
+      const status = newStatus == "Đang hoạt động" ? "N" : "Y"
       const result = await CMSApi.updateUserStatus({
         id: id,
         trang_thai: status,
@@ -133,7 +133,7 @@ const UsersListScreen = ({
                     <Select
                       defaultValue={u.tthai}
                       value={u.tthai}
-                      onValueChange={(val) => onUpdateStatus(u.ma_kh, val)}
+                      onValueChange={(val) => onUpdateStatus(u.id, val)}
                     >
                       <SelectTrigger className="h-8 w-[150px] text-sm">
                         <SelectValue
