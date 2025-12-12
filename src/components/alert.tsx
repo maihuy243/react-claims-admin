@@ -32,6 +32,17 @@ const ICONS: any = {
   },
 }
 
+type Props = {
+  open: boolean
+  onClose: () => void
+  title?: string
+  message: string
+  status?: string
+  confirmText?: string
+  cancelText?: string
+  onConfirm: () => void
+}
+
 export default function AlertCommon({
   open,
   onClose,
@@ -41,12 +52,12 @@ export default function AlertCommon({
   confirmText = "Đồng ý",
   cancelText = "Hủy",
   onConfirm,
-}: any) {
+}: Props) {
   const Icon = ICONS[status].icon
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="max-w-md rounded-xl p-0 overflow-hidden">
+      <DialogContent className="max-w-md overflow-hidden rounded-xl p-0">
         {/* HEADER */}
         <DialogHeader className="border-b px-6 py-4">
           <DialogTitle className="text-lg font-semibold text-gray-800">
@@ -55,27 +66,27 @@ export default function AlertCommon({
         </DialogHeader>
 
         {/* BODY */}
-        <div className="p-6 text-center space-y-4">
+        <div className="space-y-4 p-6 text-center">
           <div className="flex justify-center">
             <div
-              className={`w-16 h-16 rounded-full flex items-center justify-center ${ICONS[status].bg}`}
+              className={`flex h-16 w-16 items-center justify-center rounded-full ${ICONS[status].bg}`}
             >
               {/* <Icon className={`w-10 h-10 ${ICONS[status].color}`} /> */}
               <WarningIcon />
             </div>
           </div>
 
-          <p className="text-gray-700 text-[15px]">{message}</p>
+          <p className="text-[15px] text-gray-700">{message}</p>
         </div>
 
         {/* FOOTER */}
-        <DialogFooter className="border-t px-6 py-4 flex justify-end gap-3">
+        <DialogFooter className="flex justify-end gap-3 border-t px-6 py-4">
           <Button variant="ghost" className="text-orange-600" onClick={onClose}>
             {cancelText}
           </Button>
 
           <Button
-            className="bg-orange-500 hover:bg-orange-600 text-white px-6"
+            className="bg-orange-500 px-6 text-white hover:bg-orange-600"
             onClick={onConfirm}
           >
             {confirmText}

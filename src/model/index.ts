@@ -260,6 +260,7 @@ export interface UserItem {
   so_dien_thoai: string // Số điện thoại
   cccd: string // Số căn cước công dân
   tthai: string // Trạng thái
+  so_hop_dong?: string
 }
 
 export interface DSUserResponse {

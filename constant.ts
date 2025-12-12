@@ -34,3 +34,5 @@ export const USER_STATUS: Officer[] = [
     value: "Đang khóa",
   },
 ]
+
+export const COLOR_OPTION = `text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`

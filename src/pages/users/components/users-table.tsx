@@ -17,6 +17,9 @@ import { useShallow } from "zustand/shallow"
 import { CMSApi } from "@/api"
 import { UserItem } from "@/model"
 import { EmptyState } from "@/components/empty"
+import TablePagination from "@/components/panigation"
+import { DropdownTacVu } from "@/components/dropdown-menu"
+import AlertCommon from "@/components/alert"
 
 const UsersListScreen = ({
   refetch,
@@ -26,6 +29,8 @@ const UsersListScreen = ({
   total_record,
   setCurrentPage,
   currentPage,
+  setPageSize,
+  pageSize,
 }: {
   refetch: any
   isLoading: boolean
@@ -34,7 +39,16 @@ const UsersListScreen = ({
   total_record: number
   setCurrentPage: Dispatch<SetStateAction<number>>
   currentPage: number
+  setPageSize: Dispatch<SetStateAction<string>>
+  pageSize: string
 }) => {
+  const [alert, setAlert] = useState<boolean>(false)
+  const [messsage, setMessage] = useState<string>("")
+  const [payload, setPayload] = useState<{ id: string; status: string }>({
+    id: "",
+    status: "",
+  })
+
   const { err, setLoading, success } = useUIStore(
     useShallow((s) => ({
       loading: s.loading,
@@ -44,12 +58,22 @@ const UsersListScreen = ({
     })),
   )
 
-  const onUpdateStatus = async (id: string, newStatus: string) => {
+  const onConfirm = (id: string, newStatus: string) => {
+    setPayload({ id: id, status: newStatus })
+    setMessage(
+      newStatus === "Đang hoạt động"
+        ? "Bạn chắc chắn muốn khóa tài khoản?"
+        : "Bạn chắc chắn muốn mở khóa tài khoản?",
+    )
+    setAlert(true)
+  }
+
+  const onUpdateStatus = async () => {
     try {
       setLoading(true)
-      const status = newStatus == "Đang hoạt động" ? "N" : "Y"
+      const status = payload.status == "Đang hoạt động" ? "N" : "Y"
       const result = await CMSApi.updateUserStatus({
-        id: id,
+        id: payload.id,
         trang_thai: status,
       })
       if (!result.success) {
@@ -58,9 +82,9 @@ const UsersListScreen = ({
       }
       refetch()
       success(result.message)
-      console.log(id, status)
     } finally {
       setLoading(false)
+      setAlert(false)
     }
   }
 
@@ -72,6 +96,8 @@ const UsersListScreen = ({
           <thead className="sticky top-0 z-10 text-nowrap border-b bg-gray-50 text-gray-600">
             <tr>
               <th className="px-3 py-3 text-left font-semibold">ID</th>
+              <th className="px-3 py-3 text-left font-semibold">Số hợp đồng</th>
+
               <th className="px-3 py-3 text-left font-semibold">
                 Mã khách hàng
               </th>
@@ -84,6 +110,7 @@ const UsersListScreen = ({
               </th>
               <th className="px-3 py-3 text-left font-semibold">CCCD</th>
               <th className="px-3 py-3 text-left font-semibold">Trạng thái</th>
+              <th className="px-3 py-3 text-left font-semibold">Tác vụ</th>
             </tr>
           </thead>
 
@@ -106,15 +133,17 @@ const UsersListScreen = ({
                   key={i}
                   className="text-nowrap border-b odd:bg-white even:bg-gray-100 hover:bg-gray-200"
                 >
-                  <td className="px-3 py-2 font-semibold text-orange-600">
+                  <td className="px-3 py-2 font-semibold text-[#F79009]">
                     {u.id}
                   </td>
-
+                  <td className="px-3 py-2 font-semibold">
+                    {u.so_hop_dong || "-"}
+                  </td>
                   {/* Mã khách hàng */}
                   <td className="px-3 py-2 font-medium">{u.ma_kh || "-"}</td>
 
                   {/* Người được BH */}
-                  <td className="px-3 py-2 font-medium text-blue-700">
+                  <td className="px-3 py-2 font-medium">
                     {u.ten_nguoi_duoc_bao_hiem || "-"}
                   </td>
 
@@ -128,32 +157,14 @@ const UsersListScreen = ({
                   <td className="px-3 py-2">{u.cccd || "-"}</td>
 
                   {/* Trạng thái */}
-                  {/* <StatusBadgeUsers status={u.tthai || "-"} /> */}
                   <td className="px-3 py-2">
-                    <Select
-                      defaultValue={u.tthai}
-                      value={u.tthai}
-                      onValueChange={(val) => onUpdateStatus(u.id, val)}
-                    >
-                      <SelectTrigger className="h-8 w-[150px] text-sm">
-                        <SelectValue
-                          placeholder="Chọn cán bộ"
-                          className="bg-red-300!"
-                        />
-                      </SelectTrigger>
-
-                      <SelectContent>
-                        {USER_STATUS.map((p) => (
-                          <SelectItem
-                            key={p.value}
-                            value={p.value}
-                            className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-                          >
-                            {p.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
+                    <StatusBadgeUsers status={u.tthai || "-"} />
+                  </td>
+                  <td className="px-3 py-2">
+                    <DropdownTacVu
+                      status={u.tthai}
+                      onClick={() => onConfirm(u.id, u.tthai)}
+                    />
                   </td>
                 </tr>
               ))}
@@ -162,31 +173,21 @@ const UsersListScreen = ({
       </div>
 
       {/* Pagination */}
-      <div className="sticky bottom-0 flex items-center justify-between border-t bg-white p-3 text-sm text-gray-500">
-        <span>Tổng {total_record} dòng</span>
+      <TablePagination
+        currentPage={currentPage}
+        onPageChange={setCurrentPage}
+        onPageSizeChange={setPageSize}
+        pageSize={pageSize}
+        totalRecord={total_record}
+        totalPages={total_pages}
+      />
 
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          <div>{currentPage}</div>
-
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={currentPage >= total_pages}
-            onClick={() => setCurrentPage((p) => p + 1)}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <AlertCommon
+        onClose={() => setAlert(false)}
+        open={alert}
+        message={messsage}
+        onConfirm={onUpdateStatus}
+      />
     </div>
   )
 }

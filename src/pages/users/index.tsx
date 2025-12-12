@@ -21,12 +21,12 @@ const UsersScreen = () => {
     type: "",
   })
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [pageSize] = useState<number>(20)
+  const [pageSize, setPageSize] = useState<string>("20")
 
   const { data, isLoading, isFetching, refetch } = useSearchUsers({
     ...(filters?.type && { [filters.type]: filters.querySearch }),
     page: currentPage,
-    page_size: pageSize,
+    page_size: +pageSize,
   })
 
   const users = data?.data || []
@@ -72,6 +72,8 @@ const UsersScreen = () => {
                 isLoading={isFetching || isLoading}
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
+                setPageSize={setPageSize}
+                pageSize={pageSize}
               />
             </Wrapper>
           </main>

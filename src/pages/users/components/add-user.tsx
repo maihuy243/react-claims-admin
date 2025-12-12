@@ -305,13 +305,15 @@ function ToggleRow({
   value?: boolean
 }) {
   return (
-    <div className="flex items-center justify-between">
+    <div className="flex items-center justify-start">
       <span className="text-[15px] font-medium text-gray-800">{label}</span>
-      <Switch
-        checked={value}
-        className="data-[state=checked]:bg-orange-500"
-        onCheckedChange={onChange}
-      />
+      <div className="px-4">
+        <Switch
+          checked={value}
+          className="data-[state=checked]:bg-orange-500"
+          onCheckedChange={onChange}
+        />
+      </div>
     </div>
   )
 }

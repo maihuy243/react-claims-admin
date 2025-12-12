@@ -1,4 +1,4 @@
-import React, { memo } from "react"
+import React, { Dispatch, memo, SetStateAction } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { HDItem } from "@/model"
@@ -14,6 +14,8 @@ interface Props {
   loading?: boolean
   onPageChange: (page: number) => void
   onUpdateOfficer?: (id: string, officer: string) => void
+  setPageSize: Dispatch<SetStateAction<string>>
+  pageSize: string
 }
 
 const ContractsTable = memo(function ContractsTable({

@@ -12,7 +12,8 @@ const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
   const [page, setPage] = useState(1)
-  const pageSize = 20
+  const [pageSize, setPageSize] = useState<string>("20")
+
   const updateCBMutation = useUpdateCB()
   const setLoading = useUIStore((s) => s.setLoading)
 
@@ -22,18 +23,14 @@ const CompensationList = () => {
     setPage(1)
   }, [])
 
-  console.log(filters)
-
   // Query params stable
   const queryParams = useMemo(() => {
     return {
       page,
-      page_size: pageSize,
+      page_size: +pageSize,
       ...filters,
     }
   }, [filters, page])
-
-  console.log(queryParams)
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)
@@ -85,6 +82,8 @@ const CompensationList = () => {
               loading={isLoading || isFetching}
               onPageChange={handlePageChange}
               onUpdateOfficer={onUpdateOfficer}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
             />
           </Wrapper>
         </main>

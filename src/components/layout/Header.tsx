@@ -13,6 +13,9 @@ import { useAuth } from "@/context/auth"
 import { useUIStore } from "@/store/state"
 import { delay } from "@/utils"
 import { useNavigate } from "react-router-dom"
+import bgHeader from "@assets/bg_header.png"
+import NotiIcon from "@assets/noti.png"
+import QuestionIcon from "@assets/question.png"
 
 type ModalOpen = "user" | "help" | "noti" | undefined
 
@@ -24,17 +27,25 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
-  const onLogout = async() => {
+  const onLogout = async () => {
     setLoading(true)
     logout()
     await delay(1000)
-    navigate('/login')
+    navigate("/login")
     setLoading(false)
   }
 
   return (
     <>
-      <header className="flex h-14 items-center justify-between border-b bg-white px-4 md:px-6">
+      <header
+        className="flex h-14 items-center justify-between overflow-hidden border-b bg-white px-4 md:px-6"
+        style={{
+          backgroundImage: `url(${bgHeader})`,
+          backgroundSize: "contain",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
+      >
         {/* Left side - Logo + Breadcrumbs */}
         <div className="flex flex-1 items-center gap-4">
           {/* Logo */}
@@ -92,9 +103,9 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
             variant="ghost"
             size="icon"
             className="relative"
-            onClick={() => setOpenModal('help')}
+            onClick={() => setOpenModal("help")}
           >
-            <CircleQuestionMark className="h-6 w-6 text-gray-600" />
+            <img className="h-6 w-6" src={QuestionIcon} alt="question" />
           </Button>
 
           {/* Notifications */}
@@ -102,9 +113,9 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
             variant="ghost"
             size="icon"
             className="relative"
-            onClick={() => setOpenModal('noti')}
+            onClick={() => setOpenModal("noti")}
           >
-            <Bell className="h-6 w-6 text-gray-600" />
+            <img className="h-6 w-6" src={NotiIcon} alt="question" />
           </Button>
 
           {/* User Avatar */}
@@ -113,7 +124,7 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
               <AvatarImage
                 src="https://github.com/shadcn.png"
                 alt="avatar"
-                onClick={() => setOpenModal('user')}
+                onClick={() => setOpenModal("user")}
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>

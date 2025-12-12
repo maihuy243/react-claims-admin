@@ -30,6 +30,10 @@ const STATUS_MAP: Record<string, { bg: string; text: string }> = {
     bg: "bg-gray-200",
     text: "text-gray-800",
   },
+  "Hoạt động": {
+    bg: "bg-[#DCFFF1]",
+    text: "text-[#22A06B]",
+  },
 }
 
 export function StatusBadge({
@@ -47,7 +51,7 @@ export function StatusBadge({
   return (
     <Badge
       className={cn(
-        "rounded-md px-2.5 py-0.5 font-medium text-[11px] select-none",
+        "select-none rounded-md px-2.5 py-0.5 text-[11px] font-medium",
         color.bg,
         color.text,
         className,

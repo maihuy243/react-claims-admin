@@ -45,18 +45,20 @@ const Breadcrumb: React.FC = () => {
   return (
     <nav
       aria-label="breadcrumb"
-      className="text-sm text-gray-500 flex items-center flex-wrap mb-1"
+      className="mb-1 flex flex-wrap items-center text-sm text-gray-500"
     >
       {trail.map((item, idx) => (
         <React.Fragment key={idx}>
-          {idx > 0 && <span className="mx-2 text-gray-400 select-none">›</span>}
+          {idx > 0 && (
+            <span className="mx-2 select-none text-[#8590A2]">›</span>
+          )}
           {idx === trail.length - 1 ? (
-            <span className="text-orange-500 font-medium">{item.label}</span>
+            <span className="font-medium text-orange-500">{item.label}</span>
           ) : (
             <Link
               to={item.to || "#"}
               className={cn(
-                "hover:text-gray-700 transition-colors",
+                "transition-colors hover:text-gray-700",
                 !item.to && "cursor-default",
               )}
             >

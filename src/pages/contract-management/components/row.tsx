@@ -18,13 +18,11 @@ interface RowProps {
 const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
   return (
     <tr className="text-nowrap border-b odd:bg-white even:bg-gray-100 hover:bg-gray-200">
-      <td className="px-3 py-2 font-semibold text-orange-600">{item.id}</td>
+      <td className="px-3 py-2 font-semibold text-[#F79009]">{item.id}</td>
 
       <td className="px-3 py-2">{item.ma_dvi}</td>
 
-      <td className="px-3 py-2 font-medium text-blue-700">
-        {item.so_hop_dong}
-      </td>
+      <td className="px-3 py-2 font-medium">{item.so_hop_dong}</td>
 
       <td className="px-3 py-2">{item.chu_hop_dong}</td>
 

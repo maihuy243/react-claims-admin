@@ -21,7 +21,7 @@ function FilterContracts({
   loading: boolean
 }) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchType, setSearchType] = useState("id")
+  const [searchType, setSearchType] = useState("ten_cb")
   const [status, setStatus] = useState("all")
 
   const handleBlur = useCallback(() => {
@@ -51,24 +51,8 @@ function FilterContracts({
             <SelectValue placeholder="Tìm kiếm theo" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-              value="id"
-            >
-              ID
-            </SelectItem>
-            <SelectItem
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-              value="so_hop_dong"
-            >
-              Số hợp đồng
-            </SelectItem>
-            <SelectItem
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-              value="chu_hop_dong"
-            >
-              Chủ hợp đồng
-            </SelectItem>
+            <SelectItem value="ten_cb">Tên cán bộ</SelectItem>
+            <SelectItem value="ma_cb">Mã cán bộ</SelectItem>
           </SelectContent>
         </Select>
 
@@ -101,24 +85,9 @@ function FilterContracts({
             <SelectValue placeholder="Trạng thái: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem
-              value="all"
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-            >
-              Trạng thái: Tất cả
-            </SelectItem>
-            <SelectItem
-              value="Đang hoạt động"
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-            >
-              Đang hoạt động
-            </SelectItem>
-            <SelectItem
-              value="Không hoạt động"
-              className={`text-sm data-[state=checked]:bg-orange-500 data-[state=checked]:text-white`}
-            >
-              Không hoạt động
-            </SelectItem>
+            <SelectItem value="all">Trạng thái: Tất cả</SelectItem>
+            <SelectItem value="Đang hoạt động">Đang hoạt động</SelectItem>
+            <SelectItem value="Không hoạt động">Không hoạt động</SelectItem>
           </SelectContent>
         </Select>
       </div>

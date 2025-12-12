@@ -1,8 +1,6 @@
 import Wrapper from "@/components/wrapper"
 import UsersTable from "./components/users-table"
 import FilterContracts from "./components/filter"
-import { Button } from "@/components/ui/button"
-import { Plus } from "lucide-react"
 import { useMemo, useState } from "react"
 import AddNewAccountModal from "./components/add-user"
 import { useDsCanBo } from "@/hooks/useDSCanBo"
@@ -17,12 +15,12 @@ const DSCanBoScreen = () => {
   const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState<TSearchFilter>()
   const [currentPage, setCurrentPage] = useState<number>(1)
-  const [pageSize] = useState<number>(20)
+  const [pageSize, setPageSize] = useState<string>("20")
 
   const { data, isLoading, isFetching, refetch } = useDsCanBo({
     ...(filters?.type && { [filters.type]: filters.querySearch }),
     page: currentPage,
-    page_size: pageSize,
+    page_size: +pageSize,
   })
 
   const users = data?.data || []
@@ -46,13 +44,6 @@ const DSCanBoScreen = () => {
               <h1 className="text-xl font-bold text-gray-900 md:text-2xl">
                 Danh sách cán bộ
               </h1>
-              <Button
-                className="bg-[#f58d05] text-white"
-                size="sm"
-                onClick={() => setOpen(true)}
-              >
-                <Plus size={18} className="mr-2" /> Thêm mới
-              </Button>
             </div>
 
             <FilterContracts
@@ -69,6 +60,8 @@ const DSCanBoScreen = () => {
                 isLoading={isFetching || isLoading}
                 setCurrentPage={setCurrentPage}
                 currentPage={currentPage}
+                setPageSize={setPageSize}
+                pageSize={pageSize}
               />
             </Wrapper>
           </main>

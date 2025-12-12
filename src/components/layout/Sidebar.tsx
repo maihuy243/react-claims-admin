@@ -19,29 +19,29 @@ export default function Sidebar({
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
 
- const toggle = (key: string, disabled?: boolean) => {
-  if (disabled) return
+  const toggle = (key: string, disabled?: boolean) => {
+    if (disabled) return
 
-  setOpenKeys((prev) =>
-    prev.includes(key)
-      ? prev.filter((k) => k !== key) // đóng
-      : [...prev, key] // mở thêm
-  )
-}
-
+    setOpenKeys(
+      (prev) =>
+        prev.includes(key)
+          ? prev.filter((k) => k !== key) // đóng
+          : [...prev, key], // mở thêm
+    )
+  }
 
   return (
     <>
       {isMobile && isMobileOpen && (
         <div
-          className="fixed inset-0 bg-black/30 z-40"
+          className="fixed inset-0 z-40 bg-black/30"
           onClick={() => setIsMobileOpen(false)}
         />
       )}
 
       <aside
         className={clsx(
-          "fixed md:static top-0 left-0 h-screen bg-white shadow-xl rounded-r-3xl py-6 px-4 transition-all duration-300 flex flex-col z-50 overflow-hidden",
+          "fixed left-0 top-0 z-50 flex h-screen flex-col overflow-hidden rounded-r-3xl bg-white px-4 py-6 shadow-xl transition-all duration-300 md:static",
           isCollapsed ? "w-[4rem]" : "w-[16rem]",
           isMobile
             ? isMobileOpen
@@ -52,7 +52,7 @@ export default function Sidebar({
       >
         <div
           className={clsx(
-            "text-[15px] font-semibold mb-4 flex items-center justify-between cursor-pointer",
+            "mb-4 flex cursor-pointer items-center justify-between text-[15px] font-semibold",
             isCollapsed ? "justify-center px-1" : "px-3",
           )}
           onClick={() => {
@@ -61,7 +61,7 @@ export default function Sidebar({
           }}
         >
           <div className="flex items-center">
-            <Collaps className="w-5 h-5 mr-2 text-[#F79009]" />
+            <Collaps className="mr-2 h-5 w-5 text-[#F79009]" />
             {!isCollapsed && <div className="text-[#F79009]">Menu</div>}
           </div>
         </div>
@@ -89,14 +89,14 @@ export default function Sidebar({
                     m.children ? toggle(m.label) : m.to && navigate(m.to)
                   }}
                   className={clsx(
-                    "group relative w-full flex items-center text-sm font-medium rounded-xl transition-all duration-200 overflow-hidden",
+                    "group relative flex w-full items-center overflow-hidden rounded-xl text-sm font-bold transition-all duration-200",
 
                     // 🔥 DISABLED STYLE
                     isDisabled
-                      ? "text-gray-400 cursor-not-allowed"
+                      ? "cursor-not-allowed text-[#8590A2]"
                       : isParentActive
-                      ? "text-[#ff8800]"
-                      : "text-gray-600 hover:text-black",
+                        ? "text-[#ff8800]"
+                        : "text-[#8590A2] hover:text-black",
 
                     isCollapsed
                       ? "justify-center py-3"
@@ -113,12 +113,12 @@ export default function Sidebar({
                     {m.icon && (
                       <m.icon
                         className={clsx(
-                          "w-5 h-5 shrink-0 mx-auto transition-transform duration-200",
+                          "mx-auto h-5 w-5 shrink-0 transition-transform duration-200",
                           isDisabled
                             ? "text-gray-400"
                             : isParentActive
-                            ? "text-[#ff8800]"
-                            : "",
+                              ? "text-[#ff8800]"
+                              : "",
                         )}
                       />
                     )}
@@ -138,7 +138,7 @@ export default function Sidebar({
 
                   {/* TOOLTIP when collapsed (disable = hide tooltip) */}
                   {isCollapsed && !isDisabled && (
-                    <span className="absolute left-[60px] bg-gray-800 text-white text-xs rounded-md px-2 py-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200 whitespace-nowrap pointer-events-none">
+                    <span className="pointer-events-none absolute left-[60px] whitespace-nowrap rounded-md bg-gray-800 px-2 py-1 text-xs text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                       {m.label}
                     </span>
                   )}
@@ -173,9 +173,9 @@ export default function Sidebar({
       {isMobile && !isMobileOpen && (
         <button
           onClick={() => setIsMobileOpen(true)}
-          className="fixed top-[72px] left-4 z-50 bg-white rounded-full shadow-lg p-2 border border-gray-200 hover:bg-gray-50"
+          className="fixed left-4 top-[72px] z-50 rounded-full border border-gray-200 bg-white p-2 shadow-lg hover:bg-gray-50"
         >
-          <Menu className="w-5 h-5 text-gray-700" />
+          <Menu className="h-5 w-5 text-gray-700" />
         </button>
       )}
     </>
@@ -206,15 +206,16 @@ function SidebarItem({
         onClick?.()
       }}
       className={clsx(
-        "flex items-center w-full px-3 py-3 text-sm rounded-xl transition-all text-left",
+        "flex w-full items-center rounded-xl py-3 text-left text-sm font-bold transition-all",
 
         disabled
-          ? "text-gray-400 cursor-not-allowed bg-transparent"
+          ? "cursor-not-allowed bg-transparent text-gray-400"
           : active
-          ? "bg-gradient-to-r from-[#FFC300] to-[#DFD747] text-white shadow-lg"
-          : "text-gray-600 hover:bg-gray-50",
+            ? "bg-gradient-to-r from-[#FFC300] to-[#DFD747] text-white shadow-lg"
+            : "text-[#8590A2] hover:bg-gray-50",
       )}
     >
+      <div className="w-5"></div>
       <span className="pl-5">{label}</span>
     </button>
   )

@@ -10,7 +10,7 @@ import { useUIStore } from "@/store/state"
 const ContractListScreen = () => {
   const [filters, setFilters] = useState({})
   const [page, setPage] = useState(1)
-  const pageSize = 20
+  const [pageSize, setPageSize] = useState<string>("20")
   const updateCBMutation = useUpdateCB()
   const setLoading = useUIStore((s) => s.setLoading)
 
@@ -24,7 +24,7 @@ const ContractListScreen = () => {
   const queryParams = useMemo(() => {
     return {
       page,
-      page_size: pageSize,
+      page_size: +pageSize,
       ...filters,
     }
   }, [filters, page])
@@ -52,7 +52,7 @@ const ContractListScreen = () => {
         so_hop_dong: id,
         ma_can_bo: officerResult.value,
         ten_can_bo: officerResult.label,
-        is_contract: true
+        is_contract: true,
       })
       await refetch()
     } finally {
@@ -82,6 +82,8 @@ const ContractListScreen = () => {
               loading={isLoading || isFetching}
               onPageChange={handlePageChange}
               onUpdateOfficer={onUpdateOfficer}
+              setPageSize={setPageSize}
+              pageSize={pageSize}
             />
           </Wrapper>
         </main>

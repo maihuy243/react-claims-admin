@@ -1,10 +1,9 @@
-import React, { memo } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { HDItem, HoSoBoiThuong } from "@/model"
+import { Dispatch, memo, SetStateAction } from "react"
+import { HoSoBoiThuong } from "@/model"
 import ContractRow from "../components/row"
 import { EmptyState } from "@/components/empty"
 import SkeletonRowContract from "./skeleton-row"
+import TablePagination from "@/components/panigation"
 
 interface Props {
   data: HoSoBoiThuong[]
@@ -14,6 +13,8 @@ interface Props {
   loading?: boolean
   onPageChange: (page: number) => void
   onUpdateOfficer?: (id: string, officer: string) => void
+  setPageSize: Dispatch<SetStateAction<string>>
+  pageSize: string
 }
 
 const ContractsTable = memo(function ContractsTable({
@@ -24,6 +25,8 @@ const ContractsTable = memo(function ContractsTable({
   loading,
   onPageChange,
   onUpdateOfficer,
+  setPageSize,
+  pageSize,
 }: Props) {
   return (
     <div className="flex h-[calc(100vh-19rem)] w-full flex-col border">
@@ -77,31 +80,14 @@ const ContractsTable = memo(function ContractsTable({
       </div>
 
       {/* PAGINATION */}
-      <div className="sticky bottom-0 flex items-center justify-between border-t bg-white p-3 text-sm text-gray-600">
-        <span>Tổng {total} dòng</span>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={page <= 1}
-            onClick={() => onPageChange(page - 1)}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          <span>{page}</span>
-
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={page >= totalPage}
-            onClick={() => onPageChange(page + 1)}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <TablePagination
+        currentPage={page}
+        onPageChange={onPageChange}
+        onPageSizeChange={setPageSize}
+        pageSize={pageSize}
+        totalRecord={total}
+        totalPages={totalPage}
+      />
     </div>
   )
 })
