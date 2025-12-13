@@ -14,12 +14,12 @@ export default function ClaimDetail() {
   const [activeTab, setActiveTab] = useState("info")
 
   const { id } = useParams()
-  const { data } = useDetailBT(id!)
+  const { data, reflect } = useDetailBT(id!)
 
   const renderContent = () => {
     switch (activeTab) {
       case "info":
-        return <Info data={data} />
+        return <Info data={data} id={id} reflect={reflect} />
       case "account":
         return (
           <Wrapper className="flex h-full items-center justify-center">
@@ -48,7 +48,7 @@ export default function ClaimDetail() {
   if (!id) return <ContractNotFound />
 
   return (
-    <div className="relative flex h-[100vh] flex-col border md:h-[calc(100vh-125px)]">
+    <div className="relative flex h-[100vh] flex-col md:h-[calc(100vh-125px)]">
       <HeaderDetail status={data?.trang_thai} data={data} />
 
       <TabsHeader active={activeTab} onChange={setActiveTab} />

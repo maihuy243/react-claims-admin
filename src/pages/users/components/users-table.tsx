@@ -71,7 +71,7 @@ const UsersListScreen = ({
   const onUpdateStatus = async () => {
     try {
       setLoading(true)
-      const status = payload.status == "Đang hoạt động" ? "N" : "Y"
+      const status = payload.status == "Đang hoạt động" ? "Y" : "N"
       const result = await CMSApi.updateUserStatus({
         id: payload.id,
         trang_thai: status,

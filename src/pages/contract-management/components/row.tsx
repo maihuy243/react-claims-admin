@@ -18,17 +18,21 @@ interface RowProps {
 const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
   return (
     <tr className="text-nowrap border-b odd:bg-white even:bg-gray-100 hover:bg-gray-200">
-      <td className="px-3 py-2 font-semibold text-[#F79009]">{item.id}</td>
+      <td className="text-ellipsis px-3 py-2 font-semibold text-[#F79009]">
+        {item.id}
+      </td>
 
-      <td className="px-3 py-2">{item.ma_dvi}</td>
+      <td className="text-ellipsis px-3 py-2">{item.ma_dvi}</td>
 
-      <td className="px-3 py-2 font-medium">{item.so_hop_dong}</td>
+      <td className="text-ellipsis px-3 py-2 font-medium">
+        {item.so_hop_dong}
+      </td>
 
-      <td className="px-3 py-2">{item.chu_hop_dong}</td>
+      <td className="w-fit text-ellipsis px-3 py-2">{item.chu_hop_dong}</td>
 
-      <td className="px-3 py-2">{item.ngay_hieu_luc}</td>
+      <td className="text-ellipsis px-3 py-2">{item.ngay_hieu_luc}</td>
 
-      <td className="px-3 py-2">{item.ngay_het_han}</td>
+      <td className="text-ellipsis px-3 py-2">{item.ngay_het_han}</td>
 
       {/* CB xử lý */}
       <td className="px-3 py-2">
@@ -37,7 +41,7 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
           value={item.can_bo_xu_ly}
           onValueChange={(val) => onUpdateOfficer?.(item.so_hop_dong, val)}
         >
-          <SelectTrigger className="h-8 w-[150px] text-sm">
+          <SelectTrigger className="h-8 w-[200px] text-sm">
             <SelectValue placeholder="Chọn cán bộ" />
           </SelectTrigger>
 

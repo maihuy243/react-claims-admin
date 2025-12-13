@@ -23,9 +23,12 @@ import {
   DSCanBoResponse,
   LSBTRequest,
   LSBTResponse,
+  SendClaimMailRequest,
+  SendClaimMailResponse,
+  PreviewImportUserResponse,
 } from "@/model"
 
-import { getAsync, postAsync } from "@/utils/axios"
+import { getAsync, postAsync, postFormAsync } from "@/utils/axios"
 
 export const CMSApi = {
   // ====================== HỢP ĐỒNG - BỒI THƯỜNG ======================
@@ -81,5 +84,16 @@ export const CMSApi = {
 
   getLsbt(payload: LSBTRequest) {
     return getAsync<LSBTResponse>("/api/cms/ls-bt", payload)
+  },
+
+  sendmail(payload: SendClaimMailRequest) {
+    return postAsync<SendClaimMailResponse>("/api/cms/sendmail-bt", payload)
+  },
+
+  importUser(formData: FormData) {
+    return postFormAsync<PreviewImportUserResponse>(
+      "/api/cms/import-user",
+      formData,
+    )
   },
 }

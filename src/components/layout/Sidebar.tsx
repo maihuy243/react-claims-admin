@@ -1,6 +1,6 @@
 import { ChevronDown, Menu } from "lucide-react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import clsx from "clsx"
 import { MENU } from "@/configs/menu"
 import Collaps from "@assets/menu/collapsemenu.svg?react"
@@ -18,6 +18,7 @@ export default function Sidebar({
   const navigate = useNavigate()
   const [openKeys, setOpenKeys] = useState<string[]>([])
   const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const didInit = useRef(false)
 
   const toggle = (key: string, disabled?: boolean) => {
     if (disabled) return
@@ -29,6 +30,28 @@ export default function Sidebar({
           : [...prev, key], // mở thêm
     )
   }
+
+  useEffect(() => {
+    const replace = pathname.replace("/", "")
+    if (didInit.current || !replace) return
+    didInit.current = true
+
+    const keys: string[] = []
+
+    MENU.forEach((m) => {
+      if (m.disabled || !m.children) return
+
+      const matchChild = m.children.some(
+        (c) => c.to === pathname && !c.disabled,
+      )
+
+      if (matchChild) {
+        keys.push(m.label)
+      }
+    })
+
+    setOpenKeys(keys)
+  }, [pathname])
 
   return (
     <>

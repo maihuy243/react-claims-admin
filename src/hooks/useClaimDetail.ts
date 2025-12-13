@@ -47,6 +47,22 @@ export function useDetailBT(id: string, options?: UseDetailBTOptions) {
   }, [query.isLoading, query.isSuccess, query.isError])
 
   // ===================== CASE 2: Non-cached (manual fetch) =====================
+
+  const fetchData = async () => {
+    try {
+      setLoading(true)
+      const res = await CMSApi.detailBT({ id })
+      setData(res)
+      showSuccess(res?.message || "Tải hồ sơ thành công!")
+      return res
+    } catch (err) {
+      showError(JSON.stringify(err) || "Không thể tải hồ sơ")
+    } finally {
+      setLoading(false)
+      firstSuccess.current = false
+    }
+  }
+
   useEffect(() => {
     if (isCached || !id) return
 
@@ -54,25 +70,11 @@ export function useDetailBT(id: string, options?: UseDetailBTOptions) {
 
     firstSuccess.current = true
 
-    const fetchData = async () => {
-      try {
-        setLoading(true)
-        const res = await CMSApi.detailBT({ id })
-        setData(res)
-        showSuccess(res?.message || "Tải hồ sơ thành công!")
-        return res
-      } catch (err) {
-        showError(JSON.stringify(err) || "Không thể tải hồ sơ")
-      } finally {
-        setLoading(false)
-        firstSuccess.current = false
-      }
-    }
-
     fetchData()
   }, [id, isCached])
 
   return {
     data: isCached ? query.data : data,
+    reflect: fetchData,
   }
 }

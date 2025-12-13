@@ -166,6 +166,7 @@ export interface AnhBoiThuong {
   loai_giay_to: string
   hinh_anh: string
   ghi_chu: string
+  active?: boolean
 }
 
 export interface DetailBT {
@@ -220,8 +221,11 @@ export interface DetailBTResponse {
   ten_tai_khoan: string
   trang_thai: string
   danh_sach_anh: AnhBoiThuong[]
-  so_dien_thoai?: string
-  email?: string
+  email: string
+  sdt: string
+  avartar: string
+  so_hs: string
+  ngay_nh: string
 }
 
 export interface NhapHSBTRequest {
@@ -350,4 +354,104 @@ export interface LSBTItem {
 
 export interface LSBTResponse {
   data: LSBTItem[]
+}
+
+export type MailType = "BT" | "BS"
+
+export interface ChungTuBoSung {
+  stt: number
+  ten_chung_tu: string
+  noi_dung_bo_sung: string
+}
+
+export interface SendClaimMailRequest {
+  mail_type: MailType
+  to_email: string
+  ten_ndbh: string
+  so_id: string
+  so_ho_so?: string
+  so_hop_dong?: string
+  ten_chu_hop_dong?: string
+  ngay_nhan_ho_so?: string
+  ngay_kham?: string
+  chan_doan?: string
+  so_tien_yeu_cau?: number | string
+  danh_sach_chung_tu?: ChungTuBoSung[]
+}
+
+export interface SendClaimMailResponse {
+  success: boolean
+  message: string
+  error_code?: string
+}
+
+export interface ImportUserSuccess {
+  row_number: number
+  id: string
+  ten_dang_nhap: string
+  so_hop_dong: string
+  ten_khach_hang: string
+  email: string
+}
+
+export interface ImportUserError {
+  row_number?: number
+  message: string
+}
+
+export interface PreviewImportUserResponse {
+  success: boolean
+  message: string
+  error_code: string
+  total_users: number
+  success_count: number
+  failed_count: number
+  success_users: ImportUserSuccess[]
+  errors: ImportUserError[]
+}
+
+const REQUIRED_FIELDS = [
+  "so_hop_dong",
+  "ten_kh",
+  "cccd",
+  "sdt",
+  "email",
+  "ten_dang_nhap",
+  "b_mat_khau",
+] as const
+export type RequiredField = (typeof REQUIRED_FIELDS)[number]
+
+export type ImportPreviewState = {
+  name: string
+  size: number
+  total_record: number
+  valid: number
+  invalid: number
+  rows: PreviewRow[]
+}
+
+export type PreviewRow = {
+  row_number: number
+  so_hop_dong?: string
+  ten_kh?: string
+  cccd?: string
+  sdt?: string
+  email?: string
+  ten_dang_nhap?: string
+  b_mat_khau?: string
+  require_change?: number
+
+  // FE only
+  is_valid: boolean
+  missing_fields: RequiredField[]
+}
+
+export type ImportUserRow = {
+  row_number: number
+  so_hop_dong?: string
+  ten_khach_hang?: string
+  cccd?: string
+  sdt?: string
+  email?: string
+  ten_dang_nhap?: string
 }

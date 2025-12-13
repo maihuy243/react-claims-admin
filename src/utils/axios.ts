@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios"
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "https://aut.bshc.com.vn",
-  timeout: 15000,
+  timeout: 60000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -60,6 +60,23 @@ export async function getAsync<T = any>(url: string, params?: any): Promise<T> {
 export async function postAsync<T = any>(url: string, body?: any): Promise<T> {
   try {
     const res = await api.post(url, body)
+    return res as T
+  } catch (error) {
+    throw error
+  }
+}
+
+export async function postFormAsync<T = any>(
+  url: string,
+  formData: FormData,
+): Promise<T> {
+  try {
+    const res = await api.post(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    })
+
     return res as T
   } catch (error) {
     throw error

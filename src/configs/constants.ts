@@ -8,4 +8,5 @@ export const SEARCH_FIELDS = {
   ten_can_bo: "Tên cán bộ xử lý",
   trang_thai: "Trạng thái",
   ma_dvi: "Mã đơn vị",
+  ngay_tao: "Ngày Tạo",
 } as const

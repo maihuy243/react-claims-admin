@@ -18,7 +18,6 @@ export function useUpdateCB() {
 
       // Lấy cache hiện tại
       const previous = queryClient.getQueryData<SearchHDResponse>(["searchHD"])
-      console.log("previous __", previous)
 
       if (previous) {
         const updated: SearchHDResponse = {

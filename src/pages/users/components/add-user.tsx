@@ -17,6 +17,7 @@ import { createUserSchema } from "@/schema/create-user"
 import { queryClient } from "@/context/react-query"
 import { generateRandomPassword } from "@/utils"
 import { Plus } from "lucide-react"
+import ImportUserDialog from "@/components/import-user-preview"
 
 export default function AddNewAccountModal({
   open,
@@ -35,6 +36,7 @@ export default function AddNewAccountModal({
   const [tenDangNhap, setTenDangNhap] = useState("")
   const [matKhau, setMatKhau] = useState("")
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const [importOpen, setImportOpen] = useState(false)
 
   const { err, success, setLoading, loading } = useUIStore(
     useShallow((s) => ({
@@ -111,7 +113,6 @@ export default function AddNewAccountModal({
     const newPass = generateRandomPassword()
     setMatKhau(newPass)
   }
-
   const onToggleRandomPass = (e: boolean) => {
     setAutoPass(e)
     if (e) {
@@ -126,182 +127,193 @@ export default function AddNewAccountModal({
   }, [open])
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="flex !max-h-[90vh] w-[95%] max-w-3xl flex-col overflow-hidden rounded-xl p-0">
-        {/* HEADER */}
-        <div className="border-b bg-white px-5 py-4 md:px-6">
-          <DialogTitle className="text-lg font-semibold text-gray-800 md:text-xl">
-            Thêm mới tài khoản
-          </DialogTitle>
-        </div>
+    <>
+      <Dialog open={open} onOpenChange={onClose}>
+        <DialogContent className="flex !max-h-[90vh] w-[95%] max-w-3xl flex-col overflow-hidden rounded-xl p-0">
+          {/* HEADER */}
+          <div className="border-b bg-white px-5 py-4 md:px-6">
+            <DialogTitle className="text-lg font-semibold text-gray-800 md:text-xl">
+              Thêm mới tài khoản
+            </DialogTitle>
+          </div>
 
-        {/* BODY — scroll vùng này */}
-        <div className="flex-1 space-y-8 overflow-y-auto bg-white px-5 py-6 md:px-6">
-          <div className="flex justify-end">
+          {/* BODY — scroll vùng này */}
+          <div className="flex-1 space-y-8 overflow-y-auto bg-white px-5 py-6 md:px-6">
+            <div className="flex justify-end">
+              <Button
+                className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
+                onClick={() => setImportOpen(true)}
+              >
+                <Plus className="mr-2" />
+                Đẩy File thông tin
+              </Button>
+            </div>
+            {/* ==== Thông tin khách hàng ==== */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Thông tin khách hàng</h3>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+                <Field label="Nhập số hợp đồng" required>
+                  <Input
+                    placeholder="Nhập mã"
+                    value={soHopDong}
+                    onChange={(e) => setSoHopDong(e.target.value)}
+                    className={
+                      errors.so_hop_dong
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
+                  />
+                  {errors.so_hop_dong && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors.so_hop_dong}
+                    </p>
+                  )}
+                </Field>
+
+                <Field label="Tên khách hàng theo hợp đồng">
+                  <Input
+                    placeholder="Tên khách hàng"
+                    value={tenKH}
+                    onChange={(e) => setTenKH(e.target.value)}
+                  />
+                  {errors.ten_kh && (
+                    <p className="mt-1 text-xs text-red-500">{errors.ten_kh}</p>
+                  )}
+                </Field>
+
+                <Field label="Số định danh theo hợp đồng">
+                  <Input
+                    placeholder="CCCD"
+                    value={cccd}
+                    onChange={(e) => setCccd(e.target.value)}
+                  />
+                  {errors.cccd && (
+                    <p className="mt-1 text-xs text-red-500">{errors.cccd}</p>
+                  )}
+                </Field>
+              </div>
+            </div>
+
+            {/* ==== Thông tin đăng nhập ==== */}
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold">Thông tin đăng nhập</h3>
+
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
+                <Field label="Số điện thoại" required>
+                  <Input
+                    placeholder="Nhập số điện thoại"
+                    value={sdt}
+                    onChange={(e) => setSdt(e.target.value)}
+                    className={
+                      errors.sdt
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
+                  />
+                  {errors.sdt && (
+                    <p className="mt-1 text-xs text-red-500">{errors.sdt}</p>
+                  )}
+                </Field>
+
+                <Field label="Email" required>
+                  <Input
+                    placeholder="Nhập email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={
+                      errors.email
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
+                  />
+                  {errors.email && (
+                    <p className="mt-1 text-xs text-red-500">{errors.email}</p>
+                  )}
+                </Field>
+
+                <Field label="Tên đăng nhập" required>
+                  <Input
+                    placeholder="Tên đăng nhập"
+                    value={tenDangNhap}
+                    onChange={(e) => setTenDangNhap(e.target.value)}
+                    className={
+                      errors.ten_dang_nhap
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
+                  />
+                  {errors.ten_dang_nhap && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors.ten_dang_nhap}
+                    </p>
+                  )}
+                </Field>
+
+                <Field label="Mật khẩu" required>
+                  <Input
+                    placeholder="Nhập mật khẩu"
+                    value={matKhau}
+                    onChange={(e) => setMatKhau(e.target.value)}
+                    className={
+                      errors.b_mat_khau
+                        ? "border-red-500 focus-visible:ring-red-500"
+                        : ""
+                    }
+                  />
+                  {errors.b_mat_khau && (
+                    <p className="mt-1 text-xs text-red-500">
+                      {errors.b_mat_khau}
+                    </p>
+                  )}
+                </Field>
+              </div>
+            </div>
+            <div className="space-y-6">
+              <ToggleRow
+                label="Tạo mật khẩu tự động"
+                value={autoPass}
+                onChange={onToggleRandomPass}
+              />
+              <ToggleRow
+                label="Yêu cầu khách hàng đổi mật khẩu ngay khi đăng nhập"
+                value={requireChange}
+                onChange={setRequireChange}
+              />
+            </div>
+          </div>
+
+          {/* FOOTER — cố định */}
+          <DialogFooter className="flex !flex-row !flex-nowrap items-center justify-end gap-2 border-t bg-white px-5 py-4 md:px-6">
             <Button
-              className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
+              variant="ghost"
+              className="font-medium text-orange-600"
+              onClick={onClose}
               disabled={loading}
             >
-              <Plus className="mr-2" />
-              Đẩy File thông tin
+              Hủy
             </Button>
-          </div>
-          {/* ==== Thông tin khách hàng ==== */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Thông tin khách hàng</h3>
 
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-              <Field label="Nhập số hợp đồng" required>
-                <Input
-                  placeholder="Nhập mã"
-                  value={soHopDong}
-                  onChange={(e) => setSoHopDong(e.target.value)}
-                  className={
-                    errors.so_hop_dong
-                      ? "border-red-500 focus-visible:ring-red-500"
-                      : ""
-                  }
-                />
-                {errors.so_hop_dong && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.so_hop_dong}
-                  </p>
-                )}
-              </Field>
+            <Button
+              className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
+              onClick={handleSubmit}
+              disabled={loading}
+            >
+              {loading ? "Đang lưu..." : "Lưu"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-              <Field label="Tên khách hàng theo hợp đồng">
-                <Input
-                  placeholder="Tên khách hàng"
-                  value={tenKH}
-                  onChange={(e) => setTenKH(e.target.value)}
-                />
-                {errors.ten_kh && (
-                  <p className="mt-1 text-xs text-red-500">{errors.ten_kh}</p>
-                )}
-              </Field>
-
-              <Field label="Số định danh theo hợp đồng">
-                <Input
-                  placeholder="CCCD"
-                  value={cccd}
-                  onChange={(e) => setCccd(e.target.value)}
-                />
-                {errors.cccd && (
-                  <p className="mt-1 text-xs text-red-500">{errors.cccd}</p>
-                )}
-              </Field>
-            </div>
-          </div>
-
-          {/* ==== Thông tin đăng nhập ==== */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Thông tin đăng nhập</h3>
-
-            <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-              <Field label="Số điện thoại" required>
-                <Input
-                  placeholder="Nhập số điện thoại"
-                  value={sdt}
-                  onChange={(e) => setSdt(e.target.value)}
-                  className={
-                    errors.sdt
-                      ? "border-red-500 focus-visible:ring-red-500"
-                      : ""
-                  }
-                />
-                {errors.sdt && (
-                  <p className="mt-1 text-xs text-red-500">{errors.sdt}</p>
-                )}
-              </Field>
-
-              <Field label="Email" required>
-                <Input
-                  placeholder="Nhập email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className={
-                    errors.email
-                      ? "border-red-500 focus-visible:ring-red-500"
-                      : ""
-                  }
-                />
-                {errors.email && (
-                  <p className="mt-1 text-xs text-red-500">{errors.email}</p>
-                )}
-              </Field>
-
-              <Field label="Tên đăng nhập" required>
-                <Input
-                  placeholder="Tên đăng nhập"
-                  value={tenDangNhap}
-                  onChange={(e) => setTenDangNhap(e.target.value)}
-                  className={
-                    errors.ten_dang_nhap
-                      ? "border-red-500 focus-visible:ring-red-500"
-                      : ""
-                  }
-                />
-                {errors.ten_dang_nhap && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.ten_dang_nhap}
-                  </p>
-                )}
-              </Field>
-
-              <Field label="Mật khẩu" required>
-                <Input
-                  placeholder="Nhập mật khẩu"
-                  value={matKhau}
-                  onChange={(e) => setMatKhau(e.target.value)}
-                  className={
-                    errors.b_mat_khau
-                      ? "border-red-500 focus-visible:ring-red-500"
-                      : ""
-                  }
-                />
-                {errors.b_mat_khau && (
-                  <p className="mt-1 text-xs text-red-500">
-                    {errors.b_mat_khau}
-                  </p>
-                )}
-              </Field>
-            </div>
-          </div>
-          <div className="space-y-6">
-            <ToggleRow
-              label="Tạo mật khẩu tự động"
-              value={autoPass}
-              onChange={onToggleRandomPass}
-            />
-            <ToggleRow
-              label="Yêu cầu khách hàng đổi mật khẩu ngay khi đăng nhập"
-              value={requireChange}
-              onChange={setRequireChange}
-            />
-          </div>
-        </div>
-
-        {/* FOOTER — cố định */}
-        <DialogFooter className="flex !flex-row !flex-nowrap items-center justify-end gap-2 border-t bg-white px-5 py-4 md:px-6">
-          <Button
-            variant="ghost"
-            className="font-medium text-orange-600"
-            onClick={onClose}
-            disabled={loading}
-          >
-            Hủy
-          </Button>
-
-          <Button
-            className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? "Đang lưu..." : "Lưu"}
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
+      <ImportUserDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onSuccess={() => {
+          queryClient.invalidateQueries({ queryKey: ["users"] })
+          onClose()
+        }}
+      />
+    </>
   )
 }
 
