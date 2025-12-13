@@ -12,5 +12,6 @@ export function useSearchUsers(params: DSUserRequest) {
     gcTime: STALE_TIME_HOOKS,
     refetchOnWindowFocus: false,
     enabled: true,
+    refetchOnMount: true,
   })
 }

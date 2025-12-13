@@ -12,5 +12,6 @@ export function useSearchHD(params: SearchHDRequest) {
     gcTime: STALE_TIME_HOOKS,
     refetchOnWindowFocus: false,
     enabled: true,
+    refetchOnMount: true,
   })
 }

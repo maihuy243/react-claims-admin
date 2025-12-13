@@ -147,20 +147,22 @@ export default function Sidebar({
                 {/* SUBMENU */}
                 {!isCollapsed && m.children && isOpen && (
                   <div className="mt-1 flex flex-col gap-1">
-                    {m.children.map((child, sub) => {
-                      const isActive = pathname === child.to
+                    {m.children
+                      .filter((s) => !s.isHidden)
+                      .map((child, sub) => {
+                        const isActive = pathname === child.to
 
-                      return (
-                        <SidebarItem
-                          key={sub}
-                          label={child.label}
-                          to={child.to}
-                          disabled={child.disabled}
-                          active={isActive}
-                          onClick={() => isMobile && setIsMobileOpen(false)}
-                        />
-                      )
-                    })}
+                        return (
+                          <SidebarItem
+                            key={sub}
+                            label={child.label}
+                            to={child.to}
+                            disabled={child.disabled}
+                            active={isActive}
+                            onClick={() => isMobile && setIsMobileOpen(false)}
+                          />
+                        )
+                      })}
                   </div>
                 )}
               </div>

@@ -6,7 +6,23 @@ import QLBTIcon from "@assets/menu/qlboithuong.svg?react"
 import ThietLapIcon from "@assets/menu/thietlap.svg?react"
 import ThongBaoIcon from "@assets/menu/thongbao.svg?react"
 
-export const MENU = [
+type TMenu = {
+  label: string
+  icon: any
+  to?: string
+  disabled?: boolean
+  children?: TMenuChil[]
+  isHidden?: boolean
+}
+
+type TMenuChil = {
+  label: string
+  to: string
+  disabled?: boolean
+  isHidden?: boolean
+}
+
+export const MENU: TMenu[] = [
   {
     label: "Tổng quan",
     icon: TongQuanIcon,
@@ -60,6 +76,12 @@ export const MENU = [
         label: "Danh sách bồi thường",
         to: "/compensation-list",
         disabled: false,
+      },
+      {
+        label: "Thông tin bồi thường",
+        to: "/contract-detail",
+        disabled: false,
+        isHidden: true,
       },
     ],
   },

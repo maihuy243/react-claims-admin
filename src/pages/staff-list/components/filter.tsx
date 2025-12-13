@@ -18,18 +18,18 @@ import {
 } from "@/components/ui/select"
 import Wrapper from "@/components/wrapper"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
-import { TSearchFilter } from "../index"
+import { TSearchFilter, TYPE_DEFAULT } from "../index"
 import { useDebounce } from "@/hooks/custom/useDebounce"
 
 function FilterContracts({
   setFilters,
   loading,
 }: {
-  setFilters: Dispatch<SetStateAction<TSearchFilter | undefined>>
+  setFilters: Dispatch<SetStateAction<TSearchFilter>>
   loading: boolean
 }) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchType, setSearchType] = useState("ten_cb")
+  const [searchType, setSearchType] = useState(TYPE_DEFAULT)
   const [status, setStatus] = useState("all")
   const debouncedSearchQuery = useDebounce(searchQuery)
 

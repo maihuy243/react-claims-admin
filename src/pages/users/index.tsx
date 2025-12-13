@@ -13,15 +13,23 @@ export type TSearchFilter = {
   querySearch: string
 }
 
+export const TYPE_DEFAULT = "ten_nguoi_duoc_bao_hiem"
+
 const UsersScreen = () => {
   const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState<TSearchFilter>({
     status: "all",
     querySearch: "",
-    type: "",
+    type: TYPE_DEFAULT,
   })
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<string>("20")
+
+  console.log("query ", {
+    ...(filters?.type && { [filters.type]: filters.querySearch }),
+    page: currentPage,
+    page_size: +pageSize,
+  })
 
   const { data, isLoading, isFetching, refetch } = useSearchUsers({
     ...(filters?.type && { [filters.type]: filters.querySearch }),

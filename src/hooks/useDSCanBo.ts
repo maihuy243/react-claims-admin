@@ -12,5 +12,6 @@ export function useDsCanBo(params: DSCanBoRequest) {
     gcTime: STALE_TIME_HOOKS,
     refetchOnWindowFocus: false,
     enabled: true,
+    refetchOnMount: true,
   })
 }

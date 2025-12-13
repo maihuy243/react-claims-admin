@@ -11,9 +11,15 @@ export type TSearchFilter = {
   querySearch: string
 }
 
+export const TYPE_DEFAULT = "ten_cb"
+
 const DSCanBoScreen = () => {
   const [open, setOpen] = useState(false)
-  const [filters, setFilters] = useState<TSearchFilter>()
+  const [filters, setFilters] = useState<TSearchFilter>({
+    type: TYPE_DEFAULT,
+    querySearch: "",
+    status: "all",
+  })
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<string>("20")
 

@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select"
 import Wrapper from "@/components/wrapper"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
-import { TSearchFilter } from "../index"
+import { TSearchFilter, TYPE_DEFAULT } from "../index"
 import { useDebounce } from "@/hooks/custom/useDebounce"
 
 function FilterContracts({
@@ -29,7 +29,7 @@ function FilterContracts({
   loading: boolean
 }) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchType, setSearchType] = useState("ten_nguoi_duoc_bao_hiem")
+  const [searchType, setSearchType] = useState(TYPE_DEFAULT)
   const [status, setStatus] = useState("all")
 
   const debouncedSearchQuery = useDebounce(searchQuery)
