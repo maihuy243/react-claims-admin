@@ -23,6 +23,8 @@ import {
   DSCanBoResponse,
   LSBTRequest,
   LSBTResponse,
+  SendClaimMailRequest,
+  SendClaimMailResponse,
 } from "@/model"
 
 import { getAsync, postAsync } from "@/utils/axios"
@@ -81,5 +83,9 @@ export const CMSApi = {
 
   getLsbt(payload: LSBTRequest) {
     return getAsync<LSBTResponse>("/api/cms/ls-bt", payload)
+  },
+
+  sendmail(payload: SendClaimMailRequest) {
+    return postAsync<SendClaimMailResponse>("/api/cms/sendmail-bt", payload)
   },
 }

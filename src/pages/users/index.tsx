@@ -25,12 +25,6 @@ const UsersScreen = () => {
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [pageSize, setPageSize] = useState<string>("20")
 
-  console.log("query ", {
-    ...(filters?.type && { [filters.type]: filters.querySearch }),
-    page: currentPage,
-    page_size: +pageSize,
-  })
-
   const { data, isLoading, isFetching, refetch } = useSearchUsers({
     ...(filters?.type && { [filters.type]: filters.querySearch }),
     page: currentPage,

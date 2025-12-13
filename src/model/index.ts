@@ -166,6 +166,7 @@ export interface AnhBoiThuong {
   loai_giay_to: string
   hinh_anh: string
   ghi_chu: string
+  active?: boolean
 }
 
 export interface DetailBT {
@@ -220,8 +221,11 @@ export interface DetailBTResponse {
   ten_tai_khoan: string
   trang_thai: string
   danh_sach_anh: AnhBoiThuong[]
-  so_dien_thoai?: string
-  email?: string
+  email: string
+  sdt: string
+  avartar: string
+  so_hs: string
+  ngay_nh: string
 }
 
 export interface NhapHSBTRequest {
@@ -350,4 +354,33 @@ export interface LSBTItem {
 
 export interface LSBTResponse {
   data: LSBTItem[]
+}
+
+export type MailType = "BT" | "BS"
+
+export interface ChungTuBoSung {
+  stt: number
+  ten_chung_tu: string
+  noi_dung_bo_sung: string
+}
+
+export interface SendClaimMailRequest {
+  mail_type: MailType
+  to_email: string
+  ten_ndbh: string
+  so_id: string
+  so_ho_so?: string
+  so_hop_dong?: string
+  ten_chu_hop_dong?: string
+  ngay_nhan_ho_so?: string
+  ngay_kham?: string
+  chan_doan?: string
+  so_tien_yeu_cau?: number | string
+  danh_sach_chung_tu?: ChungTuBoSung[]
+}
+
+export interface SendClaimMailResponse {
+  success: boolean
+  message: string
+  error_code?: string
 }

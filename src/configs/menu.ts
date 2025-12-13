@@ -26,8 +26,7 @@ export const MENU: TMenu[] = [
   {
     label: "Tổng quan",
     icon: TongQuanIcon,
-    to: "/",
-    disabled: true,
+    to: "/comming-soon",
   },
   {
     label: "Tài khoản",
@@ -88,13 +87,11 @@ export const MENU: TMenu[] = [
   {
     label: "Thiết lập",
     icon: ThietLapIcon,
-    to: "/settings",
-    disabled: true,
+    to: "/comming-soon",
   },
   {
     label: "Thông báo",
     icon: ThongBaoIcon,
-    to: "/notifications",
-    disabled: true,
+    to: "/comming-soon",
   },
 ]

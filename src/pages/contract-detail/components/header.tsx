@@ -36,7 +36,7 @@ const HeaderDetail = ({ status, data }: Props) => {
         hinh_thuc_dieu_tri: data.hinh_thuc_dieu_tri,
         chan_doan: data.chan_doan,
         tien_ycbt: Number(data.so_tien_yeu_cau_boi_thuong.replace(/\D/g, "")),
-        ma_dvi: user?.ma_dvi
+        ma_dvi: user?.ma_dvi,
       }
 
       const res = await CMSApi.nhapHSBT(payload)
@@ -44,6 +44,24 @@ const HeaderDetail = ({ status, data }: Props) => {
 
       if (res.success) {
         show(res.message)
+        await CMSApi.sendmail({
+          mail_type: "BT",
+          so_id: id,
+          so_ho_so: data.so_hs,
+          so_hop_dong: data.so_hop_dong,
+          ten_chu_hop_dong: data.chu_hop_dong,
+          ngay_nhan_ho_so: data.ngay_nh,
+          ten_ndbh: data.nguoi_duoc_bao_hiem,
+          to_email: data.email,
+          chan_doan: data.chan_doan,
+          danh_sach_chung_tu: data.danh_sach_anh.map((s, i) => ({
+            noi_dung_bo_sung: s.ghi_chu,
+            stt: i,
+            ten_chung_tu: s.loai_giay_to,
+          })),
+          ngay_kham: data.ngay_kham,
+          so_tien_yeu_cau: data.so_tien_yeu_cau_boi_thuong,
+        })
       } else {
         showError(res.message)
       }

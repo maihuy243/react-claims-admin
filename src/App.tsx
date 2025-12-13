@@ -13,6 +13,7 @@ import MainLayout from "./components/layout/main"
 import CompensationList from "./pages/compensation-list"
 import LoadingOverlay from "./components/overlay"
 import DSCanBoScreen from "./pages/staff-list"
+import CommingSoon from "./components/comming-soon"
 
 export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -49,13 +50,15 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Dashboard />} />
+          {/* <Route index element={<UsersScreen />} /> */}
+          <Route index element={<Navigate to="users" replace />} />
           <Route path="contract-detail/:id" element={<ClaimDetail />} />
           <Route path="compensation-list" element={<CompensationList />} />
           <Route path="contracts" element={<ContractListScreen />} />
           <Route path="users" element={<UsersScreen />} />
           <Route path="staff" element={<DSCanBoScreen />} />
         </Route>
+        <Route path="comming-soon" element={<CommingSoon />} />
 
         {/* NOT FOUND */}
         <Route path="*" element={<NotFoundPage />} />

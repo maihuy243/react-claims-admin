@@ -31,14 +31,14 @@ const TablePagination = ({
   return (
     <div className="sticky bottom-0 flex items-center justify-end gap-0 border-t bg-white p-3 text-sm text-gray-500">
       {/* Left */}
-      <span>Tất cả {totalRecord} dòng</span>
 
+      <span>Tất cả {totalRecord} dòng</span>
       {/* Right */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center">
         {/* Page size */}
 
         {/* Pagination */}
-        <div className="flex items-center gap-0">
+        <div className="mx-2 flex items-center gap-0">
           <Button
             variant="ghost"
             size="icon"

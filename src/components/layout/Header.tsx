@@ -122,7 +122,7 @@ const Header = ({ onMenuClick = () => {}, breadcrumbs = [] }: any) => {
           <Button variant="ghost" size="icon">
             <Avatar style={{ width: 36, height: 36 }}>
               <AvatarImage
-                src="https://github.com/shadcn.png"
+                src="https://cdn-icons-png.freepik.com/512/6858/6858504.png"
                 alt="avatar"
                 onClick={() => setOpenModal("user")}
               />

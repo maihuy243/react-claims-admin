@@ -3,7 +3,7 @@ import axios, { AxiosInstance } from "axios"
 
 const api: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || "https://aut.bshc.com.vn",
-  timeout: 15000,
+  timeout: 60000,
   headers: {
     "Content-Type": "application/json",
   },
