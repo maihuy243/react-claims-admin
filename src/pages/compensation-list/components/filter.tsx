@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback, memo } from "react"
+import { useState, useMemo, useCallback, memo, useEffect } from "react"
 import { Search, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/select"
 import Wrapper from "@/components/wrapper"
 import { SEARCH_FIELDS } from "@/configs/constants"
+import { useDebounce } from "@/hooks/custom/useDebounce"
 
 type TSearchQuery = keyof typeof SEARCH_FIELDS
 
@@ -22,8 +23,9 @@ interface FilterContractsProps {
 function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
   const [filterType, setFilterType] = useState<TSearchQuery>("id")
   const [searchQuery, setSearchQuery] = useState("")
+  const debouncedSearchQuery = useDebounce(searchQuery)
 
-  const handleBlur = useCallback(() => {
+  const handleSearch = useCallback(() => {
     if (!searchQuery.trim()) {
       onFilterChange?.({})
       return
@@ -45,10 +47,16 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
 
   const onChangeFilterType = useCallback(
     (value: keyof typeof SEARCH_FIELDS) => {
+      if (value === filterType) return
+      setSearchQuery("")
       setFilterType(value)
     },
     [],
   )
+
+  useEffect(() => {
+    handleSearch()
+  }, [debouncedSearchQuery])
 
   return (
     <Wrapper className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
@@ -73,7 +81,6 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
             placeholder="Nhập thông tin"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onBlur={handleBlur}
             className="border-0 pl-3 pr-10 text-sm text-gray-700 focus-visible:ring-0"
           />
 

@@ -9,13 +9,14 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Switch } from "@/components/ui/switch"
 import { Field } from "@/components/field"
-import { FormEventHandler, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { CMSApi } from "@/api"
 import { useUIStore } from "@/store/state"
 import { useShallow } from "zustand/shallow"
 import { createUserSchema } from "@/schema/create-user"
 import { queryClient } from "@/context/react-query"
 import { generateRandomPassword } from "@/utils"
+import { Plus } from "lucide-react"
 
 export default function AddNewAccountModal({
   open,
@@ -136,6 +137,15 @@ export default function AddNewAccountModal({
 
         {/* BODY — scroll vùng này */}
         <div className="flex-1 space-y-8 overflow-y-auto bg-white px-5 py-6 md:px-6">
+          <div className="flex justify-end">
+            <Button
+              className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
+              disabled={loading}
+            >
+              <Plus className="mr-2" />
+              Đẩy File thông tin
+            </Button>
+          </div>
           {/* ==== Thông tin khách hàng ==== */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Thông tin khách hàng</h3>
@@ -283,7 +293,7 @@ export default function AddNewAccountModal({
           </Button>
 
           <Button
-            className="bg-[#F89422] px-6 text-white hover:bg-[#e8841e]"
+            className="bg-[#F79009] px-6 text-white hover:bg-[#e8841e]"
             onClick={handleSubmit}
             disabled={loading}
           >

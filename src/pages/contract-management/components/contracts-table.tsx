@@ -5,6 +5,7 @@ import { HDItem } from "@/model"
 import ContractRow from "../components/row"
 import { EmptyState } from "@/components/empty"
 import SkeletonRowContract from "./skeleton-row"
+import TablePagination from "@/components/panigation"
 
 interface Props {
   data: HDItem[]
@@ -22,10 +23,12 @@ const ContractsTable = memo(function ContractsTable({
   data,
   total,
   page,
-  totalPage,
   loading,
   onPageChange,
   onUpdateOfficer,
+  setPageSize,
+  pageSize,
+  totalPage,
 }: Props) {
   return (
     <div className="flex h-[calc(100vh-19rem)] w-full flex-col border">
@@ -85,31 +88,14 @@ const ContractsTable = memo(function ContractsTable({
       </div>
 
       {/* PAGINATION */}
-      <div className="sticky bottom-0 flex items-center justify-between border-t bg-white p-3 text-sm text-gray-600">
-        <span>Tổng {total} dòng</span>
-
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={page <= 1}
-            onClick={() => onPageChange(page - 1)}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
-
-          <span>{page}</span>
-
-          <Button
-            variant="outline"
-            size="icon"
-            disabled={page >= totalPage}
-            onClick={() => onPageChange(page + 1)}
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Button>
-        </div>
-      </div>
+      <TablePagination
+        currentPage={page}
+        onPageChange={onPageChange}
+        onPageSizeChange={setPageSize}
+        pageSize={pageSize}
+        totalRecord={total}
+        totalPages={totalPage}
+      />
     </div>
   )
 })

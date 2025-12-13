@@ -1,5 +1,8 @@
 import { Officer } from "@/model"
 
+//
+export const DEBOUNCE_SEARCH_DEFAULT = 1500
+
 // Danh sách cán bộ xử lý
 export const PROCESSING_OFFICER: Officer[] = [
   {

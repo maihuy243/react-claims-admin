@@ -1,4 +1,11 @@
-import { Dispatch, memo, SetStateAction, useCallback, useState } from "react"
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import { Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +19,7 @@ import {
 import Wrapper from "@/components/wrapper"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
 import { TSearchFilter } from "../index"
+import { useDebounce } from "@/hooks/custom/useDebounce"
 
 function FilterContracts({
   setFilters,
@@ -23,8 +31,9 @@ function FilterContracts({
   const [searchQuery, setSearchQuery] = useState("")
   const [searchType, setSearchType] = useState("ten_cb")
   const [status, setStatus] = useState("all")
+  const debouncedSearchQuery = useDebounce(searchQuery)
 
-  const handleBlur = useCallback(() => {
+  const handleSearch = useCallback(() => {
     const params: TSearchFilter = {
       querySearch: searchQuery.trim(),
       status: status,
@@ -42,11 +51,22 @@ function FilterContracts({
     setFilters(params)
   }, [status])
 
+  useEffect(() => {
+    handleSearch()
+  }, [debouncedSearchQuery])
+
   return (
     <Wrapper className="mb-4 flex flex-col gap-3 transition-all md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
       {/* Search section */}
       <div className="flex w-full items-center overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:w-1/2">
-        <Select value={searchType} onValueChange={(s) => setSearchType(s)}>
+        <Select
+          value={searchType}
+          onValueChange={(s) => {
+            if (s === searchType) return
+            setSearchQuery("")
+            setSearchType(s)
+          }}
+        >
           <SelectTrigger className="w-36 rounded-none border-0 border-r border-gray-200 text-sm text-gray-600 focus:ring-0">
             <SelectValue placeholder="Tìm kiếm theo" />
           </SelectTrigger>
@@ -61,7 +81,6 @@ function FilterContracts({
             placeholder="Nhập thông tin"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onBlur={handleBlur}
             className="border-0 pl-3 pr-10 text-sm text-gray-700 focus-visible:ring-0"
           />
           <Button

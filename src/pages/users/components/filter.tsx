@@ -1,4 +1,11 @@
-import { Dispatch, memo, SetStateAction, useCallback, useState } from "react"
+import {
+  Dispatch,
+  memo,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react"
 import { Loader2, Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,6 +19,7 @@ import {
 import Wrapper from "@/components/wrapper"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
 import { TSearchFilter } from "../index"
+import { useDebounce } from "@/hooks/custom/useDebounce"
 
 function FilterContracts({
   setFilters,
@@ -21,17 +29,10 @@ function FilterContracts({
   loading: boolean
 }) {
   const [searchQuery, setSearchQuery] = useState("")
-  const [searchType, setSearchType] = useState("so_hop_dong")
+  const [searchType, setSearchType] = useState("ten_nguoi_duoc_bao_hiem")
   const [status, setStatus] = useState("all")
 
-  const handleBlur = useCallback(() => {
-    const params: TSearchFilter = {
-      querySearch: searchQuery.trim(),
-      status: status,
-      type: searchType,
-    }
-    setFilters(params)
-  }, [searchType, searchQuery, setFilters, status])
+  const debouncedSearchQuery = useDebounce(searchQuery)
 
   useDidUpdateEffect(() => {
     const params: TSearchFilter = {
@@ -40,14 +41,30 @@ function FilterContracts({
       type: searchType,
     }
     setFilters(params)
-  }, [status])
+  }, [status, searchType])
+
+  useEffect(() => {
+    const params: TSearchFilter = {
+      querySearch: debouncedSearchQuery.trim(),
+      status,
+      type: searchType,
+    }
+    setFilters(params)
+  }, [debouncedSearchQuery])
 
   return (
     <Wrapper className="mb-4 flex flex-col gap-3 transition-all md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
       {/* Search section */}
       <div className="flex w-full items-center overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:w-1/2">
-        <Select value={searchType} onValueChange={(s) => setSearchType(s)}>
-          <SelectTrigger className="w-36 rounded-none border-0 border-r border-gray-200 text-sm text-gray-600 focus:ring-0">
+        <Select
+          value={searchType}
+          onValueChange={(s) => {
+            if (s === searchType) return
+            setSearchQuery("")
+            setSearchType(s)
+          }}
+        >
+          <SelectTrigger className="w-fit rounded-none border-0 border-r border-gray-200 text-sm text-gray-600 focus:ring-0">
             <SelectValue placeholder="Tìm kiếm theo" />
           </SelectTrigger>
           <SelectContent>
@@ -64,7 +81,6 @@ function FilterContracts({
             placeholder="Nhập thông tin"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onBlur={handleBlur}
             className="border-0 pl-3 pr-10 text-sm text-gray-700 focus-visible:ring-0"
           />
           <Button
