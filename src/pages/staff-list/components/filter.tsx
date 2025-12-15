@@ -98,7 +98,7 @@ function FilterContracts({
       </div>
 
       {/* Filter section */}
-      <div className="flex w-full items-center gap-3 md:w-auto">
+      {/* <div className="flex w-full items-center gap-3 md:w-auto">
         <Select value={status} onValueChange={(s) => setStatus(s)}>
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
             <SelectValue placeholder="Trạng thái: Tất cả" />
@@ -109,7 +109,7 @@ function FilterContracts({
             <SelectItem value="Không hoạt động">Không hoạt động</SelectItem>
           </SelectContent>
         </Select>
-      </div>
+      </div> */}
     </Wrapper>
   )
 }
