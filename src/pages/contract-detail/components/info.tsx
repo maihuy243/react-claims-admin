@@ -52,7 +52,7 @@ const Info = ({
 
   const onRequestEdit = () => {
     setEditMode(true)
-    const newList = dsChungTu.length ? dsChungTu : DEFAULT_ITEM
+    const newList = dsChungTu.length ? [...DEFAULT_ITEM, ...dsChungTu] : DEFAULT_ITEM
     setDsChungTu(
       newList.map((item) => ({
         ...item,
