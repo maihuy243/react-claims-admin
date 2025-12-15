@@ -202,7 +202,7 @@ export default function ImportUserDialog({
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Row</TableHead>
+                      {/* <TableHead>Row</TableHead> */}
                       <TableHead>Số HĐ</TableHead>
                       <TableHead>Khách hàng</TableHead>
                       <TableHead>CCCD</TableHead>
@@ -217,7 +217,7 @@ export default function ImportUserDialog({
                         key={r.row_number}
                         className={!r.is_valid ? "bg-red-50" : ""}
                       >
-                        <TableCell>{r.row_number}</TableCell>
+                        {/* <TableCell>{r.row_number}</TableCell> */}
                         <TableCell>{r.so_hop_dong}</TableCell>
                         <TableCell>{r.ten_dang_nhap}</TableCell>
                         <TableCell>{r.cccd}</TableCell>
