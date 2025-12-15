@@ -14,6 +14,7 @@ import CompensationList from "./pages/compensation-list"
 import LoadingOverlay from "./components/overlay"
 import DSCanBoScreen from "./pages/staff-list"
 import CommingSoon from "./components/comming-soon"
+import Wrapper from "./components/wrapper"
 
 export default function App() {
   const [isCollapsed, setIsCollapsed] = useState(false)
@@ -57,7 +58,10 @@ export default function App() {
           <Route path="contracts" element={<ContractListScreen />} />
           <Route path="users" element={<UsersScreen />} />
           <Route path="staff" element={<DSCanBoScreen />} />
-          <Route path="comming-soon" element={<CommingSoon />} />
+          <Route path="dashboard" element={<Wrapper className="h-full"><CommingSoon /></Wrapper>} />
+          <Route path="notification" element={<Wrapper className="h-full"><CommingSoon /></Wrapper>} />
+          <Route path="setup" element={<Wrapper className="h-full"><CommingSoon /></Wrapper>} />
+
         </Route>
 
         {/* NOT FOUND */}

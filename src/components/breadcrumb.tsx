@@ -10,9 +10,11 @@ interface BreadcrumbItem {
 
 // 👉 Danh sách pathname cần ẩn breadcrumb
 const HIDDEN_PATHNAMES = [
-  "/comming-soon",
-]
+  "/dashboard",
+  "/setup",
+  "/notification",
 
+]
 
 const Breadcrumb: React.FC = () => {
   const location = useLocation()

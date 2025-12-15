@@ -91,7 +91,7 @@ export default function CommingSoon() {
   } as CSSProperties
 
   return (
-    <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 p-4">
+    <div className="relative flex h-full flex-1 items-center justify-center overflow-hidden bg-gradient-to-br from-orange-50 via-amber-50 to-orange-100 p-4">
       <div className="pointer-events-none absolute inset-0 overflow-hidden">
         <motion.div
           className="absolute left-10 top-20 h-72 w-72 rounded-full opacity-20"
