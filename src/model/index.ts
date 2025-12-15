@@ -265,6 +265,7 @@ export interface UserItem {
   cccd: string // Số căn cước công dân
   tthai: string // Trạng thái
   so_hop_dong?: string
+  so_hd?:string
 }
 
 export interface DSUserResponse {

@@ -26,14 +26,13 @@ import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
 
 const other = "Giấy tờ khác"
 
-const DEFAULT_ITEM: AnhBoiThuong[] = [
-  {
-    ghi_chu: "",
-    loai_giay_to: other,
-    id: uuidv4(),
-    hinh_anh: "",
-  },
-]
+const DEFAULT_ITEM: AnhBoiThuong = {
+  ghi_chu: "",
+  loai_giay_to: other,
+  id: uuidv4(),
+  hinh_anh: "",
+}
+
 const Info = ({
   data,
   id,
@@ -54,8 +53,14 @@ const Info = ({
 
   const onRequestEdit = () => {
     setEditMode(true)
-    const isOther = dsChungTu.find((s) => s.loai_giay_to.toLowerCase().trim() == other.toLowerCase().trim())
-    const finalList = !!dsChungTu.length ? isOther ? dsChungTu : [...DEFAULT_ITEM, ...dsChungTu] : DEFAULT_ITEM
+    const isOther = dsChungTu.find(
+      (s) => s.loai_giay_to.toLowerCase().trim() == other.toLowerCase().trim(),
+    )
+    const finalList = !!dsChungTu.length
+      ? isOther
+        ? dsChungTu
+        : [{ ...DEFAULT_ITEM, id: dsChungTu[0].id }, ...dsChungTu]
+      : [DEFAULT_ITEM]
     setDsChungTu(
       finalList.map((item) => ({
         ...item,

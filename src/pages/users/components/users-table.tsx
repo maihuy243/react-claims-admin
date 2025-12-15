@@ -137,7 +137,7 @@ const UsersListScreen = ({
                     {u.id}
                   </td>
                   <td className="px-3 py-2 font-semibold">
-                    {u.so_hop_dong || "-"}
+                    {u.so_hd || "-"}
                   </td>
                   {/* Mã khách hàng */}
                   <td className="px-3 py-2 font-medium">{u.ma_kh || "-"}</td>
