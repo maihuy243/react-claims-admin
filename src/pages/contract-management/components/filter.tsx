@@ -22,7 +22,6 @@ import { SEARCH_FIELDS } from "@/configs/constants"
 import { useDebounce } from "@/hooks/custom/useDebounce"
 import { PROCESSING_OFFICER } from "constant"
 import { STATUS_ALL, TFilterLocal } from "../index"
-import { Action } from "sonner"
 
 type TSearchQuery = keyof typeof SEARCH_FIELDS
 
@@ -122,10 +121,10 @@ function FilterContracts({
           }}
         >
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
-            <SelectValue placeholder="Sự kiện: Tất cả" />
+            <SelectValue placeholder="CB xử lý: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={STATUS_ALL}>Tất cả</SelectItem>
+            <SelectItem value={STATUS_ALL}>CB xử lý: Tất cả</SelectItem>
             {PROCESSING_OFFICER.map((s) => (
               <SelectItem value={s.value}>{s.label}</SelectItem>
             ))}
@@ -142,7 +141,7 @@ function FilterContracts({
             <SelectValue placeholder="Trạng thái: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={STATUS_ALL}>Tất cả</SelectItem>
+            <SelectItem value={STATUS_ALL}>Trạng thái:Tất cả</SelectItem>
             <SelectItem value="Hoạt động">Hoạt động</SelectItem>
             <SelectItem value="Không hoạt động">Không hoạt động</SelectItem>
           </SelectContent>

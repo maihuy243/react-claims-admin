@@ -10,7 +10,7 @@ const STATUS_MAP: Record<string, { bg: string; text: string }> = {
     bg: "bg-yellow-100",
     text: "text-yellow-700",
   },
-  "Bổ sung CT": {
+  "Bổ sung chứng từ": {
     bg: "bg-red-100",
     text: "text-red-700",
   },

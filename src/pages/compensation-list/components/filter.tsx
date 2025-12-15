@@ -1,4 +1,12 @@
-import { useState, useMemo, useCallback, memo, useEffect } from "react"
+import {
+  useState,
+  useMemo,
+  useCallback,
+  memo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react"
 import { Search, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,15 +20,23 @@ import {
 import Wrapper from "@/components/wrapper"
 import { SEARCH_FIELDS, SEARCH_FIELDS_SDBT } from "@/configs/constants"
 import { useDebounce } from "@/hooks/custom/useDebounce"
+import { STATUS_ALL, TFilterLocalDSBT } from "../index"
 
 type TSearchQuery = keyof typeof SEARCH_FIELDS_SDBT
 
 interface FilterContractsProps {
   onFilterChange: (params: Record<string, any>) => void
   isLoading: boolean
+  setFiltersLocal: Dispatch<SetStateAction<TFilterLocalDSBT>>
+  filtersLocal: TFilterLocalDSBT
 }
 
-function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
+function FilterContracts({
+  onFilterChange,
+  isLoading,
+  setFiltersLocal,
+  filtersLocal,
+}: FilterContractsProps) {
   const [filterType, setFilterType] = useState<TSearchQuery>("id")
   const [searchQuery, setSearchQuery] = useState("")
   const debouncedSearchQuery = useDebounce(searchQuery)
@@ -96,26 +112,41 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
 
       {/* Additional filters (nếu cần mình optimize luôn) */}
       <div className="flex w-full items-center gap-3 md:w-auto">
-        <Select defaultValue="all">
+        <Select
+          value={filtersLocal.event}
+          onValueChange={(s) =>
+            setFiltersLocal((prev) => ({ ...prev, event: s }))
+          }
+        >
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
             <SelectValue placeholder="Sự kiện: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Sự kiện: Tất cả</SelectItem>
-            <SelectItem value="health">Sức khỏe</SelectItem>
-            <SelectItem value="accident">Tai nạn</SelectItem>
+            <SelectItem value={STATUS_ALL}>Sự kiện: Tất cả</SelectItem>
+            <SelectItem value="Ốm bệnh">Ốm bệnh</SelectItem>
+            <SelectItem value="Tai nạn">Tai nạn</SelectItem>
+            <SelectItem value="Thai sản">Thai sản</SelectItem>
+            <SelectItem value="Răng">Răng</SelectItem>
           </SelectContent>
         </Select>
 
-        <Select defaultValue="all">
+        <Select
+          value={filtersLocal.status}
+          onValueChange={(s) =>
+            setFiltersLocal((prev) => ({ ...prev, status: s }))
+          }
+        >
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
             <SelectValue placeholder="Trạng thái: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tất cả</SelectItem>
-            <SelectItem value="pending">Chờ duyệt</SelectItem>
-            <SelectItem value="approved">Đã duyệt</SelectItem>
-            <SelectItem value="rejected">Từ chối</SelectItem>
+            <SelectItem value={STATUS_ALL}>Trạng thái:Tất cả</SelectItem>
+            <SelectItem value="Đã tiếp nhận">Đã tiếp nhận</SelectItem>
+            <SelectItem value="Đang trình">Đang trình</SelectItem>
+            <SelectItem value="Bổ sung chứng từ">Bổ sung chứng từ</SelectItem>
+            <SelectItem value="Đang giải quyết">Đang giải quyết</SelectItem>
+            <SelectItem value="Đã duyệt">Đã duyệt</SelectItem>
+            <SelectItem value="Đã thanh toán">Đã thanh toán</SelectItem>
           </SelectContent>
         </Select>
       </div>
