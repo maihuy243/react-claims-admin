@@ -24,10 +24,12 @@ import ImagePreview from "@/components/image-preview"
 import { v4 as uuidv4 } from "uuid"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
 
+const other = "Giấy tờ khác"
+
 const DEFAULT_ITEM: AnhBoiThuong[] = [
   {
     ghi_chu: "",
-    loai_giay_to: "Giấy tờ khác",
+    loai_giay_to: other,
     id: uuidv4(),
     hinh_anh: "",
   },
@@ -52,9 +54,10 @@ const Info = ({
 
   const onRequestEdit = () => {
     setEditMode(true)
-    const newList = dsChungTu.length ? [...DEFAULT_ITEM, ...dsChungTu] : DEFAULT_ITEM
+    const isOther = dsChungTu.find((s) => s.loai_giay_to.toLowerCase().trim() == other.toLowerCase().trim())
+    const finalList = !!dsChungTu.length ? isOther ? dsChungTu : [...DEFAULT_ITEM, ...dsChungTu] : DEFAULT_ITEM
     setDsChungTu(
-      newList.map((item) => ({
+      finalList.map((item) => ({
         ...item,
         active: false,
       })),
