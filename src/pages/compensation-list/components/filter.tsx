@@ -10,10 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import Wrapper from "@/components/wrapper"
-import { SEARCH_FIELDS } from "@/configs/constants"
+import { SEARCH_FIELDS, SEARCH_FIELDS_SDBT } from "@/configs/constants"
 import { useDebounce } from "@/hooks/custom/useDebounce"
 
-type TSearchQuery = keyof typeof SEARCH_FIELDS
+type TSearchQuery = keyof typeof SEARCH_FIELDS_SDBT
 
 interface FilterContractsProps {
   onFilterChange: (params: Record<string, any>) => void
@@ -31,16 +31,11 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
       return
     }
 
-    const params =
-      filterType === "all"
-        ? {
-            so_hop_dong: searchQuery,
-            chu_hop_dong: searchQuery,
-            ten_can_bo: searchQuery,
-          }
-        : {
-            [filterType]: searchQuery,
-          }
+    const params = !searchQuery
+      ? {}
+      : {
+          [filterType]: searchQuery,
+        }
 
     onFilterChange?.(params)
   }, [filterType, searchQuery, onFilterChange])

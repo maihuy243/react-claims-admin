@@ -1,4 +1,12 @@
-import { useState, useMemo, useCallback, memo, useEffect } from "react"
+import {
+  useState,
+  useMemo,
+  useCallback,
+  memo,
+  useEffect,
+  Dispatch,
+  SetStateAction,
+} from "react"
 import { Search, Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -12,15 +20,25 @@ import {
 import Wrapper from "@/components/wrapper"
 import { SEARCH_FIELDS } from "@/configs/constants"
 import { useDebounce } from "@/hooks/custom/useDebounce"
+import { PROCESSING_OFFICER } from "constant"
+import { STATUS_ALL, TFilterLocal } from "../index"
+import { Action } from "sonner"
 
 type TSearchQuery = keyof typeof SEARCH_FIELDS
 
 interface FilterContractsProps {
   onFilterChange: (params: Record<string, any>) => void
   isLoading: boolean
+  setFiltersLocal: Dispatch<SetStateAction<TFilterLocal>>
+  filtersLocal: TFilterLocal
 }
 
-function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
+function FilterContracts({
+  onFilterChange,
+  isLoading,
+  setFiltersLocal,
+  filtersLocal,
+}: FilterContractsProps) {
   const [filterType, setFilterType] = useState<TSearchQuery>("id")
   const [searchQuery, setSearchQuery] = useState("")
 
@@ -32,16 +50,11 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
       return
     }
 
-    const params =
-      filterType === "all"
-        ? {
-            so_hop_dong: searchQuery,
-            chu_hop_dong: searchQuery,
-            ten_can_bo: searchQuery,
-          }
-        : {
-            [filterType]: searchQuery,
-          }
+    const params = !!searchQuery
+      ? {
+          [filterType]: searchQuery,
+        }
+      : {}
 
     onFilterChange?.(params)
   }, [filterType, searchQuery, onFilterChange])
@@ -102,26 +115,36 @@ function FilterContracts({ onFilterChange, isLoading }: FilterContractsProps) {
 
       {/* Additional filters (nếu cần mình optimize luôn) */}
       <div className="flex w-full items-center gap-3 md:w-auto">
-        <Select defaultValue="all">
+        <Select
+          value={filtersLocal.officier}
+          onValueChange={(s) => {
+            setFiltersLocal((prev: TFilterLocal) => ({ ...prev, officier: s }))
+          }}
+        >
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
             <SelectValue placeholder="Sự kiện: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Sự kiện: Tất cả</SelectItem>
-            <SelectItem value="health">Sức khỏe</SelectItem>
-            <SelectItem value="accident">Tai nạn</SelectItem>
+            <SelectItem value={STATUS_ALL}>Tất cả</SelectItem>
+            {PROCESSING_OFFICER.map((s) => (
+              <SelectItem value={s.value}>{s.label}</SelectItem>
+            ))}
           </SelectContent>
         </Select>
 
-        <Select defaultValue="all">
+        <Select
+          value={filtersLocal.status}
+          onValueChange={(s) => {
+            setFiltersLocal((prev: TFilterLocal) => ({ ...prev, status: s }))
+          }}
+        >
           <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
             <SelectValue placeholder="Trạng thái: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">Tất cả</SelectItem>
-            <SelectItem value="pending">Chờ duyệt</SelectItem>
-            <SelectItem value="approved">Đã duyệt</SelectItem>
-            <SelectItem value="rejected">Từ chối</SelectItem>
+            <SelectItem value={STATUS_ALL}>Tất cả</SelectItem>
+            <SelectItem value="Hoạt động">Hoạt động</SelectItem>
+            <SelectItem value="Không hoạt động">Không hoạt động</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -6,11 +6,21 @@ import { PROCESSING_OFFICER } from "constant"
 import { useSearchDSBT } from "@/hooks/useSearchDSBT"
 import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
+import { HoSoBoiThuong } from "@/model"
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
+export const STATUS_ALL = "all"
 
+export type TFilterLocal = {
+  status: string
+  officier: string
+}
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
+  // const [filtersLocal, setFiltersLocal] = useState<TFilterLocal>({
+  //   officier: STATUS_ALL,
+  //   status: STATUS_ALL,
+  // })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<string>("20")
 
@@ -59,6 +69,22 @@ const CompensationList = () => {
       setLoading(false)
     }
   }, [])
+
+  //  const dataViewer = useMemo(() => {
+  //     let finalRows: HoSoBoiThuong[] = rows
+  //     if (filtersLocal.officier !== STATUS_ALL) {
+  //       finalRows = finalRows.filter(
+  //         (s) => s.can_bo_xu_ly == filtersLocal.officier,
+  //       )
+  //     }
+  
+  //     if (filtersLocal.status !== STATUS_ALL) {
+  //       finalRows = finalRows.filter((s) => s.trang_thai == filtersLocal.status)
+  //     }
+  
+  //     return finalRows
+  //   }, [filtersLocal.officier, filtersLocal.status, rows])
+  
 
   return (
     <div className="flex flex-1">

@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo, useEffect } from "react"
 import Wrapper from "@/components/wrapper"
 import ContractsTable from "./components/contracts-table"
 import FilterContracts from "./components/filter"
@@ -6,9 +6,21 @@ import { useSearchHD } from "@/hooks/useSearchHD"
 import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { PROCESSING_OFFICER } from "constant"
 import { useUIStore } from "@/store/state"
+import { HDItem } from "@/model"
+
+export type TFilterLocal = {
+  status: string
+  officier: string
+}
+
+export const STATUS_ALL = "all"
 
 const ContractListScreen = () => {
   const [filters, setFilters] = useState({})
+  const [filtersLocal, setFiltersLocal] = useState<TFilterLocal>({
+    officier: STATUS_ALL,
+    status: STATUS_ALL,
+  })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<string>("20")
   const updateCBMutation = useUpdateCB()
@@ -60,6 +72,21 @@ const ContractListScreen = () => {
     }
   }, [])
 
+  const dataViewer = useMemo(() => {
+    let finalRows: HDItem[] = rows
+    if (filtersLocal.officier !== STATUS_ALL) {
+      finalRows = finalRows.filter(
+        (s) => s.can_bo_xu_ly == filtersLocal.officier,
+      )
+    }
+
+    if (filtersLocal.status !== STATUS_ALL) {
+      finalRows = finalRows.filter((s) => s.trang_thai == filtersLocal.status)
+    }
+
+    return finalRows
+  }, [filtersLocal.officier, filtersLocal.status, rows])
+
   return (
     <div className="flex flex-1">
       <div className="flex flex-1 flex-col overflow-hidden">
@@ -70,12 +97,14 @@ const ContractListScreen = () => {
 
           <FilterContracts
             onFilterChange={handleFilterChange}
+            setFiltersLocal={setFiltersLocal}
             isLoading={isLoading || isFetching}
+            filtersLocal={filtersLocal}
           />
 
           <Wrapper>
             <ContractsTable
-              data={rows}
+              data={dataViewer}
               total={total}
               page={page}
               totalPage={data?.total_pages || 0}
