@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table"
 import { Section } from "@/components/section"
 import Wrapper from "@/components/wrapper"
-import DefaultImage from "@assets/avatar.png"
+import DefaultImage from "@assets/avatar.jpg"
 import { Field } from "@/components/field"
 import { dateFormat, delay } from "@/utils"
 import { AnhBoiThuong, ChungTuBoSung, DetailBTResponse } from "@/model"
