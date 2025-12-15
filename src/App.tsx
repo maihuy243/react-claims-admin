@@ -57,8 +57,8 @@ export default function App() {
           <Route path="contracts" element={<ContractListScreen />} />
           <Route path="users" element={<UsersScreen />} />
           <Route path="staff" element={<DSCanBoScreen />} />
+          <Route path="comming-soon" element={<CommingSoon />} />
         </Route>
-        <Route path="comming-soon" element={<CommingSoon />} />
 
         {/* NOT FOUND */}
         <Route path="*" element={<NotFoundPage />} />

@@ -24,13 +24,13 @@ export function DropdownTacVu({ status, onClick }: Props) {
         className="w-64 rounded-md border bg-white p-1 shadow-md"
         align="start"
       >
-        <DropdownMenuItem
+        {/* <DropdownMenuItem
           className="flex items-center gap-3 rounded px-3 py-2 text-sm"
           onClick={onClick}
         >
           <Info className="h-4 w-4 text-gray-500" />
           <span>Thông tin khách hàng</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
 
         {status === "Đang hoạt động" && (
           <DropdownMenuItem
@@ -52,7 +52,7 @@ export function DropdownTacVu({ status, onClick }: Props) {
           </DropdownMenuItem>
         )}
 
-        <DropdownMenuItem className="flex items-center gap-3 rounded px-3 py-2 text-sm">
+        {/* <DropdownMenuItem className="flex items-center gap-3 rounded px-3 py-2 text-sm">
           <Key className="h-4 w-4 -rotate-90 scale-x-[-1] text-gray-500" />
           <span>Reset mật khẩu</span>
         </DropdownMenuItem>
@@ -60,7 +60,7 @@ export function DropdownTacVu({ status, onClick }: Props) {
         <DropdownMenuItem className="flex items-center gap-3 rounded px-3 py-2 text-sm">
           <RotateCcw className="h-4 w-4 text-gray-500" />
           <span>Đặt lại mã PIN</span>
-        </DropdownMenuItem>
+        </DropdownMenuItem> */}
       </DropdownMenuContent>
     </DropdownMenu>
   )

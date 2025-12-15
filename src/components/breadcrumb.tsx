@@ -8,9 +8,23 @@ interface BreadcrumbItem {
   to?: string
 }
 
+// 👉 Danh sách pathname cần ẩn breadcrumb
+const HIDDEN_PATHNAMES = [
+  "/comming-soon",
+]
+
+
 const Breadcrumb: React.FC = () => {
   const location = useLocation()
   const currentPath = location.pathname
+
+
+   const isHidden = HIDDEN_PATHNAMES.some(
+    (hiddenPath) =>
+      currentPath === hiddenPath || currentPath.startsWith(hiddenPath + "/"),
+  )
+
+  if (isHidden) return null 
 
   //  Hàm tìm breadcrumb trail từ MENU (đệ quy)
   const findTrail = (
