@@ -51,7 +51,7 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
           </SelectContent>
         </Select>
       </td>
-      <td className="px-3 py-2">
+      <td className="sticky right-0 z-20 bg-inherit px-3 py-2 shadow-[-4px_0_8px_rgba(0,0,0,0.06)]">
         <StatusBadge status={item.trang_thai} />
       </td>
     </tr>

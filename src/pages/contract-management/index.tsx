@@ -38,8 +38,12 @@ const ContractListScreen = () => {
       page,
       page_size: +pageSize,
       ...filters,
+
+      // Filter local pls remove
+      ...(filtersLocal.officier !== STATUS_ALL && { ten_can_bo: filtersLocal.officier }),
+      ...(filtersLocal.status !== STATUS_ALL && { trang_thai: filtersLocal.status }),
     }
-  }, [filters, page])
+  }, [filters, page, filtersLocal, pageSize])
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchHD(queryParams)
@@ -71,6 +75,7 @@ const ContractListScreen = () => {
       setLoading(false)
     }
   }, [])
+
 
   const dataViewer = useMemo(() => {
     let finalRows: HDItem[] = rows
@@ -104,7 +109,8 @@ const ContractListScreen = () => {
 
           <Wrapper>
             <ContractsTable
-              data={dataViewer}
+              // data={dataViewer} // Filter local
+              data={rows}
               total={total}
               page={page}
               totalPage={data?.total_pages || 0}

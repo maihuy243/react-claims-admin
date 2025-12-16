@@ -83,7 +83,7 @@ const Info = ({
         ten_ndbh: data.nguoi_duoc_bao_hiem,
         to_email: data.email,
         chan_doan: data.chan_doan,
-        danh_sach_chung_tu: dsChungTu.map((s, i) => ({
+        danh_sach_chung_tu: dsChungTu.filter((s) => !!s.active).map((s, i) => ({
           noi_dung_bo_sung: s.ghi_chu,
           stt: ++i,
           ten_chung_tu: s.loai_giay_to,

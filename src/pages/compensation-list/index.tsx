@@ -39,8 +39,13 @@ const CompensationList = () => {
       page,
       page_size: +pageSize,
       ...filters,
+
+      // Filter
+      ...( filtersLocal.status !== STATUS_ALL && { trang_thai: filtersLocal.status}),
+      ...( filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event,})
+
     }
-  }, [filters, page])
+  }, [filters, page, filtersLocal, pageSize])
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)
@@ -72,6 +77,8 @@ const CompensationList = () => {
 
   const dataViewer = useMemo(() => {
     let finalRows: HoSoBoiThuong[] = rows
+
+    // Filter local
     if (filtersLocal.event !== STATUS_ALL) {
       finalRows = finalRows.filter((s) => s.su_kien == filtersLocal.event)
     }
@@ -100,7 +107,8 @@ const CompensationList = () => {
 
           <Wrapper>
             <ContractsTable
-              data={dataViewer}
+              // data={dataViewer} //Filter local
+              data={rows}
               total={total}
               page={page}
               totalPage={data?.total_pages || 0}

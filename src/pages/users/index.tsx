@@ -13,12 +13,14 @@ export type TSearchFilter = {
   querySearch: string
 }
 
+export const STATUS_USER_ALL = "all"
+
 export const TYPE_DEFAULT = "ten_nguoi_duoc_bao_hiem"
 
 const UsersScreen = () => {
   const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState<TSearchFilter>({
-    status: "all",
+    status: STATUS_USER_ALL,
     querySearch: "",
     type: TYPE_DEFAULT,
   })
@@ -26,9 +28,12 @@ const UsersScreen = () => {
   const [pageSize, setPageSize] = useState<string>("20")
 
   const { data, isLoading, isFetching, refetch } = useSearchUsers({
-    ...(filters?.type && { [filters.type]: filters.querySearch }),
+    ...(!!filters?.querySearch && { [filters.type]: filters.querySearch }),
     page: currentPage,
     page_size: +pageSize,
+
+    // Filter 
+  ...(filters.status !== STATUS_USER_ALL && { trang_thai: filters.status } )
   })
 
   const users = data?.data || []
@@ -37,7 +42,7 @@ const UsersScreen = () => {
 
   const usersFilter = useMemo(() => {
     return users.filter((s) => {
-      if (filters?.status == "all") return s
+      if (filters?.status == STATUS_USER_ALL) return s
       return s.tthai == filters?.status
     })
   }, [filters?.status, users])
@@ -69,7 +74,8 @@ const UsersScreen = () => {
               <UsersTable
                 refetch={refetch}
                 total_record={total}
-                users={usersFilter}
+                // users={usersFilter}
+                users={users}
                 total_pages={total_pages}
                 isLoading={isFetching || isLoading}
                 setCurrentPage={setCurrentPage}

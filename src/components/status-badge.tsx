@@ -34,7 +34,18 @@ const STATUS_MAP: Record<string, { bg: string; text: string }> = {
     bg: "bg-[#DCFFF1]",
     text: "text-[#22A06B]",
   },
+
+  // 🔥 thêm mới
+  "Hoàn tất": {
+    bg: "bg-green-50",
+    text: "text-green-800",
+  },
+  "Huỷ": {
+    bg: "bg-red-50",
+    text: "text-red-800",
+  },
 }
+
 
 export function StatusBadge({
   status,

@@ -142,11 +142,12 @@ function FilterContracts({
           <SelectContent>
             <SelectItem value={STATUS_ALL}>Trạng thái:Tất cả</SelectItem>
             <SelectItem value="Đã tiếp nhận">Đã tiếp nhận</SelectItem>
-            <SelectItem value="Đang trình">Đang trình</SelectItem>
-            <SelectItem value="Bổ sung chứng từ">Bổ sung chứng từ</SelectItem>
             <SelectItem value="Đang giải quyết">Đang giải quyết</SelectItem>
+            <SelectItem value="Bổ sung chứng từ">Bổ sung chứng từ</SelectItem>
+            <SelectItem value="Từ chối">Từ chối</SelectItem>
             <SelectItem value="Đã duyệt">Đã duyệt</SelectItem>
-            <SelectItem value="Đã thanh toán">Đã thanh toán</SelectItem>
+            <SelectItem value="Hoàn tất">Hoàn tất</SelectItem>
+            <SelectItem value="Huỷ">Huỷ</SelectItem>
           </SelectContent>
         </Select>
       </div>

@@ -45,7 +45,9 @@ const ContractsTable = memo(function ContractsTable({
               <th className="px-3 py-3 text-left font-semibold">Sự kiện</th>
               <th className="px-3 py-3 text-left font-semibold">Hình thức</th>
               <th className="px-3 py-3 text-left font-semibold">CB xử lý</th>
-              <th className="px-3 py-3 text-left font-semibold">Trạng thái</th>
+              <th className="sticky right-0 z-30 bg-gray-50 px-3 py-3 text-left font-semibold shadow-[-4px_0_8px_rgba(0,0,0,0.06)]">
+                Trạng thái
+              </th>
             </tr>
           </thead>
 

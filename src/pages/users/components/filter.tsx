@@ -106,7 +106,7 @@ function FilterContracts({
           <SelectContent>
             <SelectItem value="all">Trạng thái: Tất cả</SelectItem>
             <SelectItem value="Đang hoạt động">Đang hoạt động</SelectItem>
-            <SelectItem value="Không hoạt động">Không hoạt động</SelectItem>
+            <SelectItem value="Đang khóa">Đang khóa</SelectItem>
           </SelectContent>
         </Select>
       </div>

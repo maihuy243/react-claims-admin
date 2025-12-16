@@ -254,6 +254,7 @@ export interface DSUserRequest {
   chu_hop_dong?: string // Tên chủ hợp đồng
   page?: number // default: 1
   page_size?: number // default: 20
+  trang_thai?:string
 }
 
 export interface UserItem {
