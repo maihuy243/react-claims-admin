@@ -49,7 +49,7 @@ export default function ClaimDetail() {
 
   return (
     <div className="relative flex h-[100vh] flex-col md:h-[calc(100vh-125px)]">
-      <HeaderDetail status={data?.trang_thai} data={data} />
+      <HeaderDetail status={data?.trang_thai} data={data} reflect={reflect} />
 
       <TabsHeader active={activeTab} onChange={setActiveTab} />
 

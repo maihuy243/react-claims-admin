@@ -11,9 +11,10 @@ import { useParams } from "react-router-dom"
 type Props = {
   status?: string
   data?: DetailBTResponse
+  reflect: () => Promise<DetailBTResponse | undefined>
 }
 
-const HeaderDetail = ({ status, data }: Props) => {
+const HeaderDetail = ({ status, data, reflect }: Props) => {
   const setLoading = useUIStore((s) => s.setLoading)
   const show = useUIStore((s) => s.showSuccess)
   const showError = useUIStore((s) => s.showError)
@@ -22,10 +23,8 @@ const HeaderDetail = ({ status, data }: Props) => {
 
   const handleNhapHSBT = async () => {
     if (!data || !id || !user) return
-
-    setLoading(true)
-
     try {
+      setLoading(true)
       const payload = {
         ma_cb: user?.ma_cb || "",
         so_id_claim: id,
@@ -62,14 +61,16 @@ const HeaderDetail = ({ status, data }: Props) => {
           ngay_kham: data.ngay_kham,
           so_tien_yeu_cau: data.so_tien_yeu_cau_boi_thuong,
         })
+
+        await reflect()
       } else {
         showError(res.message)
       }
     } catch (err: any) {
       showError(err.message || "Không thể nhập hồ sơ")
+    } finally{
+      setLoading(false)
     }
-
-    setLoading(false)
   }
 
   return (
