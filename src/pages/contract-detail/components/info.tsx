@@ -18,7 +18,7 @@ import { AnhBoiThuong, ChungTuBoSung, DetailBTResponse } from "@/model"
 import { EmptyState } from "@/components/empty"
 import { useUIStore } from "@/store/state"
 import { CMSApi } from "@/api"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import ImagePreview from "@/components/image-preview"
 import { v4 as uuidv4 } from "uuid"
@@ -83,11 +83,13 @@ const Info = ({
         ten_ndbh: data.nguoi_duoc_bao_hiem,
         to_email: data.email,
         chan_doan: data.chan_doan,
-        danh_sach_chung_tu: dsChungTu.filter((s) => !!s.active).map((s, i) => ({
-          noi_dung_bo_sung: s.ghi_chu,
-          stt: ++i,
-          ten_chung_tu: s.loai_giay_to,
-        })),
+        danh_sach_chung_tu: dsChungTu
+          .filter((s) => !!s.active)
+          .map((s, i) => ({
+            noi_dung_bo_sung: s.ghi_chu,
+            stt: ++i,
+            ten_chung_tu: s.loai_giay_to,
+          })),
         ngay_kham: data.ngay_kham,
         so_tien_yeu_cau: data.so_tien_yeu_cau_boi_thuong,
       })
@@ -106,6 +108,10 @@ const Info = ({
       setLoading(false)
     }
   }
+
+  const canSubmit = useMemo(() => {
+    return dsChungTu.some((s) => s.active)
+  }, [dsChungTu])
 
   useDidUpdateEffect(() => {
     setDsChungTu(data?.danh_sach_anh ?? [])
@@ -245,14 +251,22 @@ const Info = ({
                 alt="avatar"
               />
 
-              <div className="w-full space-y-1 rounded-md bg-[#F9F0FD] py-4 md:rounded-none">
+              <div className="md:rounded-non w-full space-y-2 rounded-md bg-[#F9F0FD] py-4">
                 <p className="font-semibold text-gray-800">
                   Tên KH : {data?.chu_hop_dong}
                 </p>
-                <p className="text-sm text-gray-600">Số hợp đồng</p>
-                <p className="text-sm font-medium text-gray-700">
-                  {data?.so_hop_dong}
-                </p>
+                <div>
+                  <p className="text-sm text-gray-600">Số hợp đồng</p>
+                  <p className="text-sm font-medium text-gray-700">
+                    {data?.so_hop_dong}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-600">Số hồ sơ bồi thường</p>
+                  <p className="text-sm font-medium text-gray-700">
+                    {data?.so_hs}
+                  </p>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -268,6 +282,7 @@ const Info = ({
                   onClick={onSubmitBSCT}
                   variant="ghost"
                   className="rounded-lg border border-[#ff6b45]/40 px-3 py-1 font-medium text-[#ff6b45]"
+                  disabled={!canSubmit}
                 >
                   Gửi yêu cầu
                 </Button>

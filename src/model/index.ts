@@ -226,6 +226,7 @@ export interface DetailBTResponse {
   avartar: string
   so_hs: string
   ngay_nh: string
+  so_id_core: string
 }
 
 export interface NhapHSBTRequest {
@@ -379,6 +380,8 @@ export interface SendClaimMailRequest {
   chan_doan?: string
   so_tien_yeu_cau?: number | string
   danh_sach_chung_tu?: ChungTuBoSung[]
+  ma_dvi?: string
+  so_id_core?:string
 }
 
 export interface SendClaimMailResponse {

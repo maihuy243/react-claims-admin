@@ -72,7 +72,7 @@ function FilterContracts({
             <SelectItem value="ten_nguoi_duoc_bao_hiem">
               Tên người được bảo hiểm
             </SelectItem>
-            <SelectItem value="ma_kh">Mã người được bảo hiểm</SelectItem>
+            <SelectItem value="ma_kh">Mã khách hàng</SelectItem>
           </SelectContent>
         </Select>
 

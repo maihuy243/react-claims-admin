@@ -36,6 +36,7 @@ const HeaderDetail = ({ status, data, reflect }: Props) => {
         chan_doan: data.chan_doan,
         tien_ycbt: Number(data.so_tien_yeu_cau_boi_thuong.replace(/\D/g, "")),
         ma_dvi: user?.ma_dvi,
+        danh_sach_anh: data.danh_sach_anh,
       }
 
       const res = await CMSApi.nhapHSBT(payload)
@@ -51,6 +52,8 @@ const HeaderDetail = ({ status, data, reflect }: Props) => {
           ten_chu_hop_dong: data.chu_hop_dong,
           ngay_nhan_ho_so: data.ngay_nh,
           ten_ndbh: data.nguoi_duoc_bao_hiem,
+          ma_dvi: user.ma_dvi ?? "",
+          so_id_core: data.so_id_core,
           to_email: data.email,
           chan_doan: data.chan_doan,
           danh_sach_chung_tu: data.danh_sach_anh.map((s, i) => ({
