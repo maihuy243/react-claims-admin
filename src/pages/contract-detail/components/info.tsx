@@ -264,15 +264,15 @@ const Info = ({
                 </p>
                 <div>
                   <p className="text-sm text-gray-600">Số hợp đồng</p>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.so_hop_dong}
-                  </p>
+                 <p className="text-xs leading-snug text-gray-700 break-all select-all">
+  {data?.so_hop_dong}
+</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Số hồ sơ bồi thường</p>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.so_hs}
-                  </p>
+                  <p className="text-xs leading-snug text-gray-700 break-all select-all">
+  {data?.so_hs}
+</p>
                 </div>
               </div>
             </CardContent>
