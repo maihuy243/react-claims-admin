@@ -140,7 +140,7 @@ function FilterContracts({
             <SelectValue placeholder="Trạng thái: Tất cả" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={STATUS_ALL}>Trạng thái:Tất cả</SelectItem>
+            <SelectItem value={STATUS_ALL}>Trạng thái: Tất cả</SelectItem>
             <SelectItem value="Đã tiếp nhận">Đã tiếp nhận</SelectItem>
             <SelectItem value="Đang giải quyết">Đang giải quyết</SelectItem>
             <SelectItem value="Bổ sung chứng từ">Bổ sung chứng từ</SelectItem>
