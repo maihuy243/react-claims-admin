@@ -23,6 +23,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import ImagePreview from "@/components/image-preview"
 import { v4 as uuidv4 } from "uuid"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
+import { useAuth } from "@/context/auth"
 
 const other = "Giấy tờ khác"
 
@@ -50,6 +51,8 @@ const Info = ({
   const setLoading = useUIStore((s) => s.setLoading)
   const showError = useUIStore((s) => s.showError)
   const showSuccess = useUIStore((s) => s.showSuccess)
+   const { user } = useAuth()
+  
 
   const onRequestEdit = () => {
     setEditMode(true)
@@ -82,13 +85,17 @@ const Info = ({
         ngay_nhan_ho_so: data.ngay_nh,
         ten_ndbh: data.nguoi_duoc_bao_hiem,
         to_email: data.email,
+        ma_dvi: user?.ma_dvi ?? "",
+        so_id_core: data.so_id_core,
         chan_doan: data.chan_doan,
+        danh_sach_anh: data.danh_sach_anh,
         danh_sach_chung_tu: dsChungTu
           .filter((s) => !!s.active)
           .map((s, i) => ({
             noi_dung_bo_sung: s.ghi_chu,
             stt: ++i,
             ten_chung_tu: s.loai_giay_to,
+            hinh_anh: s.hinh_anh,
           })),
         ngay_kham: data.ngay_kham,
         so_tien_yeu_cau: data.so_tien_yeu_cau_boi_thuong,

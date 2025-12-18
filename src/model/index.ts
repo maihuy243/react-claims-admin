@@ -382,6 +382,7 @@ export interface SendClaimMailRequest {
   danh_sach_chung_tu?: ChungTuBoSung[]
   ma_dvi?: string
   so_id_core?:string
+  danh_sach_anh?: AnhBoiThuong[]
 }
 
 export interface SendClaimMailResponse {

@@ -56,10 +56,12 @@ const HeaderDetail = ({ status, data, reflect }: Props) => {
           so_id_core: data.so_id_core,
           to_email: data.email,
           chan_doan: data.chan_doan,
+          danh_sach_anh: data.danh_sach_anh,
           danh_sach_chung_tu: data.danh_sach_anh.map((s, i) => ({
             noi_dung_bo_sung: s.ghi_chu,
             stt: i,
             ten_chung_tu: s.loai_giay_to,
+            hinh_anh: s.hinh_anh,
           })),
           ngay_kham: data.ngay_kham,
           so_tien_yeu_cau: data.so_tien_yeu_cau_boi_thuong,
