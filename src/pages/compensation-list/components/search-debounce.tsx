@@ -18,7 +18,7 @@ const DEBOUNCE_TIME = 1500
 
 const SearchDebounce = ({ onChange }: Props) => {
   const [idHd, setIdHd] = useState("")
-  const [soHd, setSoHd] = useState("")
+  const [cccdNguoiTao, setCccdNguoiTao] = useState("")
   const [chuHd, setChuHd] = useState("")
   const [madvi, setMadvi] = useState("")
   const [tencb, setTencb] = useState("")
@@ -30,7 +30,7 @@ const SearchDebounce = ({ onChange }: Props) => {
     const timer = setTimeout(() => {
       const payload = {
         id: idHd,
-        so_hop_dong: soHd,
+        cccd_nguoi_tao: cccdNguoiTao,
         ho_va_ten: chuHd,
         ma_dvi: madvi,
         ten_can_bo: tencb,
@@ -45,7 +45,7 @@ const SearchDebounce = ({ onChange }: Props) => {
     }, DEBOUNCE_TIME)
 
     return () => clearTimeout(timer)
-  }, [idHd, soHd, chuHd, madvi, tencb, onChange])
+  }, [idHd, cccdNguoiTao, chuHd, madvi, tencb, onChange])
 
   return (
     <Wrapper className="mb-4">
@@ -58,10 +58,10 @@ const SearchDebounce = ({ onChange }: Props) => {
         />
 
         <SearchField
-          label="Số HĐ"
+          label="CCCD Người tạo"
           placeholder="Tìm kiếm"
-          value={soHd}
-          onChange={setSoHd}
+          value={cccdNguoiTao}
+          onChange={setCccdNguoiTao}
         />
 
         <SearchField

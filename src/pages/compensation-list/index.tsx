@@ -12,9 +12,11 @@ import SearchDebounce from "./components/search-debounce"
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 export const STATUS_ALL = "all"
 
+
 export type TFilterLocalDSBT = {
   status: string
   event: string
+  priority: string
 }
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
@@ -22,6 +24,7 @@ const CompensationList = () => {
   const [filtersLocal, setFiltersLocal] = useState<TFilterLocalDSBT>({
     event: STATUS_ALL,
     status: STATUS_ALL,
+    priority: "1"
   })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<string>("20")
@@ -42,7 +45,7 @@ const CompensationList = () => {
       page_size: +pageSize,
       ...query,
       ...filters,
-
+      uu_tien: +filtersLocal.priority,
       // Filter
       ...( filtersLocal.status !== STATUS_ALL && { trang_thai: filtersLocal.status}),
       ...( filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event,})
