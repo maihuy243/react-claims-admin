@@ -24,11 +24,14 @@ const ContractRow = memo(({ item, onUpdateOfficer }: RowProps) => {
           {item.id}
         </Link>
       </td>
-      <td className="px-3 py-2">{item.ngay_tao}</td>
-      <td className="px-3 py-2">{item.ma_khach_hang}</td>
-      <td className="px-3 py-2 font-medium">{item.ho_va_ten}</td>
-      <td className="px-3 py-2">{item.so_giay_to}</td>
-      <td className="px-3 py-2">{item.so_hop_dong}</td>
+      <td className="px-3 py-2">{item.ngay_tao || "-"}</td>
+      <td className="px-3 py-2">{item.ma_dvi || "-"}</td>
+      <td className="px-3 py-2">{item.cccd_nguoi_tao || "-"}</td>
+      <td className="px-3 py-2">{item.ten_nguoi_tao || "-"}</td>
+      <td className="px-3 py-2">{item.ma_khach_hang || "-"}</td>
+      <td className="px-3 py-2 font-medium">{item.ho_va_ten || "-"}</td>
+      <td className="px-3 py-2">{item.so_giay_to || "-"}</td>
+      <td className="px-3 py-2">{item.so_hop_dong || "-"}</td>
       <td className="px-3 py-2">{item.su_kien}</td>
       <td className="px-3 py-2">{item.hinh_thuc}</td>
       {/* CB xử lý */}

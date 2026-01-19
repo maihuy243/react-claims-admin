@@ -7,6 +7,7 @@ import { useSearchDSBT } from "@/hooks/useSearchDSBT"
 import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
 import { HoSoBoiThuong } from "@/model"
+import SearchDebounce from "./components/search-debounce"
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 export const STATUS_ALL = "all"
@@ -17,6 +18,7 @@ export type TFilterLocalDSBT = {
 }
 const CompensationList = () => {
   const [filters, setFilters] = useState({})
+  const [query, setQuery] = useState<any>({})
   const [filtersLocal, setFiltersLocal] = useState<TFilterLocalDSBT>({
     event: STATUS_ALL,
     status: STATUS_ALL,
@@ -38,6 +40,7 @@ const CompensationList = () => {
     return {
       page,
       page_size: +pageSize,
+      ...query,
       ...filters,
 
       // Filter
@@ -45,13 +48,17 @@ const CompensationList = () => {
       ...( filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event,})
 
     }
-  }, [filters, page, filtersLocal, pageSize])
+  }, [filters, page, filtersLocal, pageSize, query])
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)
 
   const rows = data?.data || []
   const total = data?.total_records || 0
+
+  const onChangeQuery = useCallback((value: any) => {
+    setQuery(value)
+  }, [])
 
   const handlePageChange = useCallback((nextPage: number) => {
     setPage(nextPage)
@@ -97,6 +104,8 @@ const CompensationList = () => {
           <h1 className="mb-3 text-xl font-bold text-gray-900 md:mb-3 md:text-2xl">
             Danh sách bồi thường
           </h1>
+
+          <SearchDebounce onChange={onChangeQuery} />
 
           <FilterContracts
             onFilterChange={handleFilterChange}

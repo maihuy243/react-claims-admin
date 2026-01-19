@@ -13,5 +13,5 @@ export function useSearchDSBT(params: SearchDSBTRequest) {
     refetchOnWindowFocus: false,
     enabled: true,
     refetchOnMount: true,
-  })
+    })
 }

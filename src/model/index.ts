@@ -131,6 +131,9 @@ export interface HoSoBoiThuong {
   ten_can_bo: string
   trang_thai: string
   ngay_tao: string
+  cccd_nguoi_tao: string
+  ma_dvi:string
+  ten_nguoi_tao: string
 }
 
 export interface SearchDSBTResponse {

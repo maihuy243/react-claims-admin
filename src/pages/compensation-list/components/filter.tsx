@@ -72,7 +72,7 @@ function FilterContracts({
   return (
     <Wrapper className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between md:gap-4 md:py-4">
       {/* Search Section */}
-      <div className="flex w-full items-center overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:w-1/2">
+      {/* <div className="flex w-full items-center overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm md:w-1/2">
         <Select defaultValue={filterType} onValueChange={onChangeFilterType}>
           <SelectTrigger className="w-48 rounded-none border-0 border-r border-gray-200 text-sm text-gray-700 focus:ring-0">
             <SelectValue placeholder="Tìm kiếm theo" />
@@ -95,7 +95,6 @@ function FilterContracts({
             className="border-0 pl-3 pr-10 text-sm text-gray-700 focus-visible:ring-0"
           />
 
-          {/* ICON: dùng isLoading từ query */}
           <Button
             size="icon"
             variant="ghost"
@@ -108,10 +107,26 @@ function FilterContracts({
             )}
           </Button>
         </div>
-      </div>
+      </div> */}
+      <div></div>
 
       {/* Additional filters (nếu cần mình optimize luôn) */}
       <div className="flex w-full items-center gap-3 md:w-auto">
+          <Select
+          defaultValue={STATUS_ALL}
+          // value={filtersLocal.event}
+          // onValueChange={(s) =>
+          //   setFiltersLocal((prev) => ({ ...prev, event: s }))
+          // }
+        >
+          <SelectTrigger className="min-w-[160px] border-gray-200 text-sm">
+            <SelectValue placeholder="Ưu tiên: Tất cả" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value={STATUS_ALL}>Ưu tiên: Có</SelectItem>
+          </SelectContent>
+        </Select>
+
         <Select
           value={filtersLocal.event}
           onValueChange={(s) =>

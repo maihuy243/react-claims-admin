@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button"
-import { DialogRight } from "../dialog-right"
 import { CustomFloatingPanel } from "../custom-floating-modal"
+import { useAuth } from "@/context/auth"
 
 export function UserInfoDialog({
   open,
@@ -8,6 +8,9 @@ export function UserInfoDialog({
   onChangePassword,
   onLogout,
 }: any) {
+  
+  const { user } = useAuth()
+
   return (
     <CustomFloatingPanel open={open} onClose={onClose}>
       <div className="p-6 text-center space-y-4">
@@ -15,7 +18,7 @@ export function UserInfoDialog({
           Thông tin cá nhân
         </h2>
         <p className="text-sm text-gray-600">
-          Bùi Đặng Quỳnh Trang - MCB: 0847788383
+          {user?.user_name} - MCB: {user?.ma_cb}
         </p>
 
         <img

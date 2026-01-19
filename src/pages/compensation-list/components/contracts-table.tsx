@@ -38,6 +38,9 @@ const ContractsTable = memo(function ContractsTable({
             <tr>
               <th className="px-3 py-3 text-left font-semibold">ID</th>
               <th className="px-3 py-3 text-left font-semibold">Ngày tạo</th>
+              <th className="px-3 py-3 text-left font-semibold">Mã đơn vị</th>
+              <th className="px-3 py-3 text-left font-semibold">CCCD người tạo</th>
+              <th className="px-3 py-3 text-left font-semibold">Tên người tạo</th>
               <th className="px-3 py-3 text-left font-semibold">Mã KH</th>
               <th className="px-3 py-3 text-left font-semibold">Họ và tên</th>
               <th className="px-3 py-3 text-left font-semibold">Số giấy tờ</th>

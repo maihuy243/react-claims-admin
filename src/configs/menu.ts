@@ -69,7 +69,6 @@ export const MENU: TMenu[] = [
   {
     label: "Quản lý bồi thường",
     icon: QLBTIcon,
-    to: "/claims",
     children: [
       {
         label: "Danh sách bồi thường",
