@@ -4,6 +4,7 @@ import { CanBoItem } from "@/model"
 import { EmptyState } from "@/components/empty"
 import clsx from "clsx"
 import TablePagination from "@/components/panigation"
+import { useNavigate } from "react-router-dom"
 
 const UsersListScreen = ({
   isLoading,
@@ -25,6 +26,12 @@ const UsersListScreen = ({
   setPageSize: Dispatch<SetStateAction<string>>
   pageSize: string
 }) => {
+  const navigate = useNavigate()
+
+  const onClick = () => {
+    navigate("/contracts")
+  }
+
   return (
     <div className="flex h-[calc(100vh-19rem)] w-full flex-col border">
       {/* Scroll body */}
@@ -72,7 +79,13 @@ const UsersListScreen = ({
                       String(u.tong_hs) && "text-[#F79009] underline",
                     )}
                   >
-                    {typeof u.tong_hs === "number" ? u.tong_hs : "-"}
+                    {typeof u.tong_hs === "number" ? (
+                      <span className="cursor-pointer" onClick={onClick}>
+                        {u.tong_hs}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td
                     className={clsx(
@@ -80,7 +93,13 @@ const UsersListScreen = ({
                       String(u.da_ht) && "text-[#F79009] underline",
                     )}
                   >
-                    {typeof u.da_ht === "number" ? u.da_ht : "-"}
+                    {typeof u.da_ht === "number" ? (
+                      <span className="cursor-pointer" onClick={onClick}>
+                        {u.da_ht}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td
                     className={clsx(
@@ -88,7 +107,13 @@ const UsersListScreen = ({
                       String(u.dang_xl) && "text-[#F79009] underline",
                     )}
                   >
-                    {typeof u.dang_xl === "number" ? u.dang_xl : "-"}
+                    {typeof u.dang_xl === "number" ? (
+                      <span className="cursor-pointer" onClick={onClick}>
+                        {u.dang_xl}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                   <td
                     className={clsx(
@@ -96,7 +121,13 @@ const UsersListScreen = ({
                       String(u.chua_xl) && "text-[#F79009] underline",
                     )}
                   >
-                    {typeof u.chua_xl === "number" ? u.chua_xl : "-"}
+                    {typeof u.chua_xl === "number" ? (
+                      <span className="cursor-pointer" onClick={onClick}>
+                        {u.chua_xl}
+                      </span>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                 </tr>
               ))}

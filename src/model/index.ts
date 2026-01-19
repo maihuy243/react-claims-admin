@@ -157,6 +157,7 @@ export interface SearchDSBTRequest {
   hinh_thuc?: string
   ten_can_bo?: string
   trang_thai?: string
+  ma_dvi?: string
   page?: number // default 1
   page_size?: number // default 10, max 100
 }

@@ -251,7 +251,7 @@ const Info = ({
 
           {/* ================= CARD (BÊN PHẢI) ================= */}
           <Card className="order-2 w-full flex-shrink-0 self-stretch rounded-xl shadow-lg md:order-2 md:w-1/5">
-            <CardContent className="flex h-full w-full flex-col items-center justify-center p-4 text-center md:px-10">
+            <CardContent className="flex h-full w-full flex-col items-center justify-center p-4 text-center md:px-4">
               <img
                 src={data?.avartar || DefaultImage}
                 className="w-full max-w-[220px] rounded-lg object-cover shadow-md md:max-w-full"
@@ -264,15 +264,15 @@ const Info = ({
                 </p>
                 <div>
                   <p className="text-sm text-gray-600">Số hợp đồng</p>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.so_hop_dong}
-                  </p>
+                 <p className="text-xs leading-snug text-gray-700 break-all select-all">
+  {data?.so_hop_dong}
+</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-600">Số hồ sơ bồi thường</p>
-                  <p className="text-sm font-medium text-gray-700">
-                    {data?.so_hs}
-                  </p>
+                  <p className="text-xs leading-snug text-gray-700 break-all select-all">
+  {data?.so_hs}
+</p>
                 </div>
               </div>
             </CardContent>
