@@ -1,6 +1,6 @@
 import SearchField from "@/components/input-label"
 import Wrapper from "../../../components/wrapper"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
 import { useLocation } from "react-router-dom"
 
@@ -20,14 +20,14 @@ const DEBOUNCE_TIME = 1500
 
 const SearchDebounce = ({ onChange }: Props) => {
   const [idHd, setIdHd] = useState("")
-  const [soHd, setSoHd] = useState("")
+  const [cccdNguoiTao, setCccdNguoiTao] = useState("")
   const [chuHd, setChuHd] = useState("")
   const [madvi, setMadvi] = useState("")
   const [tencb, setTencb] = useState("")
   const location = useLocation()
   const params = new URLSearchParams(location.search)
-
   const search = params.get("search") || ""
+  const firstLoad = useRef(false)
 
   // 🔥 debounce emit
   useEffect(() => {
@@ -36,7 +36,7 @@ const SearchDebounce = ({ onChange }: Props) => {
     const timer = setTimeout(() => {
       const payload = {
         id: idHd,
-        so_hop_dong: soHd,
+        cccd_nguoi_tao: cccdNguoiTao,
         ho_va_ten: chuHd,
         ma_dvi: madvi,
         ten_can_bo: tencb,
@@ -47,19 +47,24 @@ const SearchDebounce = ({ onChange }: Props) => {
         Object.entries(payload).filter(([, value]) => value?.trim() !== ""),
       )
 
+      if(firstLoad.current) {
+        firstLoad.current = false
+        return
+      }
+      
       onChange(filteredPayload as any)
     }, DEBOUNCE_TIME)
 
     return () => clearTimeout(timer)
-  }, [idHd, soHd, chuHd, madvi, tencb, onChange])
+  }, [idHd, cccdNguoiTao, chuHd, madvi, tencb, onChange])
 
-  useDidUpdateEffect(
-    () => {
-      setTencb(search)
-    },
-    [search],
-    !search,
-  )
+  useEffect(() => {
+    firstLoad.current = true
+    setTencb(search)
+    return () => {
+      firstLoad.current = false
+    }
+  },[search])
 
   return (
     <Wrapper className="mb-4">
@@ -72,10 +77,10 @@ const SearchDebounce = ({ onChange }: Props) => {
         />
 
         <SearchField
-          label="Số HĐ"
+          label="CCCD Người tạo"
           placeholder="Tìm kiếm"
-          value={soHd}
-          onChange={setSoHd}
+          value={cccdNguoiTao}
+          onChange={setCccdNguoiTao}
         />
 
         <SearchField

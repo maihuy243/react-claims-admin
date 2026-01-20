@@ -8,20 +8,28 @@ import { useUpdateCB } from "@/hooks/useUpdateCB"
 import { useUIStore } from "@/store/state"
 import { HoSoBoiThuong } from "@/model"
 import SearchDebounce from "./components/search-debounce"
+import { useLocation } from "react-router-dom"
 
 const delay = (ms: number) => new Promise((r) => setTimeout(r, ms))
 export const STATUS_ALL = "all"
 
+
 export type TFilterLocalDSBT = {
   status: string
   event: string
+  priority: string
 }
 const CompensationList = () => {
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+  const search = params.get("search") || ""
+
   const [filters, setFilters] = useState({})
   const [query, setQuery] = useState<any>({})
   const [filtersLocal, setFiltersLocal] = useState<TFilterLocalDSBT>({
     event: STATUS_ALL,
     status: STATUS_ALL,
+    priority: "1"
   })
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState<string>("20")
@@ -34,7 +42,7 @@ const CompensationList = () => {
     setFilters(params)
     setPage(1)
   }, [])
-
+  
   // Query params stable
   const queryParams = useMemo(() => {
     return {
@@ -42,14 +50,15 @@ const CompensationList = () => {
       page_size: +pageSize,
       ...query,
       ...filters,
-
+      uu_tien: +filtersLocal.priority,
+      ...(search && !query?.ten_can_bo && { ten_can_bo: search }),
       // Filter
       ...(filtersLocal.status !== STATUS_ALL && {
         trang_thai: filtersLocal.status,
       }),
       ...(filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event }),
     }
-  }, [filters, page, filtersLocal, pageSize, query])
+  }, [filters, page, filtersLocal, pageSize, query, search])
 
   // API call
   const { data, isLoading, isFetching, refetch } = useSearchDSBT(queryParams)

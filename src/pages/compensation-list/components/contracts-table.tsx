@@ -57,7 +57,7 @@ const ContractsTable = memo(function ContractsTable({
           {/* BODY */}
           <tbody>
             {/* 1) Đang fetch lần đầu → skeleton */}
-            {loading && data.length === 0 && <SkeletonRowContract />}
+            {loading && <SkeletonRowContract />}
 
             {/* 2) Không có data → Empty UI */}
             {!loading && data.length === 0 && (
