@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from "react"
+import { useState, useCallback, useMemo, useEffect } from "react"
 import Wrapper from "@/components/wrapper"
 import ContractsTable from "./components/contracts-table"
 import FilterContracts from "./components/filter"
@@ -44,9 +44,10 @@ const CompensationList = () => {
       ...filters,
 
       // Filter
-      ...( filtersLocal.status !== STATUS_ALL && { trang_thai: filtersLocal.status}),
-      ...( filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event,})
-
+      ...(filtersLocal.status !== STATUS_ALL && {
+        trang_thai: filtersLocal.status,
+      }),
+      ...(filtersLocal.event !== STATUS_ALL && { su_kien: filtersLocal.event }),
     }
   }, [filters, page, filtersLocal, pageSize, query])
 

@@ -28,9 +28,12 @@ const UsersListScreen = ({
 }) => {
   const navigate = useNavigate()
 
-  const onClick = () => {
-    navigate("/contracts")
-  }
+  const onClickToContract = (name: string) => {
+  navigate(
+    `/compensation-list?search=${encodeURIComponent(name)}`,
+    { replace: true }
+  )
+}
 
   return (
     <div className="flex h-[calc(100vh-19rem)] w-full flex-col border">
@@ -80,7 +83,10 @@ const UsersListScreen = ({
                     )}
                   >
                     {typeof u.tong_hs === "number" ? (
-                      <span className="cursor-pointer" onClick={onClick}>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onClickToContract(u.ten_cb)}
+                      >
                         {u.tong_hs}
                       </span>
                     ) : (
@@ -94,7 +100,10 @@ const UsersListScreen = ({
                     )}
                   >
                     {typeof u.da_ht === "number" ? (
-                      <span className="cursor-pointer" onClick={onClick}>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onClickToContract(u.ten_cb)}
+                      >
                         {u.da_ht}
                       </span>
                     ) : (
@@ -108,7 +117,10 @@ const UsersListScreen = ({
                     )}
                   >
                     {typeof u.dang_xl === "number" ? (
-                      <span className="cursor-pointer" onClick={onClick}>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onClickToContract(u.ten_cb)}
+                      >
                         {u.dang_xl}
                       </span>
                     ) : (
@@ -122,7 +134,10 @@ const UsersListScreen = ({
                     )}
                   >
                     {typeof u.chua_xl === "number" ? (
-                      <span className="cursor-pointer" onClick={onClick}>
+                      <span
+                        className="cursor-pointer"
+                        onClick={() => onClickToContract(u.ten_cb)}
+                      >
                         {u.chua_xl}
                       </span>
                     ) : (

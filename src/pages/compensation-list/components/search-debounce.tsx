@@ -1,6 +1,8 @@
 import SearchField from "@/components/input-label"
 import Wrapper from "../../../components/wrapper"
 import { useEffect, useState } from "react"
+import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
+import { useLocation } from "react-router-dom"
 
 type SearchValue = {
   idHd: string
@@ -22,6 +24,10 @@ const SearchDebounce = ({ onChange }: Props) => {
   const [chuHd, setChuHd] = useState("")
   const [madvi, setMadvi] = useState("")
   const [tencb, setTencb] = useState("")
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+
+  const search = params.get("search") || ""
 
   // 🔥 debounce emit
   useEffect(() => {
@@ -46,6 +52,14 @@ const SearchDebounce = ({ onChange }: Props) => {
 
     return () => clearTimeout(timer)
   }, [idHd, soHd, chuHd, madvi, tencb, onChange])
+
+  useDidUpdateEffect(
+    () => {
+      setTencb(search)
+    },
+    [search],
+    !search,
+  )
 
   return (
     <Wrapper className="mb-4">
