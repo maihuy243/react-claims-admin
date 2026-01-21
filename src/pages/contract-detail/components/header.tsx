@@ -47,7 +47,7 @@ const HeaderDetail = ({ status, data, reflect }: Props) => {
         await CMSApi.sendmail({
           mail_type: "BT",
           so_id: id,
-          so_ho_so: data.so_hs,
+          so_ho_so: res?.so_hs || data?.so_hs,
           so_hop_dong: data.so_hop_dong,
           ten_chu_hop_dong: data.chu_hop_dong,
           ngay_nhan_ho_so: data.ngay_nh,
