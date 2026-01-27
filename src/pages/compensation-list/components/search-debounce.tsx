@@ -1,15 +1,21 @@
-import SearchField from "@/components/input-label"
-import Wrapper from "../../../components/wrapper"
 import { useEffect, useRef, useState } from "react"
-import { useDidUpdateEffect } from "@/hooks/custom/useDidUpdate"
+import { format } from "date-fns"
+import { CalendarIcon } from "lucide-react"
 import { useLocation } from "react-router-dom"
 
+import Wrapper from "../../../components/wrapper"
+import SearchField from "@/components/input-label"
+import DateSearchField from "@/components/date-picker"
+
 type SearchValue = {
-  idHd: string
-  soHd: string
-  chuHd: string
-  madvi: string
-  tencb: string
+  id?: string
+  ngay_tao?: string
+  ma_dvi?: string
+  cccd_nguoi_tao?: string
+  ten_nguoi_tao?: string
+  ho_va_ten?: string
+  so_giay_to?: string
+  so_hop_dong?: string
 }
 
 type Props = {
@@ -19,89 +25,103 @@ type Props = {
 const DEBOUNCE_TIME = 1500
 
 const SearchDebounce = ({ onChange }: Props) => {
-  const [idHd, setIdHd] = useState("")
+  const [id, setId] = useState("")
+  const [ngayTao, setNgayTao] = useState<Date | undefined>()
+  const [maDvi, setMaDvi] = useState("")
   const [cccdNguoiTao, setCccdNguoiTao] = useState("")
-  const [chuHd, setChuHd] = useState("")
-  const [madvi, setMadvi] = useState("")
-  const [tencb, setTencb] = useState("")
+  const [tenNguoiTao, setTenNguoiTao] = useState("")
+  const [hoVaTen, setHoVaTen] = useState("")
+  const [soGiayTo, setSoGiayTo] = useState("")
+  const [soHopDong, setSoHopDong] = useState("")
   const location = useLocation()
   const params = new URLSearchParams(location.search)
   const search = params.get("search") || ""
-  const firstLoad = useRef(false)
+  const firstLoad = useRef(true)
 
   // 🔥 debounce emit
   useEffect(() => {
     if (!onChange) return
 
     const timer = setTimeout(() => {
-      const payload = {
-        id: idHd,
-        cccd_nguoi_tao: cccdNguoiTao,
-        ho_va_ten: chuHd,
-        ma_dvi: madvi,
-        ten_can_bo: tencb,
-      }
-
-      // ❗ chỉ giữ field có value
-      const filteredPayload = Object.fromEntries(
-        Object.entries(payload).filter(([, value]) => value?.trim() !== ""),
-      )
-
-      if(firstLoad.current) {
+      if (firstLoad.current) {
         firstLoad.current = false
         return
       }
-      
-      onChange(filteredPayload as any)
+
+      const payload: SearchValue = {
+        id,
+        ngay_tao: ngayTao ? format(ngayTao, "yyyy-MM-dd") : undefined,
+        ma_dvi: maDvi,
+        cccd_nguoi_tao: cccdNguoiTao,
+        ten_nguoi_tao: tenNguoiTao,
+        ho_va_ten: hoVaTen,
+        so_giay_to: soGiayTo,
+        so_hop_dong: soHopDong,
+      }
+
+      const filteredPayload = Object.fromEntries(
+        Object.entries(payload).filter(
+          ([, value]) => value && value.toString().trim() !== "",
+        ),
+      )
+
+      onChange(filteredPayload)
     }, DEBOUNCE_TIME)
 
     return () => clearTimeout(timer)
-  }, [idHd, cccdNguoiTao, chuHd, madvi, tencb, onChange])
+  }, [
+    id,
+    ngayTao,
+    maDvi,
+    cccdNguoiTao,
+    tenNguoiTao,
+    hoVaTen,
+    soGiayTo,
+    soHopDong,
+    onChange,
+  ])
 
   useEffect(() => {
+    if (!search) return
+
+    setTenNguoiTao(search)
     firstLoad.current = true
-    setTencb(search)
-    return () => {
-      firstLoad.current = false
-    }
-  },[search])
+  }, [search])
 
   return (
     <Wrapper className="mb-4">
-      <div className="grid grid-cols-1 gap-4 py-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5">
-        <SearchField
-          label="ID HĐ"
-          placeholder="Tìm kiếm"
-          value={idHd}
-          onChange={setIdHd}
+      <div className="grid grid-cols-1 gap-4 py-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <SearchField label="ID" value={id} onChange={setId} />
+        <DateSearchField
+          label="Ngày tạo"
+          value={ngayTao}
+          onChange={setNgayTao}
         />
-
+        <SearchField label="Mã đơn vị" value={maDvi} onChange={setMaDvi} />
         <SearchField
-          label="CCCD Người tạo"
-          placeholder="Tìm kiếm"
+          label="CCCD người tạo"
           value={cccdNguoiTao}
           onChange={setCccdNguoiTao}
         />
-
         <SearchField
-          label="Chủ HĐ"
-          placeholder="Tìm kiếm"
-          value={chuHd}
-          onChange={setChuHd}
+          label="Tên người tạo"
+          value={tenNguoiTao}
+          onChange={setTenNguoiTao}
         />
-
         <SearchField
-          label="Mã ĐV"
-          placeholder="Tìm kiếm"
-          value={madvi}
-          onChange={setMadvi}
+          label="Người được bảo hiểm"
+          value={hoVaTen}
+          onChange={setHoVaTen}
         />
-
         <SearchField
-          label="Tên CB"
-          placeholder="Tìm kiếm"
-          value={tencb}
-          onChange={setTencb}
+          label="Số giấy tờ"
+          value={soGiayTo}
+          onChange={setSoGiayTo}
+        />
+        <SearchField
+          label="Số hợp đồng"
+          value={soHopDong}
+          onChange={setSoHopDong}
         />
       </div>
     </Wrapper>

@@ -51,7 +51,7 @@ const CompensationList = () => {
       ...query,
       ...filters,
       uu_tien: +filtersLocal.priority,
-      ...(search && !query?.ten_can_bo && { ten_can_bo: search }),
+      ...(search && !query?.ten_nguoi_tao && { ten_can_bo: search }),
       // Filter
       ...(filtersLocal.status !== STATUS_ALL && {
         trang_thai: filtersLocal.status,
